@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -15,6 +14,8 @@ namespace IKSlover
 
         public List<Bone> Bones;
 
+        public Bone Effector;
+
         public void Awake()
         {
             this.InitBones();
@@ -27,6 +28,18 @@ namespace IKSlover
             for (int i = 0; i < this.BoneTransList.Count; i++)
             {
                 this.Bones.Add(new Bone(this.BoneTransList[i]));
+            }
+
+            this.Effector = this.Bones[this.Bones.Count - 1];
+        }
+
+        private void CCDSolver()
+        {
+            for (int i = this.Bones.Count - 2; i >= 0; i--)
+            {
+                var curBone = this.Bones[i];
+                Vector3 toEffectorVec = this.Effector.Position - curBone.Position;
+                Vector3 toTargetVec = this.TargetTrans.transform.position - curBone.Position;
             }
         }
 

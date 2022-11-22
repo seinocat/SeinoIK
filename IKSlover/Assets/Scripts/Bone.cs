@@ -1,4 +1,5 @@
-﻿using Sirenix.OdinInspector;
+﻿using System.Runtime.CompilerServices;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace IKSlover
@@ -10,6 +11,12 @@ namespace IKSlover
         
         [LabelText("骨骼长度")]
         public float Length;
+
+        public Vector3 Position
+        {
+            get => this.Transform.position;
+            set => this.Transform.position = value;
+        }
 
         public Bone()
         {
