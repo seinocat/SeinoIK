@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Sirenix.OdinInspector;
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace IKSlover
@@ -40,6 +41,10 @@ namespace IKSlover
                 var curBone = this.Bones[i];
                 Vector3 toEffectorVec = this.Effector.Position - curBone.Position;
                 Vector3 toTargetVec = this.TargetTrans.transform.position - curBone.Position;
+                Vector3 axis = Vector3.Cross(toEffectorVec, toTargetVec);
+                float angle = Mathf.Acos(Vector3.Dot(toEffectorVec, toTargetVec));
+                Quaternion qua = Quaternion.AngleAxis(angle, axis);
+                curBone.Transform.rotation *= qua;
             }
         }
 
