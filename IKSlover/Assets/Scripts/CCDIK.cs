@@ -43,10 +43,15 @@ namespace IKSlover
                 var curBone = this.Bones[i];
                 Vector3 toEffectorVec = this.Effector.Position - curBone.Position;
                 Vector3 toTargetVec = this.TargetTrans.transform.position - curBone.Position;
-                Vector3 axis = Vector3.Cross(toEffectorVec, toTargetVec);
-                float angle = Mathf.Acos(Vector3.Dot(toEffectorVec, toTargetVec));
-                Quaternion qua = Quaternion.AngleAxis(angle, axis);
-                curBone.Transform.rotation *= qua;
+                
+                // 此段代码会发生抖动
+                // Vector3 axis = Vector3.Cross(toEffectorVec, toTargetVec);
+                // float angle = Mathf.Acos(Vector3.Dot(toEffectorVec, toTargetVec));
+                // Quaternion qua = Quaternion.AngleAxis(angle, axis);
+                // curBone.Transform.rotation *= qua;
+                
+                Quaternion qua = Quaternion.FromToRotation(toEffectorVec, toTargetVec) * curBone.Transform.rotation;
+                curBone.Transform.rotation = qua;
             }
         }
 
