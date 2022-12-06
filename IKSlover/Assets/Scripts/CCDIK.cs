@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using Unity.Mathematics;
 using UnityEngine;
@@ -34,6 +35,7 @@ namespace IKSlover
             this.Effector = this.Bones[this.Bones.Count - 1];
         }
 
+
         private void CCDSolver()
         {
             for (int i = this.Bones.Count - 2; i >= 0; i--)
@@ -48,9 +50,9 @@ namespace IKSlover
             }
         }
 
-        private void Update()
+        private void LateUpdate()
         {
-            
+            CCDSolver();
         }
     }
 }

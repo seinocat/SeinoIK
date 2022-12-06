@@ -52,16 +52,16 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-     <Compile Include="Assets\Plugins\Sirenix\Odin Inspector\Scripts\Editor\SyncVarAttributeDrawer.cs" />
      <Compile Include="Assets\Plugins\Sirenix\Odin Inspector\Scripts\Editor\Vector2IntMinMaxAttributeDrawer.cs" />
+     <Compile Include="Assets\Plugins\Sirenix\Odin Inspector\Scripts\Editor\EnsureOdinInspectorDefine.cs" />
+     <Compile Include="Assets\Plugins\Sirenix\Odin Inspector\Scripts\Editor\SyncVarAttributeDrawer.cs" />
+     <Compile Include="Assets\Plugins\Sirenix\Odin Inspector\Scripts\Editor\VectorIntDrawers.cs" />
+     <Compile Include="Assets\Plugins\Sirenix\Odin Inspector\Scripts\Editor\FixBrokenUnityObjectWrapperDrawer.cs" />
+     <Compile Include="Assets\Plugins\Sirenix\Odin Inspector\Scripts\Editor\BoxGroupDrawer.cs" />
      <Compile Include="Assets\Plugins\Sirenix\Odin Inspector\Scripts\Editor\BuildAOTAutomation.cs" />
      <Compile Include="Assets\Plugins\Sirenix\Odin Inspector\Scripts\Editor\VectorIntPropertyResolvers.cs" />
-     <Compile Include="Assets\Plugins\Sirenix\Odin Inspector\Scripts\Editor\VectorIntDrawers.cs" />
-     <Compile Include="Assets\Plugins\Sirenix\Odin Inspector\Scripts\Editor\SyncListDrawer.cs" />
-     <Compile Include="Assets\Plugins\Sirenix\Odin Inspector\Scripts\Editor\FixBrokenUnityObjectWrapperDrawer.cs" />
-     <Compile Include="Assets\Plugins\Sirenix\Odin Inspector\Scripts\Editor\EnsureOdinInspectorDefine.cs" />
-     <Compile Include="Assets\Plugins\Sirenix\Odin Inspector\Scripts\Editor\BoxGroupDrawer.cs" />
      <Compile Include="Assets\Plugins\Sirenix\Odin Inspector\Scripts\Editor\AssemblyImportSettingsAutomation.cs" />
+     <Compile Include="Assets\Plugins\Sirenix\Odin Inspector\Scripts\Editor\SyncListDrawer.cs" />
      <None Include="Assets\Plugins\Sirenix\Odin Inspector\Scripts\Editor\Sirenix.OdinInspector.CompatibilityLayer.Editor.asmdef" />
  <Reference Include="UnityEngine">
  <HintPath>E:/Unity/2020.3.33f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
@@ -300,23 +300,20 @@
  <Reference Include="Unity.Plastic.Antlr3.Runtime">
  <HintPath>E:/GitHub/IKSlover/IKSlover/Library/PackageCache/com.unity.collab-proxy@1.15.15/Lib/Editor/PlasticSCM/Unity.Plastic.Antlr3.Runtime.dll</HintPath>
  </Reference>
+ <Reference Include="Sirenix.OdinInspector.Editor">
+ <HintPath>E:/GitHub/IKSlover/IKSlover/Assets/Plugins/Sirenix/Assemblies/Sirenix.OdinInspector.Editor.dll</HintPath>
+ </Reference>
  <Reference Include="unityplastic">
  <HintPath>E:/GitHub/IKSlover/IKSlover/Library/PackageCache/com.unity.collab-proxy@1.15.15/Lib/Editor/PlasticSCM/unityplastic.dll</HintPath>
- </Reference>
- <Reference Include="log4netPlastic">
- <HintPath>E:/GitHub/IKSlover/IKSlover/Library/PackageCache/com.unity.collab-proxy@1.15.15/Lib/Editor/PlasticSCM/log4netPlastic.dll</HintPath>
  </Reference>
  <Reference Include="Sirenix.OdinInspector.Attributes">
  <HintPath>E:/GitHub/IKSlover/IKSlover/Assets/Plugins/Sirenix/Assemblies/Sirenix.OdinInspector.Attributes.dll</HintPath>
  </Reference>
+ <Reference Include="log4netPlastic">
+ <HintPath>E:/GitHub/IKSlover/IKSlover/Library/PackageCache/com.unity.collab-proxy@1.15.15/Lib/Editor/PlasticSCM/log4netPlastic.dll</HintPath>
+ </Reference>
  <Reference Include="Sirenix.Serialization.Config">
  <HintPath>E:/GitHub/IKSlover/IKSlover/Assets/Plugins/Sirenix/Assemblies/Sirenix.Serialization.Config.dll</HintPath>
- </Reference>
- <Reference Include="Sirenix.Utilities.Editor">
- <HintPath>E:/GitHub/IKSlover/IKSlover/Assets/Plugins/Sirenix/Assemblies/Sirenix.Utilities.Editor.dll</HintPath>
- </Reference>
- <Reference Include="Sirenix.OdinInspector.Editor">
- <HintPath>E:/GitHub/IKSlover/IKSlover/Assets/Plugins/Sirenix/Assemblies/Sirenix.OdinInspector.Editor.dll</HintPath>
  </Reference>
  <Reference Include="Sirenix.Utilities">
  <HintPath>E:/GitHub/IKSlover/IKSlover/Assets/Plugins/Sirenix/Assemblies/Sirenix.Utilities.dll</HintPath>
@@ -326,6 +323,9 @@
  </Reference>
  <Reference Include="Sirenix.Serialization.AOTGenerated">
  <HintPath>E:/GitHub/IKSlover/IKSlover/Assets/Plugins/Sirenix/Assemblies/AOT/Sirenix.Serialization.AOTGenerated.dll</HintPath>
+ </Reference>
+ <Reference Include="Sirenix.Utilities.Editor">
+ <HintPath>E:/GitHub/IKSlover/IKSlover/Assets/Plugins/Sirenix/Assemblies/Sirenix.Utilities.Editor.dll</HintPath>
  </Reference>
  <Reference Include="nunit.framework">
  <HintPath>E:/GitHub/IKSlover/IKSlover/Library/PackageCache/com.unity.ext.nunit@1.0.6/net35/unity-custom/nunit.framework.dll</HintPath>

@@ -57,8 +57,8 @@
      <Compile Include="Library\PackageCache\com.unity.collab-proxy@1.15.15\Editor\PlasticSCM\Configuration\CloudEdition\Welcome\AutoLogin.cs" />
      <Compile Include="Library\PackageCache\com.unity.collab-proxy@1.15.15\Editor\PlasticSCM\PlasticProjectSettingsProvider.cs" />
      <Compile Include="Library\PackageCache\com.unity.collab-proxy@1.15.15\Editor\PlasticSCM\UI\Tree\TreeViewItemIds.cs" />
-     <Compile Include="Library\PackageCache\com.unity.collab-proxy@1.15.15\Editor\PlasticSCM\Views\IncomingChanges\Gluon\IncomingChangesTab.cs" />
      <Compile Include="Library\PackageCache\com.unity.collab-proxy@1.15.15\Editor\PlasticSCM\Developer\UpdateReport\UpdateReportDialog.cs" />
+     <Compile Include="Library\PackageCache\com.unity.collab-proxy@1.15.15\Editor\PlasticSCM\Views\IncomingChanges\Gluon\IncomingChangesTab.cs" />
      <Compile Include="Library\PackageCache\com.unity.collab-proxy@1.15.15\Editor\PlasticSCM\PlasticApp.cs" />
      <Compile Include="Library\PackageCache\com.unity.collab-proxy@1.15.15\Editor\PlasticSCM\UI\Avatar\ApplyCircleMask.cs" />
      <Compile Include="Library\PackageCache\com.unity.collab-proxy@1.15.15\Editor\PlasticSCM\GetRelativePath.cs" />
@@ -300,8 +300,8 @@
      <Compile Include="Library\PackageCache\com.unity.collab-proxy@1.15.15\Editor\PlasticSCM\Inspector\InspectorAssetSelection.cs" />
      <Compile Include="Library\PackageCache\com.unity.collab-proxy@1.15.15\Editor\PlasticSCM\Views\CreateWorkspace\Dialogs\RepositoriesListView.cs" />
      <Compile Include="Library\PackageCache\com.unity.collab-proxy@1.15.15\Editor\PlasticSCM\AssemblyInfo.cs" />
-     <Compile Include="Library\PackageCache\com.unity.collab-proxy@1.15.15\Editor\PlasticSCM\Tool\ToolConstants.cs" />
      <Compile Include="Library\PackageCache\com.unity.collab-proxy@1.15.15\Editor\PlasticSCM\UI\Progress\DrawProgressForOperations.cs" />
+     <Compile Include="Library\PackageCache\com.unity.collab-proxy@1.15.15\Editor\PlasticSCM\Tool\ToolConstants.cs" />
      <Compile Include="Library\PackageCache\com.unity.collab-proxy@1.15.15\Editor\PlasticSCM\CollabMigration\MigrationProgressRender.cs" />
      <Compile Include="Library\PackageCache\com.unity.collab-proxy@1.15.15\Editor\PlasticSCM\Tool\FindTool.cs" />
      <Compile Include="Library\PackageCache\com.unity.collab-proxy@1.15.15\Editor\PlasticSCM\Views\Branch\Dialogs\RenameBranchDialog.cs" />
@@ -314,8 +314,8 @@
      <Compile Include="Library\PackageCache\com.unity.collab-proxy@1.15.15\Editor\PlasticSCM\Views\IncomingChanges\IIncomingChangesTab.cs" />
      <Compile Include="Library\PackageCache\com.unity.collab-proxy@1.15.15\Editor\PlasticSCM\Views\CreateWorkspace\Dialogs\RepositoryExplorerDialog.cs" />
      <Compile Include="Library\PackageCache\com.unity.collab-proxy@1.15.15\Editor\PlasticSCM\Tool\IsExeAvailable.cs" />
-     <Compile Include="Library\PackageCache\com.unity.collab-proxy@1.15.15\Editor\PlasticSCM\AssetsUtils\GetSelectedPaths.cs" />
      <Compile Include="Library\PackageCache\com.unity.collab-proxy@1.15.15\Editor\PlasticSCM\Help\HelpLinkData.cs" />
+     <Compile Include="Library\PackageCache\com.unity.collab-proxy@1.15.15\Editor\PlasticSCM\AssetsUtils\GetSelectedPaths.cs" />
      <Compile Include="Library\PackageCache\com.unity.collab-proxy@1.15.15\Editor\PlasticSCM\Configuration\EncryptionConfigurationDialog.cs" />
      <Compile Include="Library\PackageCache\com.unity.collab-proxy@1.15.15\Editor\PlasticSCM\Views\IncomingChanges\Gluon\Errors\ErrorsListView.cs" />
      <Compile Include="Library\PackageCache\com.unity.collab-proxy@1.15.15\Editor\PlasticSCM\AssetMenu\AssetsSelection.cs" />

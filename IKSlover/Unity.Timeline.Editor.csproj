@@ -67,8 +67,8 @@
      <Compile Include="Library\PackageCache\com.unity.timeline@1.4.8\Editor\Recording\TimelineRecordingContextualResponder.cs" />
      <Compile Include="Library\PackageCache\com.unity.timeline@1.4.8\Editor\Audio\AudioTrackInspector.cs" />
      <Compile Include="Library\PackageCache\com.unity.timeline@1.4.8\Editor\Undo\ApplyDefaultUndoAttribute.cs" />
-     <Compile Include="Library\PackageCache\com.unity.timeline@1.4.8\Editor\Actions\Invoker.cs" />
      <Compile Include="Library\PackageCache\com.unity.timeline@1.4.8\Editor\CustomEditors\CustomTimelineEditorCache.cs" />
+     <Compile Include="Library\PackageCache\com.unity.timeline@1.4.8\Editor\Actions\Invoker.cs" />
      <Compile Include="Library\PackageCache\com.unity.timeline@1.4.8\Editor\Manipulators\Utils\EditModeRippleUtils.cs" />
      <Compile Include="Library\PackageCache\com.unity.timeline@1.4.8\Editor\Actions\MarkerAction.cs" />
      <Compile Include="Library\PackageCache\com.unity.timeline@1.4.8\Editor\Manipulators\Utils\EditModeMixUtils.cs" />
@@ -84,8 +84,8 @@
      <Compile Include="Library\PackageCache\com.unity.timeline@1.4.8\Editor\Manipulators\Cursors\TimelineCursors.cs" />
      <Compile Include="Library\PackageCache\com.unity.timeline@1.4.8\Editor\Signals\SignalUtility.cs" />
      <Compile Include="Library\PackageCache\com.unity.timeline@1.4.8\Editor\Utilities\MarkerModifier.cs" />
-     <Compile Include="Library\PackageCache\com.unity.timeline@1.4.8\Editor\Manipulators\AddDelete\IAddDeleteItemMode.cs" />
      <Compile Include="Library\PackageCache\com.unity.timeline@1.4.8\Editor\Animation\CurveDataSource.cs" />
+     <Compile Include="Library\PackageCache\com.unity.timeline@1.4.8\Editor\Manipulators\AddDelete\IAddDeleteItemMode.cs" />
      <Compile Include="Library\PackageCache\com.unity.timeline@1.4.8\Editor\Animation\AnimationPlayableAssetEditor.cs" />
      <Compile Include="Library\PackageCache\com.unity.timeline@1.4.8\Editor\Window\TimelineMarkerHeaderGUI.cs" />
      <Compile Include="Library\PackageCache\com.unity.timeline@1.4.8\Editor\ControlTrack\ControlPlayableAssetEditor.cs" />
@@ -120,8 +120,8 @@
      <Compile Include="Library\PackageCache\com.unity.timeline@1.4.8\Editor\Utilities\TrackResourceCache.cs" />
      <Compile Include="Library\PackageCache\com.unity.timeline@1.4.8\Editor\inspectors\EditorClipFactory.cs" />
      <Compile Include="Library\PackageCache\com.unity.timeline@1.4.8\Editor\treeview\ManipulationsClips.cs" />
-     <Compile Include="Library\PackageCache\com.unity.timeline@1.4.8\Editor\treeview\Drawers\InfiniteTrackDrawer.cs" />
      <Compile Include="Library\PackageCache\com.unity.timeline@1.4.8\Editor\Manipulators\Sequence\Jog.cs" />
+     <Compile Include="Library\PackageCache\com.unity.timeline@1.4.8\Editor\treeview\Drawers\InfiniteTrackDrawer.cs" />
      <Compile Include="Library\PackageCache\com.unity.timeline@1.4.8\Editor\Shortcuts.cs" />
      <Compile Include="Library\PackageCache\com.unity.timeline@1.4.8\Editor\Window\TimelineWindowTimeControl.cs" />
      <Compile Include="Library\PackageCache\com.unity.timeline@1.4.8\Editor\Window\TimelineWindow_EditorCallbacks.cs" />
@@ -206,8 +206,8 @@
      <Compile Include="Library\PackageCache\com.unity.timeline@1.4.8\Editor\treeview\TrackPropertyCurvesDataSource.cs" />
      <Compile Include="Library\PackageCache\com.unity.timeline@1.4.8\Editor\treeview\Snapping\IAttractable.cs" />
      <Compile Include="Library\PackageCache\com.unity.timeline@1.4.8\Editor\Manipulators\Trim\TrimItemModeReplace.cs" />
-     <Compile Include="Library\PackageCache\com.unity.timeline@1.4.8\Editor\treeview\ItemGui\ISelectable.cs" />
      <Compile Include="Library\PackageCache\com.unity.timeline@1.4.8\Editor\MenuPriority.cs" />
+     <Compile Include="Library\PackageCache\com.unity.timeline@1.4.8\Editor\treeview\ItemGui\ISelectable.cs" />
      <Compile Include="Library\PackageCache\com.unity.timeline@1.4.8\Editor\Animation\ClipCurveEditor.cs" />
      <Compile Include="Library\PackageCache\com.unity.timeline@1.4.8\Editor\Actions\TimelineAction.cs" />
      <Compile Include="Library\PackageCache\com.unity.timeline@1.4.8\Editor\Actions\TrackActions.cs" />
@@ -223,8 +223,8 @@
      <Compile Include="Library\PackageCache\com.unity.timeline@1.4.8\Editor\Signals\Styles.cs" />
      <Compile Include="Library\PackageCache\com.unity.timeline@1.4.8\Editor\Window\TimelineWindow_StateChange.cs" />
      <Compile Include="Library\PackageCache\com.unity.timeline@1.4.8\Editor\Utilities\TypeUtility.cs" />
-     <Compile Include="Library\PackageCache\com.unity.timeline@1.4.8\Editor\inspectors\MarkerInspector.cs" />
      <Compile Include="Library\PackageCache\com.unity.timeline@1.4.8\Editor\Attributes\ShortcutAttribute.cs" />
+     <Compile Include="Library\PackageCache\com.unity.timeline@1.4.8\Editor\inspectors\MarkerInspector.cs" />
      <Compile Include="Library\PackageCache\com.unity.timeline@1.4.8\Editor\Audio\AudioPlayableAssetInspector.cs" />
      <Compile Include="Library\PackageCache\com.unity.timeline@1.4.8\Editor\Manipulators\Sequence\RectangleZoom.cs" />
      <Compile Include="Library\PackageCache\com.unity.timeline@1.4.8\Editor\Window\Modes\TimeReferenceMode.cs" />
@@ -248,9 +248,9 @@
      <Compile Include="Library\PackageCache\com.unity.timeline@1.4.8\Editor\Utilities\TrackModifier.cs" />
      <Compile Include="Library\PackageCache\com.unity.timeline@1.4.8\Editor\Manipulators\Move\MoveItemHandler.cs" />
      <Compile Include="Library\PackageCache\com.unity.timeline@1.4.8\Editor\Items\ITimelineItem.cs" />
-     <Compile Include="Library\PackageCache\com.unity.timeline@1.4.8\Editor\Actions\ClipsActions.cs" />
      <Compile Include="Library\PackageCache\com.unity.timeline@1.4.8\Editor\Manipulators\Sequence\TrimClip.cs" />
      <Compile Include="Library\PackageCache\com.unity.timeline@1.4.8\Editor\Items\ItemsUtils.cs" />
+     <Compile Include="Library\PackageCache\com.unity.timeline@1.4.8\Editor\Actions\ClipsActions.cs" />
      <Compile Include="Library\PackageCache\com.unity.timeline@1.4.8\Editor\treeview\ItemGui\TimelineMarkerClusterGUI.cs" />
      <Compile Include="Library\PackageCache\com.unity.timeline@1.4.8\Editor\Signals\TreeView\SignalReceiverItem.cs" />
      <Compile Include="Library\PackageCache\com.unity.timeline@1.4.8\Editor\Manipulators\Move\MovingItems.cs" />
@@ -260,8 +260,8 @@
      <Compile Include="Library\PackageCache\com.unity.timeline@1.4.8\Editor\Actions\MarkerActions.cs" />
      <Compile Include="Library\PackageCache\com.unity.timeline@1.4.8\Editor\inspectors\TrackAssetInspector.cs" />
      <Compile Include="Library\PackageCache\com.unity.timeline@1.4.8\Editor\Utilities\AnimatedParameterUtility.cs" />
-     <Compile Include="Library\PackageCache\com.unity.timeline@1.4.8\Editor\Window\TimelineWindow_Manipulators.cs" />
      <Compile Include="Library\PackageCache\com.unity.timeline@1.4.8\Editor\treeview\PickerUtils.cs" />
+     <Compile Include="Library\PackageCache\com.unity.timeline@1.4.8\Editor\Window\TimelineWindow_Manipulators.cs" />
      <Compile Include="Library\PackageCache\com.unity.timeline@1.4.8\Editor\inspectors\BasicAssetInspector.cs" />
      <Compile Include="Library\PackageCache\com.unity.timeline@1.4.8\Editor\treeview\TrackGui\TimelineGroupGUI.cs" />
      <Compile Include="Library\PackageCache\com.unity.timeline@1.4.8\Editor\Actions\ActionManager.cs" />
@@ -549,23 +549,20 @@
  <Reference Include="Unity.Plastic.Antlr3.Runtime">
  <HintPath>E:/GitHub/IKSlover/IKSlover/Library/PackageCache/com.unity.collab-proxy@1.15.15/Lib/Editor/PlasticSCM/Unity.Plastic.Antlr3.Runtime.dll</HintPath>
  </Reference>
+ <Reference Include="Sirenix.OdinInspector.Editor">
+ <HintPath>E:/GitHub/IKSlover/IKSlover/Assets/Plugins/Sirenix/Assemblies/Sirenix.OdinInspector.Editor.dll</HintPath>
+ </Reference>
  <Reference Include="unityplastic">
  <HintPath>E:/GitHub/IKSlover/IKSlover/Library/PackageCache/com.unity.collab-proxy@1.15.15/Lib/Editor/PlasticSCM/unityplastic.dll</HintPath>
- </Reference>
- <Reference Include="log4netPlastic">
- <HintPath>E:/GitHub/IKSlover/IKSlover/Library/PackageCache/com.unity.collab-proxy@1.15.15/Lib/Editor/PlasticSCM/log4netPlastic.dll</HintPath>
  </Reference>
  <Reference Include="Sirenix.OdinInspector.Attributes">
  <HintPath>E:/GitHub/IKSlover/IKSlover/Assets/Plugins/Sirenix/Assemblies/Sirenix.OdinInspector.Attributes.dll</HintPath>
  </Reference>
+ <Reference Include="log4netPlastic">
+ <HintPath>E:/GitHub/IKSlover/IKSlover/Library/PackageCache/com.unity.collab-proxy@1.15.15/Lib/Editor/PlasticSCM/log4netPlastic.dll</HintPath>
+ </Reference>
  <Reference Include="Sirenix.Serialization.Config">
  <HintPath>E:/GitHub/IKSlover/IKSlover/Assets/Plugins/Sirenix/Assemblies/Sirenix.Serialization.Config.dll</HintPath>
- </Reference>
- <Reference Include="Sirenix.Utilities.Editor">
- <HintPath>E:/GitHub/IKSlover/IKSlover/Assets/Plugins/Sirenix/Assemblies/Sirenix.Utilities.Editor.dll</HintPath>
- </Reference>
- <Reference Include="Sirenix.OdinInspector.Editor">
- <HintPath>E:/GitHub/IKSlover/IKSlover/Assets/Plugins/Sirenix/Assemblies/Sirenix.OdinInspector.Editor.dll</HintPath>
  </Reference>
  <Reference Include="Sirenix.Utilities">
  <HintPath>E:/GitHub/IKSlover/IKSlover/Assets/Plugins/Sirenix/Assemblies/Sirenix.Utilities.dll</HintPath>
@@ -575,6 +572,9 @@
  </Reference>
  <Reference Include="Sirenix.Serialization.AOTGenerated">
  <HintPath>E:/GitHub/IKSlover/IKSlover/Assets/Plugins/Sirenix/Assemblies/AOT/Sirenix.Serialization.AOTGenerated.dll</HintPath>
+ </Reference>
+ <Reference Include="Sirenix.Utilities.Editor">
+ <HintPath>E:/GitHub/IKSlover/IKSlover/Assets/Plugins/Sirenix/Assemblies/Sirenix.Utilities.Editor.dll</HintPath>
  </Reference>
  <Reference Include="nunit.framework">
  <HintPath>E:/GitHub/IKSlover/IKSlover/Library/PackageCache/com.unity.ext.nunit@1.0.6/net35/unity-custom/nunit.framework.dll</HintPath>
