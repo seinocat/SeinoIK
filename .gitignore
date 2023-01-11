@@ -1,5 +1,9 @@
+/IKSlover/.idea
+/IKSlover/UserSettings
 /IKSlover/Library
 /IKSlover/Logs
+/IKSlover/obj
+/IKSlover/Packages
+/IKSlover/ProjectSettings
 /IKSlover/Temp
-/IKSlover/.idea
-/IKSlover/Assets/Plugins
+*.csproj
