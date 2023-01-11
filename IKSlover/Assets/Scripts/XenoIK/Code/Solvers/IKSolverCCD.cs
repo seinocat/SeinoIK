@@ -1,16 +1,27 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace XenoIK
 {
-    public class IKSolverCCD : IKSolver
+    [Serializable]
+    public class IKSolverCCD : IKSolverHeuristic
     {
-        protected override void Solve()
+        protected override void OnUpadete()
         {
+            for (int i = 0; i < this.MaxIterations; i++)
+            {
+                Solve();
+            }
+        }
+
+        private void Solve()
+        {
+            var lastBone = this.Bones[this.Bones.Count - 1];
             for (int i = this.Bones.Count - 2; i >= 0; i--)
             {
                 var curBone = this.Bones[i];
-                Vector3 toEffectorVec = this.Effector.Position - curBone.Position;
-                Vector3 toTargetVec = this.TargetTrans.transform.position - curBone.Position;
+                Vector3 toEffectorVec = lastBone.Position - curBone.Position;
+                Vector3 toTargetVec = this.Target.transform.position - curBone.Position;
                 
                 // 轴旋转
                 // Vector3 axis = Vector3.Cross(toEffectorVec, toTargetVec).normalized;
