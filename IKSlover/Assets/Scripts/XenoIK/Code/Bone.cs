@@ -2,7 +2,7 @@
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-namespace IKSlover
+namespace XenoIK
 {
     public class Bone
     {
