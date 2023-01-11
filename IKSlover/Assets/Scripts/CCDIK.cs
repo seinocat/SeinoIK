@@ -18,6 +18,8 @@ namespace IKSlover
 
         public Bone Effector;
 
+        public int Itera = 5;
+
         public void Awake()
         {
             this.InitBones();
@@ -45,19 +47,23 @@ namespace IKSlover
                 Vector3 toTargetVec = this.TargetTrans.transform.position - curBone.Position;
                 
                 // 此段代码会发生抖动
-                // Vector3 axis = Vector3.Cross(toEffectorVec, toTargetVec);
-                // float angle = Mathf.Acos(Vector3.Dot(toEffectorVec, toTargetVec));
-                // Quaternion qua = Quaternion.AngleAxis(angle, axis);
-                // curBone.Transform.rotation *= qua;
-                
-                Quaternion qua = Quaternion.FromToRotation(toEffectorVec, toTargetVec) * curBone.Transform.rotation;
+                Vector3 axis = Vector3.Cross(toEffectorVec, toTargetVec).normalized;
+                float angle = Mathf.Acos(Vector3.Dot(toEffectorVec, toTargetVec)/(toEffectorVec.magnitude * toEffectorVec.magnitude));
+                Quaternion qua = Quaternion.AngleAxis(angle, axis) * curBone.Transform.rotation;
                 curBone.Transform.rotation = qua;
+
+                // 用四元数
+                // Quaternion qua = Quaternion.FromToRotation(toEffectorVec, toTargetVec) * curBone.Transform.rotation;
+                // curBone.Transform.rotation = qua;
             }
         }
 
-        private void LateUpdate()
+        private void Update()
         {
-            CCDSolver();
+            for (int i = 0; i < Itera; i++)
+            {
+                CCDSolver();
+            }
         }
     }
 }
