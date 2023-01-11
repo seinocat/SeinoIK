@@ -46,13 +46,13 @@ namespace IKSlover
                 Vector3 toEffectorVec = this.Effector.Position - curBone.Position;
                 Vector3 toTargetVec = this.TargetTrans.transform.position - curBone.Position;
                 
-                // 此段代码会发生抖动
+                // 轴旋转
                 Vector3 axis = Vector3.Cross(toEffectorVec, toTargetVec).normalized;
-                float angle = Mathf.Acos(Vector3.Dot(toEffectorVec, toTargetVec)/(toEffectorVec.magnitude * toEffectorVec.magnitude));
+                float angle = Vector3.Angle(toEffectorVec, toTargetVec);
                 Quaternion qua = Quaternion.AngleAxis(angle, axis) * curBone.Transform.rotation;
                 curBone.Transform.rotation = qua;
 
-                // 用四元数
+                // 四元数
                 // Quaternion qua = Quaternion.FromToRotation(toEffectorVec, toTargetVec) * curBone.Transform.rotation;
                 // curBone.Transform.rotation = qua;
             }
