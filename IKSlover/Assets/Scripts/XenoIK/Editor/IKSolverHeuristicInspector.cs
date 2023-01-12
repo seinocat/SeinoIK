@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using System.Collections;
+using UnityEditor;
 using UnityEngine;
 
 namespace XenoIK.Editor
@@ -33,7 +34,8 @@ namespace XenoIK.Editor
 
         public static void AddBones()
         {
-            AddList(Solver.FindPropertyRelative("Bones"), new GUIContent("骨骼"), null, OnAddBone, DrawElementBones, OnMoveBone);
+            AddList(Solver.FindPropertyRelative("Bones"), new GUIContent("骨骼"), null, 
+                OnAddBone, DrawElementBones, OnMoveBone, CreateChians);
         }
         
         private static void DrawElementBones(SerializedProperty bone, int index)
@@ -57,6 +59,29 @@ namespace XenoIK.Editor
         private static void OnMoveBone(SerializedProperty prop)
         {
             
+        }
+
+        protected static void CreateChians(SerializedProperty prop)
+        {
+            bool NewChain = prop.arraySize == 0;
+            var transList = Utility.CreateBoneChains(Selection.activeTransform, NewChain ? 5 : prop.arraySize);
+            if (NewChain)
+            {
+                prop.arraySize = transList.Count;
+                for (int i = 0; i < prop.arraySize - 1; i++)
+                {
+                    // prop.InsertArrayElementAtIndex(i);
+                    if (i > transList.Count) break;
+                    var element = prop.GetArrayElementAtIndex(i);
+                    if (element != null)
+                    {
+                        OnAddBone(element);
+                        element.objectReferenceValue = transList[i].gameObject;
+                    }
+                    
+                    
+                }
+            }
         }
         
     }

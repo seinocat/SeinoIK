@@ -16,6 +16,7 @@ namespace XenoIK.Editor
         public delegate void DrawElementLabel(SerializedProperty element, int index);
         public delegate void OnAddElement(SerializedProperty element);
         public delegate void OnMoveElement(SerializedProperty element);
+        public delegate void OneKeyAdd(SerializedProperty element);
         
         private static SerializedProperty element;
         private static SerializedProperty property;
@@ -27,7 +28,8 @@ namespace XenoIK.Editor
             DrawElement drawElement = null,
             OnAddElement onAddElement = null, 
             DrawElementLabel drawElementLabel = null,
-            OnMoveElement onMoveElement = null)
+            OnMoveElement onMoveElement = null,
+            OneKeyAdd oneKeyAdd = null)
         {
             property = prop;
             int deleteIndex = -1;
@@ -67,8 +69,23 @@ namespace XenoIK.Editor
             }
             GUILayout.Space(5);
             GUILayout.BeginHorizontal();
-            
             GUILayout.FlexibleSpace();
+
+            if (oneKeyAdd != null)
+            {
+                if (GUILayout.Button(new GUIContent("自动添加", "一键添加指定元素"), EditorStyles.toolbarButton, GUILayout.Width(CBtnWidth)))
+                {
+                    oneKeyAdd(prop);
+                }
+            }
+
+            if (GUILayout.Button(new GUIContent("删除全部", "删除全部列表元素"), EditorStyles.toolbarButton, GUILayout.Width(CBtnWidth)))
+            {
+                if (EditorUtility.DisplayDialog("警告", "是否清空列表", "确认", "取消"))
+                {
+                    prop.arraySize = 0;
+                }
+            }
             if (GUILayout.Button(new GUIContent("添加骨骼", "添加"), EditorStyles.toolbarButton, GUILayout.Width(CBtnWidth)))
             {
                 prop.arraySize++;
