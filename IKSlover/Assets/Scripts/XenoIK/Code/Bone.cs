@@ -1,7 +1,9 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace XenoIK
 {
+    [Serializable]
     public class Bone
     {
         public Transform Transform;
