@@ -13,7 +13,7 @@ namespace XenoIK
         [Range(0, 1f)]
         public float IKWeight = 1f;
         
-        private void Update()
+        public void Update()
         {
             OnUpadete();
         }

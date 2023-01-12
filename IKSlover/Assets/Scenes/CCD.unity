@@ -482,6 +482,7 @@ MonoBehaviour:
     IKWeight: 1
     MaxIterations: 5
     Target: {fileID: 0}
+    Bones: []
 --- !u!114 &2091891474
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -33,12 +33,13 @@ namespace XenoIK.Editor
 
         public static void AddBones()
         {
-            AddList(Solver.FindPropertyRelative("Bones"), new GUIContent("骨骼"), null, OnAddBone, DrawElementBones);
+            AddList(Solver.FindPropertyRelative("Bones"), new GUIContent("骨骼"), null, OnAddBone, DrawElementBones, OnMoveBone);
         }
         
-        private static void DrawElementBones(SerializedProperty bone)
+        private static void DrawElementBones(SerializedProperty bone, int index)
         {
-            AddObjectReference(bone.FindPropertyRelative("Transform"), GUIContent.none, 0, 150);
+            var boneTrans = bone.FindPropertyRelative("Transform");
+            AddObjectReference(boneTrans, new GUIContent(""), 0, 120);
             AddWightSlider(bone.FindPropertyRelative("Weight"));
         }
 
@@ -51,6 +52,11 @@ namespace XenoIK.Editor
         {
             GUILayout.Label("权重", GUILayout.Width(45));
             EditorGUILayout.PropertyField(Weight, GUIContent.none);
+        }
+
+        private static void OnMoveBone(SerializedProperty prop)
+        {
+            
         }
         
     }
