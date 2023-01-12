@@ -9,7 +9,18 @@ namespace XenoIK
 
         protected override void UpdateSolver()
         {
+            if (!GetIKSolver().Initiated) InitialSolver();
+            if (!GetIKSolver().Initiated) return;
+            
             GetIKSolver().Update();
+        }
+
+        protected override void InitialSolver()
+        {
+            if (GetIKSolver().Initiated)
+                return;
+            
+            GetIKSolver().Init();
         }
     }
 }

@@ -61,25 +61,23 @@ namespace XenoIK.Editor
             
         }
 
-        protected static void CreateChians(SerializedProperty prop)
+        private static void CreateChians(SerializedProperty prop)
         {
             bool NewChain = prop.arraySize == 0;
             var transList = Utility.CreateBoneChains(Selection.activeTransform, NewChain ? 5 : prop.arraySize);
             if (NewChain)
             {
                 prop.arraySize = transList.Count;
-                for (int i = 0; i < prop.arraySize - 1; i++)
+                for (int i = 0; i < prop.arraySize; i++)
                 {
-                    // prop.InsertArrayElementAtIndex(i);
                     if (i > transList.Count) break;
                     var element = prop.GetArrayElementAtIndex(i);
                     if (element != null)
                     {
                         OnAddBone(element);
-                        element.objectReferenceValue = transList[i].gameObject;
+                        var bone = element.FindPropertyRelative("Transform");
+                        bone.objectReferenceValue = transList[i];
                     }
-                    
-                    
                 }
             }
         }

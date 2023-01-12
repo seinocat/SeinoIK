@@ -78,7 +78,7 @@ namespace XenoIK.Editor
                     oneKeyAdd(prop);
                 }
             }
-
+            GUILayout.Space(5);
             if (GUILayout.Button(new GUIContent("删除全部", "删除全部列表元素"), EditorStyles.toolbarButton, GUILayout.Width(CBtnWidth)))
             {
                 if (EditorUtility.DisplayDialog("警告", "是否清空列表", "确认", "取消"))
@@ -86,6 +86,7 @@ namespace XenoIK.Editor
                     prop.arraySize = 0;
                 }
             }
+            GUILayout.Space(5);
             if (GUILayout.Button(new GUIContent("添加骨骼", "添加"), EditorStyles.toolbarButton, GUILayout.Width(CBtnWidth)))
             {
                 prop.arraySize++;
