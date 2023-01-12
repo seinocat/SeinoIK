@@ -22,7 +22,7 @@ namespace XenoIK.Editor
 
         public static void AddIKWeight()
         {
-            EditorGUILayout.PropertyField(Prop.FindPropertyRelative("IKWeight"), new GUIContent("权重"));
+            EditorGUILayout.PropertyField(Prop.FindPropertyRelative("IKWeight"), new GUIContent("全局权重"));
         }
 
         public static void AddProps()

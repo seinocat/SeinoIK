@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace XenoIK
@@ -9,6 +7,8 @@ namespace XenoIK
     public abstract class IKSolver
     {
         protected abstract void OnUpadete();
+
+        public Vector3 IKPosition;
 
         [Range(0, 1f)]
         public float IKWeight = 1f;

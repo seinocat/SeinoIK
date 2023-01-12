@@ -11,7 +11,7 @@ namespace XenoIK
 
         public Transform Target;
         
-        public List<Bone> Bones;
+        public List<Bone> Bones = new List<Bone>();
 
         protected override void OnUpadete() {}
 

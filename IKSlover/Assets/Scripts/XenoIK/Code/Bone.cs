@@ -1,16 +1,14 @@
-﻿using System.Runtime.CompilerServices;
-using Sirenix.OdinInspector;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace XenoIK
 {
     public class Bone
     {
-        [LabelText("Transform")]
         public Transform Transform;
         
-        [LabelText("骨骼长度")]
         public float Length;
+        [Range(0, 1f)]
+        public float Weight = 1f;
 
         public Vector3 Position
         {
