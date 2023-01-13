@@ -6,7 +6,7 @@ namespace XenoIK
     public class SolverManager : MonoBehaviour
     {
         protected virtual void InitialSolver(){}
-        protected virtual void UpdateSolver(){}
+        protected virtual void UpdateSolver(float deltaTime){}
 
         private void Start()
         {
@@ -20,7 +20,7 @@ namespace XenoIK
         
         private void LateUpdate()
         {
-            UpdateSolver();
+            UpdateSolver(Time.deltaTime);
         }
     }
 }

@@ -13,9 +13,14 @@ namespace XenoIK.Editor
             return script;
         }
 
-        protected override void AddInspector()
+        protected override void DrawInspector()
         {
-            IKSolverHeuristicInspector.AddInspector(this.Solver);
+            IKSolverHeuristicInspector.DrawInspector(this.Solver);
+        }
+        
+        private void OnSceneGUI()
+        {
+            IKSolverHeuristicInspector.DrawSceneGUI(this.script.Solver, Color.green, Color.cyan);
         }
     }
 }

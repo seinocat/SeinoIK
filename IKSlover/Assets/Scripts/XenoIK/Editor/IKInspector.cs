@@ -1,6 +1,4 @@
-﻿
-
-using System;
+﻿using System;
 using UnityEditor;
 using UnityEngine;
 
@@ -9,8 +7,8 @@ namespace XenoIK
     public abstract class IKInspector : UnityEditor.Editor
     {
         protected abstract MonoBehaviour GetMonoScript();
-        protected abstract void AddInspector();
-
+        protected abstract void DrawInspector();
+        
         protected SerializedProperty Solver;
 
         private void OnEnable()
@@ -20,8 +18,9 @@ namespace XenoIK
 
         public override void OnInspectorGUI()
         {
-            AddInspector();
+            DrawInspector();
             serializedObject.ApplyModifiedProperties();
         }
+        
     }
 }

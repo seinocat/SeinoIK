@@ -7,19 +7,16 @@ namespace XenoIK
     {
         protected abstract IKSolver GetIKSolver();
 
-        protected override void UpdateSolver()
+        protected override void UpdateSolver(float deltaTime)
         {
-            if (!GetIKSolver().Initiated) InitialSolver();
-            if (!GetIKSolver().Initiated) return;
-            
-            GetIKSolver().Update();
+            if (!GetIKSolver().initiated) InitialSolver();
+            if (!GetIKSolver().initiated) return;
+            GetIKSolver().Update(deltaTime);
         }
 
         protected override void InitialSolver()
         {
-            if (GetIKSolver().Initiated)
-                return;
-            
+            if (GetIKSolver().initiated) return;
             GetIKSolver().Init();
         }
     }

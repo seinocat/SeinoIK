@@ -6,29 +6,29 @@ namespace XenoIK
     [Serializable]
     public class Bone
     {
-        public Transform Transform;
+        public Transform transform;
         
-        public float Length;
+        public float length;
         [Range(0, 1f)]
-        public float Weight = 1f;
+        public float weight = 1f;
 
         public Vector3 Position
         {
-            get => this.Transform.position;
-            set => this.Transform.position = value;
+            get => this.transform.position;
+            set => this.transform.position = value;
         }
 
         public Quaternion Rotation
         {
-            get => this.Transform.rotation;
-            set => this.Transform.rotation = value;
+            get => this.transform.rotation;
+            set => this.transform.rotation = value;
         }
 
         public Bone() { }
 
         public Bone(Transform trans)
         {
-            this.Transform = trans;
+            this.transform = trans;
         }
     }
 }

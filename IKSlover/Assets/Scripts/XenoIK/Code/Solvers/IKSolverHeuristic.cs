@@ -7,15 +7,20 @@ namespace XenoIK
     [Serializable]
     public class IKSolverHeuristic : IKSolver
     {
-        public int MaxIterations = 5;
+        public int maxIterations = 5;
 
-        public int BonesCount;
-
-        public Transform Target;
+        public int bonesCount;
         
-        public List<Bone> Bones = new List<Bone>();
+        public Transform target;
+        
+        public List<Bone> bones = new List<Bone>();
         
         protected override void OnInitialize() { }
-        protected override void OnUpadete() {}
+        protected override void OnUpdate(float deltaTime) {}
+
+        protected void InitBones()
+        {
+            
+        }
     }
 }
