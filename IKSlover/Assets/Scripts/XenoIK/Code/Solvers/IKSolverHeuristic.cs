@@ -8,19 +8,27 @@ namespace XenoIK
     public class IKSolverHeuristic : IKSolver
     {
         public int maxIterations = 5;
-
         public int bonesCount;
-        
         public Transform target;
-        
         public List<Bone> bones = new List<Bone>();
+        public float chainLength;
         
         protected override void OnInitialize() { }
         protected override void OnUpdate(float deltaTime) {}
 
         protected void InitBones()
         {
-            
+            this.chainLength = 0;
+            this.bonesCount = bones.Count;
+            for (int i = 0; i < this.bonesCount; i++)
+            {
+                if (i >= bonesCount - 1) break;
+
+                var bone = bones[i];
+                var lastBone = bones[i + 1];
+                bone.length = (lastBone.Position - bone.Position).magnitude;
+                this.chainLength += bone.length;
+            }
         }
     }
 }

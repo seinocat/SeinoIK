@@ -32,17 +32,17 @@ namespace XenoIK.Editor
             EditorGUILayout.PropertyField(solver.FindPropertyRelative("IKWeight"), new GUIContent("全局权重"));
             EditorGUILayout.PropertyField(solver.FindPropertyRelative("maxIterations"), new GUIContent("最大迭代次数"));
             
-            DrawElements(solver.FindPropertyRelative("bones"), new GUIContent("骨骼"), OnDrawElementBones, OnDrawButtons);
+            DrawElements(solver.FindPropertyRelative("bones"), new GUIContent("骨骼"), DrawBones, DrawButton);
         }
         
-        private static void OnDrawElementBones(SerializedProperty bone, int index)
+        private static void DrawBones(SerializedProperty bone, int index)
         {
             var boneTrans = bone.FindPropertyRelative("transform");
             AddObjectReference(boneTrans, GUIContent.none, 0, 120);
-            OnDrawWightSlider(bone.FindPropertyRelative("weight"));
+            DrawWightSlider(bone.FindPropertyRelative("weight"));
         }
         
-        private static void OnDrawWightSlider(SerializedProperty Weight)
+        private static void DrawWightSlider(SerializedProperty Weight)
         {
             GUILayout.Label("权重", GUILayout.Width(45));
             EditorGUILayout.PropertyField(Weight, GUIContent.none);
@@ -53,7 +53,7 @@ namespace XenoIK.Editor
             bone.FindPropertyRelative("weight").floatValue = 1;
         }
 
-        private static void OnDrawButtons(SerializedProperty prop)
+        private static void DrawButton(SerializedProperty prop)
         {
             GUILayout.Space(5);
             GUILayout.BeginHorizontal();

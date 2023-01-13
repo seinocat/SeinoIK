@@ -12,6 +12,8 @@ namespace XenoIK
         [Range(0, 1f)]
         public float weight = 1f;
 
+        public Vector3 solverPosition;
+
         public Vector3 Position
         {
             get => this.transform.position;

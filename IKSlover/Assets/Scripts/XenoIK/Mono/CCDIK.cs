@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace XenoIK
+﻿namespace XenoIK
 {
 
     public class CCDIK : XenoIK
