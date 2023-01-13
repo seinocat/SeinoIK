@@ -6,20 +6,24 @@ namespace XenoIK
     [Serializable]
     public class IKSolverCCD : IKSolverHeuristic
     {
+        
+        protected override void OnInitialize()
+        {
+            this.IKPosition = this.Bones[this.Bones.Count - 1].Position;
+        }
+        
         protected override void OnUpadete()
         {
-            if (this.IKWeight == 0)
-                return;
+            if (this.IKWeight == 0) return;
             
-            if (this.Target != null)
-                this.IKPosition = this.Target.position;
+            if (this.Target != null) this.IKPosition = this.Target.position;
             
             for (int i = 0; i < this.MaxIterations; i++)
             {
                 Solve();
             }
         }
-
+        
         private void Solve()
         {
             var lastBone = this.Bones[this.Bones.Count - 1];
@@ -40,7 +44,6 @@ namespace XenoIK
                 
                 // 四元数
                 Quaternion finalQuater = Quaternion.FromToRotation(toEffectorVec, toTargetVec) * curBone.Transform.rotation;
-                
                 curBone.Transform.rotation = weight >= 1 ? finalQuater : Quaternion.Lerp(curBone.Transform.rotation, finalQuater, weight);
             }
         }

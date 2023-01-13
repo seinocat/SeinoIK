@@ -18,10 +18,13 @@ namespace XenoIK
             set => this.Transform.position = value;
         }
 
-        public Bone()
+        public Quaternion Rotation
         {
-            
+            get => this.Transform.rotation;
+            set => this.Transform.rotation = value;
         }
+
+        public Bone() { }
 
         public Bone(Transform trans)
         {

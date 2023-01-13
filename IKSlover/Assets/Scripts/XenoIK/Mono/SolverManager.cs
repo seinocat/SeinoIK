@@ -8,7 +8,16 @@ namespace XenoIK
         protected virtual void InitialSolver(){}
         protected virtual void UpdateSolver(){}
 
+        private void Start()
+        {
+            this.Initialize();
+        }
 
+        private void Initialize()
+        {
+            InitialSolver();
+        }
+        
         private void LateUpdate()
         {
             UpdateSolver();

@@ -123,6 +123,16 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!4 &349980437 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 400338, guid: 40046bae76ac54bffb59f14f47d9ba1b, type: 3}
+  m_PrefabInstance: {fileID: 2091891471}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &630795618 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 400162, guid: 40046bae76ac54bffb59f14f47d9ba1b, type: 3}
+  m_PrefabInstance: {fileID: 2091891471}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -299,6 +309,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &1083039435 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 400042, guid: 40046bae76ac54bffb59f14f47d9ba1b, type: 3}
+  m_PrefabInstance: {fileID: 2091891471}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1165709801
 GameObject:
   m_ObjectHideFlags: 0
@@ -395,6 +410,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &1505722160 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 400284, guid: 40046bae76ac54bffb59f14f47d9ba1b, type: 3}
+  m_PrefabInstance: {fileID: 2091891471}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2091891471
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -483,8 +503,29 @@ MonoBehaviour:
     IKPosition: {x: 0, y: 0, z: 0}
     IKWeight: 1
     MaxIterations: 5
+    BonesCount: 0
     Target: {fileID: 0}
-    Bones: []
+    Bones:
+    - Transform: {fileID: 1083039435}
+      Length: 0
+      Weight: 1
+    - Transform: {fileID: 1505722160}
+      Length: 0
+      Weight: 1
+    - Transform: {fileID: 2091891475}
+      Length: 0
+      Weight: 1
+    - Transform: {fileID: 349980437}
+      Length: 0
+      Weight: 1
+    - Transform: {fileID: 630795618}
+      Length: 0
+      Weight: 1
+--- !u!4 &2091891475 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 400302, guid: 40046bae76ac54bffb59f14f47d9ba1b, type: 3}
+  m_PrefabInstance: {fileID: 2091891471}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2100574395
 GameObject:
   m_ObjectHideFlags: 0
