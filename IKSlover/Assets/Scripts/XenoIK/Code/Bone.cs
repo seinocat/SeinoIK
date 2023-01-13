@@ -12,7 +12,9 @@ namespace XenoIK
         [Range(0, 1f)]
         public float weight = 1f;
 
+        public Vector3 axis;
         public Vector3 solverPosition;
+        public Quaternion solverRotation;
 
         public Vector3 Position
         {
