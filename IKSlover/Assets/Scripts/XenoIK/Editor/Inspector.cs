@@ -8,20 +8,19 @@ namespace XenoIK.Editor
 {
     public class Inspector
     {
-        public const float Indent = 15;
-        public const float BtnWidth = 20;
-        public const float CBtnWidth = 65;
-
         public delegate void DrawElement(SerializedProperty element);
         public delegate void DrawElementLabel(SerializedProperty element, int index);
         public delegate void OnAddElement(SerializedProperty element);
         public delegate void OnMoveElement(SerializedProperty element);
         public delegate void OneKeyAdd(SerializedProperty element);
         
+        public const float Indent = 15;
+        public const float BtnWidth = 20;
+        public const float CBtnWidth = 65;
+        
         private static SerializedProperty element;
         private static SerializedProperty property;
         private static bool isShowList = true;
-        
         
         
         public static void AddList(SerializedProperty prop, GUIContent guiContent,
@@ -48,7 +47,7 @@ namespace XenoIK.Editor
                 //骨骼链面板
                 drawElementLabel(element, i);
                 GUILayout.Space(5);
-                if (GUILayout.Button(new GUIContent("-", "删除"), EditorStyles.miniButton, GUILayout.Width(BtnWidth)))
+                if (GUILayout.Button(new GUIContent("×", "删除"), EditorStyles.miniButton, GUILayout.Width(BtnWidth)))
                 {
                     deleteIndex = i;
                 }

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace XenoIK
 {
-    public static class Utility 
+    public static class XenoTools 
     {
         public static List<Transform> CreateBoneChains(Transform rootBone, int boneNum)
         {
