@@ -1,18 +1,22 @@
 ﻿using Sirenix.OdinInspector.Editor;
+using UnityEditor;
 using UnityEngine;
 
 namespace XenoIK.Editor
 {
+    [CustomEditor(typeof(LookAtIK))]
     public class LookAtInspector : IKInspector
     {
+        public LookAtIK script => target as LookAtIK;
+        
         protected override MonoBehaviour GetMonoScript()
         {
-            throw new System.NotImplementedException();
+            return script;
         }
 
         protected override void DrawInspector()
         {
-            throw new System.NotImplementedException();
+            IKSolverLookAtInspector.DrawInspector(this.solver);
         }
     }
 }

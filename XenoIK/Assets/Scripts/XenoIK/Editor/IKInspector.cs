@@ -9,11 +9,11 @@ namespace XenoIK
         protected abstract MonoBehaviour GetMonoScript();
         protected abstract void DrawInspector();
         
-        protected SerializedProperty Solver;
+        protected SerializedProperty solver;
 
         private void OnEnable()
         {
-            Solver = serializedObject.FindProperty("Solver");
+            solver = serializedObject.FindProperty("solver");
         }
 
         public override void OnInspectorGUI()

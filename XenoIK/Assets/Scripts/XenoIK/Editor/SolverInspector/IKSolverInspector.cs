@@ -11,19 +11,20 @@ namespace XenoIK.Editor
         public delegate void DrawElement(SerializedProperty element, int index);
         public delegate void DrawButtons(SerializedProperty prop);
         
-        public const float Indent = 15;
         public const float BtnWidth = 20;
         public const float CBtnWidth = 65;
         
         private static SerializedProperty element;
-        private static SerializedProperty property;
         private static bool isShowList = true;
         
+        public static float GetHandleSize(Vector3 position) {
+            float s = HandleUtility.GetHandleSize(position) * 0.1f;
+            return Mathf.Lerp(s, 0.025f, 0.5f);
+        }
         
         public static void DrawElements(SerializedProperty prop, 
-            GUIContent guiContent, DrawElement drawElementLabel, DrawButtons drawButtons = null)
+            GUIContent guiContent, DrawElement drawElement, DrawButtons drawButtons = null, int index = 0)
         {
-            property = prop;
             int deleteIndex = -1;
             string headLabel = $"{guiContent.text}({prop.arraySize})";
             isShowList = EditorGUILayout.Foldout(isShowList, headLabel);
@@ -37,7 +38,7 @@ namespace XenoIK.Editor
                 
                 GUILayout.BeginHorizontal();
                 //Draw Bones Chians
-                drawElementLabel(element, i);
+                drawElement(element, i);
                 GUILayout.Space(5);
                 if (GUILayout.Button(new GUIContent("×", "删除"), EditorStyles.miniButton, GUILayout.Width(BtnWidth)))
                 {
@@ -73,9 +74,6 @@ namespace XenoIK.Editor
             EditorGUILayout.PropertyField(prop, GUIContent.none, GUILayout.Width(propWidth));
         }
         
-        public static float GetHandleSize(Vector3 position) {
-            float s = HandleUtility.GetHandleSize(position) * 0.1f;
-            return Mathf.Lerp(s, 0.025f, 0.5f);
-        }
+
     }
 }

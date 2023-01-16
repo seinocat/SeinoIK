@@ -5,11 +5,11 @@ namespace XenoIK
     public class FABRIK : XenoIK
     {
 
-        public IKSolverFBAR Solver = new IKSolverFBAR();
+        public IKSolverFBAR solver = new IKSolverFBAR();
         
         protected override IKSolver GetIKSolver()
         {
-            return Solver;
+            return solver;
         }
     }
 }

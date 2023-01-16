@@ -4,12 +4,11 @@ namespace XenoIK
 {
     public class LookAtIK : XenoIK
     {
-        
-        public IKSolverLookAt Solver = new IKSolverLookAt();
+        public IKSolverLookAt solver = new IKSolverLookAt();
         
         protected override IKSolver GetIKSolver()
         {
-            return Solver;
+            return solver;
         }
     }
 }

@@ -3,11 +3,11 @@
 
     public class CCDIK : XenoIK
     {
-        public IKSolverCCD Solver = new IKSolverCCD();
+        public IKSolverCCD solver = new IKSolverCCD();
         
         protected override IKSolver GetIKSolver()
         {
-            return Solver;
+            return solver;
         }
     }
 }
