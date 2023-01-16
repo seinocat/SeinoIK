@@ -34,5 +34,14 @@ namespace XenoIK
         {
             this.transform = trans;
         }
+
+        public void Swing(Vector3 targetPos, float weight = 1f)
+        {
+            if (weight <= 0f) return;
+            Quaternion rotation = Quaternion.FromToRotation(this.Rotation * this.axis, targetPos - this.Position);
+            this.Rotation = weight >= 1f
+                ? rotation * this.Rotation
+                : Quaternion.Lerp(Quaternion.identity, rotation * this.Rotation, weight);
+        }
     }
 }

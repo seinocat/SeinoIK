@@ -309,11 +309,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &1083039435 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 400042, guid: 40046bae76ac54bffb59f14f47d9ba1b, type: 3}
-  m_PrefabInstance: {fileID: 2091891471}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1165709801
 GameObject:
   m_ObjectHideFlags: 0
@@ -496,31 +491,41 @@ MonoBehaviour:
   m_GameObject: {fileID: 2091891472}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fda090a092ce47a283b2f7f280251a65, type: 3}
+  m_Script: {fileID: 11500000, guid: aa7f20b18e674916bd1f23ce5f34e2bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Solver:
     IKPosition: {x: 0, y: 0, z: 0}
     IKWeight: 1
-    MaxIterations: 5
-    BonesCount: 0
-    Target: {fileID: 0}
-    Bones:
-    - Transform: {fileID: 1083039435}
-      Length: 0
-      Weight: 1
-    - Transform: {fileID: 1505722160}
-      Length: 0
-      Weight: 1
-    - Transform: {fileID: 2091891475}
-      Length: 0
-      Weight: 1
-    - Transform: {fileID: 349980437}
-      Length: 0
-      Weight: 1
-    - Transform: {fileID: 630795618}
-      Length: 0
-      Weight: 1
+    maxIterations: 4
+    bonesCount: 0
+    target: {fileID: 2100574396}
+    bones:
+    - transform: {fileID: 1505722160}
+      length: 0
+      weight: 1
+      axis: {x: 0, y: 0, z: 0}
+      solverPosition: {x: 0, y: 0, z: 0}
+      solverRotation: {x: 0, y: 0, z: 0, w: 0}
+    - transform: {fileID: 2091891475}
+      length: 0
+      weight: 1
+      axis: {x: 0, y: 0, z: 0}
+      solverPosition: {x: 0, y: 0, z: 0}
+      solverRotation: {x: 0, y: 0, z: 0, w: 0}
+    - transform: {fileID: 349980437}
+      length: 0
+      weight: 1
+      axis: {x: 0, y: 0, z: 0}
+      solverPosition: {x: 0, y: 0, z: 0}
+      solverRotation: {x: 0, y: 0, z: 0, w: 0}
+    - transform: {fileID: 630795618}
+      length: 0
+      weight: 1
+      axis: {x: 0, y: 0, z: 0}
+      solverPosition: {x: 0, y: 0, z: 0}
+      solverRotation: {x: 0, y: 0, z: 0, w: 0}
+    chainLength: 0
 --- !u!4 &2091891475 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400302, guid: 40046bae76ac54bffb59f14f47d9ba1b, type: 3}

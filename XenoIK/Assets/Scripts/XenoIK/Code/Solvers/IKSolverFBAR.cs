@@ -1,7 +1,9 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace XenoIK
 {
+    [Serializable]
     public class IKSolverFBAR : IKSolverHeuristic
     {
         protected override void OnInitialize()
@@ -13,16 +15,12 @@ namespace XenoIK
         {
             if (this.IKWeight == 0) return;
             if (this.target != null) this.IKPosition = this.target.position;
-  
-            
             for (int i = 0; i < this.maxIterations; i++)
             {
                 this.Solve();
             }
-            
         }
-
-
+        
         private void Solve()
         {
             PreSolve();
@@ -48,12 +46,17 @@ namespace XenoIK
                 }
             }
         }
-
-        private Vector3 SolveJoint(Vector3 p1, Vector3 p2, float length)
+        
+        private void PostSolve()
         {
-            return p2 + (p1 - p2).normalized * length;
+            this.bones[0].Position = bones[0].solverPosition;
+            for (int i = 0; i < this.bones.Count; i++)
+            {
+                if (i < this.bones.Count - 1) 
+                    bones[i].Swing(bones[i+1].solverPosition);
+            }
         }
-
+        
         private void ForwardSolve()
         {
             var effectorBone =  this.bones[this.bones.Count - 1];
@@ -75,18 +78,15 @@ namespace XenoIK
             {
                 var bone = this.bones[i];
                 var lastBone = this.bones[i - 1];
-                this.bones[i].solverPosition = this.SolveJoint(lastBone.Position, bone.Position, lastBone.length);
+                this.bones[i].solverPosition = this.SolveJoint(bone.solverPosition, lastBone.solverPosition, lastBone.length);
             }
+        }
+        
+        private Vector3 SolveJoint(Vector3 p1, Vector3 p2, float length)
+        {
+            return p2 + (p1 - p2).normalized * length;
         }
 
-        private void PostSolve()
-        {
-            this.bones[0].Position = bones[0].solverPosition;
-            for (int i = 0; i < this.bones.Count; i++)
-            {
-                if (i < this.bones.Count - 1) 
-                    this.bones[i].Position = bones[i].solverPosition;
-            }
-        }
+        
     }
 }
