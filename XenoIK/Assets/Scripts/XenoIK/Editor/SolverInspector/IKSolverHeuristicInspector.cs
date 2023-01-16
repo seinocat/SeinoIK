@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace XenoIK.Editor
 {
-    public class IKSolverHeuristicInspector : IKSolverInspector
+    public class IKIKSolverIKSolverHeuristicInspector : IKSolverInspector
     {
         public static void DrawInspector(SerializedProperty solver)
         {

@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace XenoIK.Editor
 {
-    public class Inspector
+    public class IKSolverInspector
     {
         public delegate void DrawElement(SerializedProperty element, int index);
         public delegate void DrawButtons(SerializedProperty prop);
@@ -71,6 +71,11 @@ namespace XenoIK.Editor
         {
             EditorGUILayout.LabelField(guiContent, GUILayout.Width(lableWidth));
             EditorGUILayout.PropertyField(prop, GUIContent.none, GUILayout.Width(propWidth));
+        }
+        
+        public static float GetHandleSize(Vector3 position) {
+            float s = HandleUtility.GetHandleSize(position) * 0.1f;
+            return Mathf.Lerp(s, 0.025f, 0.5f);
         }
     }
 }
