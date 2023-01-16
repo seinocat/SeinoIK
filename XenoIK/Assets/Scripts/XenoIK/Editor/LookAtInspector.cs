@@ -16,7 +16,7 @@ namespace XenoIK.Editor
 
         protected override void DrawInspector()
         {
-            IKSolverLookAtInspector.DrawInspector(this.solver);
+            IKSolverLookAtInspector.DrawInspector(this.solver, script);
         }
     }
 }
