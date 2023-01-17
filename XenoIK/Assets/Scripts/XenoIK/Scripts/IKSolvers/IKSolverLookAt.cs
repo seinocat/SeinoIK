@@ -12,6 +12,13 @@ namespace XenoIK
         public List<LookAtBone> eyes = new List<LookAtBone>();
         public List<LookAtBone> spines = new List<LookAtBone>();
 
+        [Range(0, 1f)]
+        public float headWeight = 1f;
+        [Range(0, 1f)]
+        public float eyesWeight;
+        [Range(0, 1f)]
+        public float bodyWeight;
+
         [Range(0, 360)]
         public float angle;
         [Range(0, float.MaxValue)]
@@ -35,8 +42,22 @@ namespace XenoIK
         {
             if (this.IKWeight <= 0) return;
             if (this.target != null) this.IKPosition = this.target.position;
-  
+
+            SolveHead();
+        }
+
+        private void SolveHead()
+        {
+            if (this.headWeight <= 0) return;
+            if (this.head.transform == null) return;
+            float weight = this.headWeight * this.IKWeight;
+
+            Vector3 baseForward = this.spines.Count > 0 ? this.spines.FindLastBone().Forward : this.head.Forward;
+            Vector3 targetForward = Vector3.Lerp(baseForward, (this.IKPosition - this.head.Position).normalized, weight).normalized;
+
+
             
+            this.head.LookAt(targetForward, weight);
         }
     }
 }

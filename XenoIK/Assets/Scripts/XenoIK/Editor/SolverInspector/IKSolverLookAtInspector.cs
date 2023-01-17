@@ -13,6 +13,9 @@ namespace XenoIK.Editor
             script = mono;
             EditorGUILayout.PropertyField(prop.FindPropertyRelative("target"), new GUIContent("注视目标"));
             EditorGUILayout.PropertyField(prop.FindPropertyRelative("IKWeight"), new GUIContent("全局权重"));
+            EditorGUILayout.PropertyField(prop.FindPropertyRelative("headWeight"), new GUIContent("头部权重"));
+            EditorGUILayout.PropertyField(prop.FindPropertyRelative("eyesWeight"), new GUIContent("眼睛权重"));
+            EditorGUILayout.PropertyField(prop.FindPropertyRelative("bodyWeight"), new GUIContent("身体权重"));
 
             FadeFoldout = EditorGUILayout.Foldout(FadeFoldout, "配置相关");
             if (FadeFoldout)
@@ -33,7 +36,7 @@ namespace XenoIK.Editor
             
             EditorGUILayout.PropertyField(prop.FindPropertyRelative("head.transform"), new GUIContent("头骨骼"));
             DrawElements(prop.FindPropertyRelative("eyes"), 0, new GUIContent("眼睛"), DrawLookAtBone, DrawEyeBtns);
-            DrawElements(prop.FindPropertyRelative("spines"), 1, new GUIContent("脊椎"), DrawLookAtBone, DrawSpineBtns);
+            DrawElements(prop.FindPropertyRelative("spines"), 1, new GUIContent("身体"), DrawLookAtBone, DrawSpineBtns);
         }
         
         public static void DrawLookAtBone(SerializedProperty bone, int index)

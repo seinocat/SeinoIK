@@ -11,7 +11,17 @@ namespace XenoIK
         
         public static Color jointColor = Color.cyan;
         public static Color boneColor = Color.cyan;
+
+        public static Bone FindLastBone(this List<Bone> list)
+        {
+            return list.Count == 0 ? null : list[list.Count - 1];
+        }
         
+        public static LookAtBone FindLastBone(this List<LookAtBone> list)
+        {
+            return list.Count == 0 ? null : list[list.Count - 1];
+        }
+
         public static List<Transform> CreateBoneChains(Transform rootBone, int boneNum = 4)
         {
             int totalNums = boneNum;
