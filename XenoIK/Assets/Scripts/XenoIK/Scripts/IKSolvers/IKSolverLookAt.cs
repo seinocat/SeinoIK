@@ -9,8 +9,8 @@ namespace XenoIK
     {
         public Transform target;
         public LookAtBone head;
-        public List<LookAtBone> eyes;
-        public List<LookAtBone> spines;
+        public List<LookAtBone> eyes = new List<LookAtBone>();
+        public List<LookAtBone> spines = new List<LookAtBone>();
 
         [Range(0, 360)]
         public float angle;
@@ -34,6 +34,8 @@ namespace XenoIK
         protected override void OnUpdate(float deltaTime)
         {
             if (this.IKWeight <= 0) return;
+            if (this.target != null) this.IKPosition = this.target.position;
+  
             
         }
     }

@@ -8,7 +8,7 @@ namespace XenoIK
     {
         public void Init(Transform root)
         {
-            if (root == null) return;
+            if (transform == null) return;
             axis = Quaternion.Inverse(transform.rotation) * root.forward;
         }
 

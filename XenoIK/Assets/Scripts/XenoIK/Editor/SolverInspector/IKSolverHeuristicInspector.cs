@@ -8,8 +8,7 @@ namespace XenoIK.Editor
     {
 
         public bool IsShowList;
-        private static Color jointColor = Color.cyan;
-        private static Color boneColor = Color.cyan;
+
         
         public static void DrawInspector(SerializedProperty solver)
         {
@@ -24,9 +23,9 @@ namespace XenoIK.Editor
             for (int i = 0; i < solver.bones.Count; i++)
             {
                 var bone = solver.bones[i];
-                Handles.color = jointColor;
+                Handles.color = XenoTools.jointColor;
                 Handles.SphereHandleCap(0, bone.Position, Quaternion.identity, GetHandleSize(bone.Position), EventType.Repaint);
-                Handles.color = boneColor;
+                Handles.color = XenoTools.boneColor;
                 if (i < solver.bones.Count - 1) Handles.DrawLine(bone.Position, solver.bones[i+1].Position, 3);
             }
         }

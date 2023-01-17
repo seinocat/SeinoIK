@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace XenoIK
 {
+    [ExecuteInEditMode]
     public class SolverManager : MonoBehaviour
     {
         protected virtual void InitialSolver(){}

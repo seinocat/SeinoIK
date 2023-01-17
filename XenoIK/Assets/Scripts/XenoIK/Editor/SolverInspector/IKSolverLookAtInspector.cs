@@ -72,8 +72,7 @@ namespace XenoIK.Editor
             DrawCommonBtn(prop);
             GUILayout.EndHorizontal();
         }
-
-
+        
         public static void DrawCommonBtn(SerializedProperty prop)
         {
             if (GUILayout.Button(new GUIContent("删除全部", "删除全部列表元素"), EditorStyles.toolbarButton, GUILayout.Width(IKSolverInspector.CBtnWidth)))
@@ -118,11 +117,34 @@ namespace XenoIK.Editor
                 }
             }
         }
-
-
-        public static void DrawSceneGUI(IKSolverLookAt sovler)
+        
+        public static void DrawSceneGUI(IKSolverLookAt solver)
         {
+            if (Application.isPlaying && !solver.initiated) return;
+
+            //Draw Head
+            if (solver.head.transform != null)
+            {
+                Handles.color = Color.green;
+                Handles.SphereHandleCap(0, solver.head.Position, Quaternion.identity, GetHandleSize(solver.head.Position), EventType.Repaint);
+                //Draw Target
+                Handles.SphereHandleCap(0, solver.IKPosition, Quaternion.identity, GetHandleSize(solver.IKPosition), EventType.Repaint);
+                //Draw Head to Tagert line
+                Handles.DrawLine(solver.head.Position, solver.IKPosition, 1);
+            }
             
+            //Draw Spines
+            for (int i = 0; i < solver.spines.Count; i++)
+            {
+                var bone = solver.spines[i];
+                if (bone.transform == null) continue;
+                Handles.color = XenoTools.jointColor;
+                Handles.SphereHandleCap(0, bone.Position, Quaternion.identity, GetHandleSize(bone.Position), EventType.Repaint);
+                Handles.color = XenoTools.boneColor;
+                if (i < solver.spines.Count - 1) Handles.DrawLine(bone.Position, solver.spines[i+1].Position, 3);
+            }
+            
+            Handles.color = Color.white;
         }
     }
 }

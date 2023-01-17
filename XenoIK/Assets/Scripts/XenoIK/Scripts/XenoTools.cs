@@ -8,6 +8,10 @@ namespace XenoIK
 {
     public static class XenoTools 
     {
+        
+        public static Color jointColor = Color.cyan;
+        public static Color boneColor = Color.cyan;
+        
         public static List<Transform> CreateBoneChains(Transform rootBone, int boneNum = 4)
         {
             int totalNums = boneNum;
