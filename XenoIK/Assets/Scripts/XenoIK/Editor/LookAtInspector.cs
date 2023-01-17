@@ -13,10 +13,20 @@ namespace XenoIK.Editor
         {
             return script;
         }
+        
+        protected override void OnModifty()
+        {
+            this.script?.solver.Init(this.script.transform);
+        }
 
         protected override void DrawInspector()
         {
             IKSolverLookAtInspector.DrawInspector(this.solver, script);
+        }
+        
+        private void OnSceneGUI()
+        {
+            IKSolverLookAtInspector.DrawSceneGUI(this.script.solver);
         }
     }
 }

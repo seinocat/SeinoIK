@@ -8,8 +8,10 @@ namespace XenoIK
     {
         protected abstract MonoBehaviour GetMonoScript();
         protected abstract void DrawInspector();
+        protected abstract void OnModifty();
         
         protected SerializedProperty solver;
+        
 
         private void OnEnable()
         {
@@ -19,7 +21,10 @@ namespace XenoIK
         public override void OnInspectorGUI()
         {
             DrawInspector();
-            serializedObject.ApplyModifiedProperties();
+            if (serializedObject.ApplyModifiedProperties())
+            {
+                OnModifty();
+            }
         }
         
     }

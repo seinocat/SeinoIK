@@ -8,13 +8,15 @@ namespace XenoIK.Editor
     {
 
         public bool IsShowList;
+        private static Color jointColor = Color.cyan;
+        private static Color boneColor = Color.cyan;
         
         public static void DrawInspector(SerializedProperty solver)
         {
             DrawGUI(solver);
         }
 
-        public static void DrawSceneGUI(IKSolverHeuristic solver, Color jointColor, Color boneColor)
+        public static void DrawSceneGUI(IKSolverHeuristic solver)
         {
             if (Application.isPlaying && !solver.initiated) return;
             if (solver.bones.Count == 0) return;

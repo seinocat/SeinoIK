@@ -26,11 +26,14 @@ namespace XenoIK
 
         protected override void OnInitialize()
         {
-            
+            this.head?.Init(this.root);
+            this.spines?.ForEach(x=>x.Init(this.root));
+            this.eyes?.ForEach(x=>x.Init(this.root));
         }
 
         protected override void OnUpdate(float deltaTime)
         {
+            if (this.IKWeight <= 0) return;
             
         }
     }

@@ -118,5 +118,11 @@ namespace XenoIK.Editor
                 }
             }
         }
+
+
+        public static void DrawSceneGUI(IKSolverLookAt sovler)
+        {
+            
+        }
     }
 }

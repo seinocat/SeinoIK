@@ -10,7 +10,7 @@ namespace XenoIK
         protected override void InitialSolver()
         {
             if (GetIKSolver().initiated) return;
-            GetIKSolver().Init();
+            GetIKSolver().Init(this.transform);
         }
 
         protected override void UpdateSolver(float deltaTime)

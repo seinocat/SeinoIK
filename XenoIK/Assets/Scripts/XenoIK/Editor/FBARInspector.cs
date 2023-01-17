@@ -9,9 +9,15 @@ namespace XenoIK.Editor
     {
         private FABRIK script => target as FABRIK;
         
+        
         protected override MonoBehaviour GetMonoScript()
         {
             return script;
+        }
+        
+        protected override void OnModifty()
+        {
+            this.script?.solver.Init(this.script.transform);
         }
 
         protected override void DrawInspector()
@@ -21,7 +27,7 @@ namespace XenoIK.Editor
 
         private void OnSceneGUI()
         {
-            IKSolverHeuristicInspector.DrawSceneGUI(this.script.solver, Color.cyan, Color.cyan);
+            IKSolverHeuristicInspector.DrawSceneGUI(this.script.solver);
         }
     }
 }

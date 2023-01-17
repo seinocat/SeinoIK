@@ -11,17 +11,21 @@ namespace XenoIK
         public bool initiated { get; private set; }
         
         public Vector3 IKPosition;
-
+        
         [Range(0, 1f)]
         public float IKWeight = 1f;
+        
+        [SerializeField][HideInInspector]
+        protected Transform root;
         
         public void Update(float deltaTime)
         {
             OnUpdate(deltaTime);
         }
 
-        public void Init()
+        public void Init(Transform root)
         {
+            this.root = root;
             OnInitialize();
             this.initiated = true;
         }
