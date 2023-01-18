@@ -16,6 +16,23 @@ namespace XenoIK
         public Vector3 solverPosition;
         public Quaternion solverRotation;
 
+
+        public Vector3 defaultLocalPosition;
+        public Quaternion defaultLocalRotation;
+
+        public void StoreDefaultLocalState()
+        {
+            this.defaultLocalPosition = this.Position;
+            this.defaultLocalRotation = this.Rotation;
+        }
+
+        public void FixTransform()
+        {
+            if (this.transform.localPosition != defaultLocalPosition) transform.localPosition = this.defaultLocalPosition;
+            if (this.transform.localRotation != defaultLocalRotation) transform.localRotation = this.defaultLocalRotation;
+
+        }
+
         public Vector3 Position
         {
             get => this.transform.position;

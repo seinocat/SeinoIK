@@ -46,6 +46,13 @@ namespace XenoIK
             SolveHead();
         }
 
+        public override void StoreDefaultLocalState()
+        {
+            if (this.head.transform != null) this.head.StoreDefaultLocalState();
+            this.spines.ForEach(x=>x.StoreDefaultLocalState());
+            this.eyes.ForEach(x=>x.StoreDefaultLocalState());
+        }
+
         private void SolveHead()
         {
             if (this.headWeight <= 0) return;
@@ -54,8 +61,6 @@ namespace XenoIK
 
             Vector3 baseForward = this.spines.Count > 0 ? this.spines.FindLastBone().Forward : this.head.Forward;
             Vector3 targetForward = Vector3.Lerp(baseForward, (this.IKPosition - this.head.Position).normalized, weight).normalized;
-
-
             
             this.head.LookAt(targetForward, weight);
         }

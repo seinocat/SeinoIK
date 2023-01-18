@@ -8,6 +8,7 @@ namespace XenoIK
     {
         protected abstract void OnInitialize();
         protected abstract void OnUpdate(float deltaTime);
+        public abstract void StoreDefaultLocalState();
         public bool initiated { get; private set; }
         
         public Vector3 IKPosition;
@@ -26,8 +27,9 @@ namespace XenoIK
         public void Init(Transform root)
         {
             this.root = root;
-            OnInitialize();
+            this.OnInitialize();
             this.initiated = true;
+            this.StoreDefaultLocalState();
         }
         
     

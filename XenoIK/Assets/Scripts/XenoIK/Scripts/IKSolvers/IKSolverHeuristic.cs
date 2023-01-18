@@ -15,6 +15,12 @@ namespace XenoIK
         
         protected override void OnInitialize() { }
         protected override void OnUpdate(float deltaTime) {}
+        
+        
+        public override void StoreDefaultLocalState()
+        {
+            this.bones.ForEach(x=>x.StoreDefaultLocalState());
+        }
 
         protected void InitBones()
         {
