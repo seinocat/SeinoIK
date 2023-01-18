@@ -6,8 +6,6 @@ namespace XenoIK.Editor
     public class IKSolverLookAtInspector : IKSolverInspector
     {
         private static MonoBehaviour script;
-        private static bool FadeFoldout = true;
-        
         public static void DrawInspector(SerializedProperty prop, MonoBehaviour mono)
         {
             script = mono;
@@ -16,23 +14,6 @@ namespace XenoIK.Editor
             EditorGUILayout.PropertyField(prop.FindPropertyRelative("headWeight"), new GUIContent("头部权重"));
             EditorGUILayout.PropertyField(prop.FindPropertyRelative("eyesWeight"), new GUIContent("眼睛权重"));
             EditorGUILayout.PropertyField(prop.FindPropertyRelative("bodyWeight"), new GUIContent("身体权重"));
-
-            FadeFoldout = EditorGUILayout.Foldout(FadeFoldout, "配置相关");
-            if (FadeFoldout)
-            {
-                for (int i = 0; i < 6; i++)
-                {
-                    GUILayout.BeginHorizontal();
-                    GUILayout.Space((EditorGUI.indentLevel + 1) * 15);
-                    if(i == 0)EditorGUILayout.PropertyField(prop.FindPropertyRelative("angle"), new GUIContent("有效角度"));
-                    if(i == 1)EditorGUILayout.PropertyField(prop.FindPropertyRelative("distance"), new GUIContent("有效距离"));
-                    if(i == 2)EditorGUILayout.PropertyField(prop.FindPropertyRelative("fadeInTime"), new GUIContent("渐入时间"));
-                    if(i == 3)EditorGUILayout.PropertyField(prop.FindPropertyRelative("fadeOutTime"), new GUIContent("渐出时间"));
-                    if(i == 4)EditorGUILayout.PropertyField(prop.FindPropertyRelative("fadeInCurve"), new GUIContent("渐入曲线"));
-                    if(i == 5)EditorGUILayout.PropertyField(prop.FindPropertyRelative("fadeOutCurve"), new GUIContent("渐出曲线"));
-                    GUILayout.EndHorizontal();
-                }
-            }
             
             EditorGUILayout.PropertyField(prop.FindPropertyRelative("head.transform"), new GUIContent("头骨骼"));
             DrawElements(prop.FindPropertyRelative("eyes"), 0, new GUIContent("眼睛"), DrawLookAtBone, DrawEyeBtns);
