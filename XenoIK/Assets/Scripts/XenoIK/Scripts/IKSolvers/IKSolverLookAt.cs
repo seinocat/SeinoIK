@@ -53,6 +53,16 @@ namespace XenoIK
             this.eyes.ForEach(x=>x.StoreDefaultLocalState());
         }
 
+        public override void FixTransform()
+        {
+            if (!this.initiated) return;
+            if (this.IKWeight <= 0) return;
+            
+            if (this.head.transform != null) this.head.FixTransform();
+            this.spines?.ForEach(x=>x.FixTransform());
+            this.eyes.ForEach(x=>x.FixTransform());
+        }
+
         private void SolveHead()
         {
             if (this.headWeight <= 0) return;

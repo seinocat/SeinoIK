@@ -13,6 +13,11 @@ namespace XenoIK
             GetIKSolver().Init(this.transform);
         }
 
+        protected override void FixTransform()
+        {
+            GetIKSolver().FixTransform();
+        }
+
         protected override void UpdateSolver(float deltaTime)
         {
             if (!GetIKSolver().initiated) InitialSolver();

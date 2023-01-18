@@ -22,8 +22,8 @@ namespace XenoIK
 
         public void StoreDefaultLocalState()
         {
-            this.defaultLocalPosition = this.Position;
-            this.defaultLocalRotation = this.Rotation;
+            this.defaultLocalPosition = this.transform.localPosition;
+            this.defaultLocalRotation = this.transform.localRotation;
         }
 
         public void FixTransform()

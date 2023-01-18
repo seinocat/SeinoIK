@@ -22,6 +22,14 @@ namespace XenoIK
             this.bones.ForEach(x=>x.StoreDefaultLocalState());
         }
 
+        public override void FixTransform()
+        {
+            if (!this.initiated) return;
+            if (this.IKWeight <= 0) return;
+            
+            this.bones.ForEach(x=>x.FixTransform());
+        }
+
         protected void InitBones()
         {
             this.chainLength = 0;

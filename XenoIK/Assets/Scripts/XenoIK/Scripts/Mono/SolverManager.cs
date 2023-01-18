@@ -7,20 +7,26 @@ namespace XenoIK
     {
         protected virtual void InitialSolver(){}
         protected virtual void UpdateSolver(float deltaTime){}
+        protected virtual void FixTransform(){}
 
         private void Start()
         {
             this.Initialize();
         }
 
+        private void Update()
+        {
+            this.FixTransform();
+        }
+
         private void Initialize()
         {
-            InitialSolver();
+            this.InitialSolver();
         }
         
         private void LateUpdate()
         {
-            UpdateSolver(Time.deltaTime);
+            this.UpdateSolver(Time.deltaTime);
         }
     }
 }

@@ -9,6 +9,8 @@ namespace XenoIK
         protected abstract void OnInitialize();
         protected abstract void OnUpdate(float deltaTime);
         public abstract void StoreDefaultLocalState();
+        public abstract void FixTransform();
+        
         public bool initiated { get; private set; }
         
         public Vector3 IKPosition;
