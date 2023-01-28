@@ -15,13 +15,13 @@ namespace XenoIK
 
         private void OnEnable()
         {
-            solver = serializedObject.FindProperty("solver");
+            this.solver = this.serializedObject.FindProperty("solver");
         }
 
         public override void OnInspectorGUI()
         {
             DrawInspector();
-            if (serializedObject.ApplyModifiedProperties())
+            if (this.serializedObject.ApplyModifiedProperties())
             {
                 OnModifty();
             }
