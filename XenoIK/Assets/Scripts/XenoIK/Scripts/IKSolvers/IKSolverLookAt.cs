@@ -18,9 +18,7 @@ namespace XenoIK
         public float eyesWeight;
         [Range(0, 1f)]
         public float bodyWeight;
-       
-
-
+        
         protected override void OnInitialize()
         {
             this.head?.Init(this.root);
@@ -49,13 +47,13 @@ namespace XenoIK
             if (this.IKWeight <= 0) return;
             
             if (this.head.transform != null) this.head.FixTransform();
-            this.spines?.ForEach(x=>x.FixTransform());
+            this.spines.ForEach(x=>x.FixTransform());
             this.eyes.ForEach(x=>x.FixTransform());
         }
 
         private void SolveHead()
         {
-            if (this.headWeight <= 0) return;
+            if (this.headWeight <= 0 || this.IKWeight <= 0) return;
             if (this.head.transform == null) return;
             float weight = this.headWeight * this.IKWeight;
 
