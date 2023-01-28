@@ -22,8 +22,8 @@ namespace XenoIK
         protected override void OnInitialize()
         {
             this.head?.Init(this.root);
-            this.spines?.ForEach(x=>x.Init(this.root));
-            this.eyes?.ForEach(x=>x.Init(this.root));
+            this.spines.ForEach(x=>x.Init(this.root));
+            this.eyes.ForEach(x=>x.Init(this.root));
         }
 
         protected override void OnUpdate(float deltaTime)
@@ -36,7 +36,7 @@ namespace XenoIK
 
         public override void StoreDefaultLocalState()
         {
-            if (this.head.transform != null) this.head.StoreDefaultLocalState();
+            this.head?.StoreDefaultLocalState();
             this.spines.ForEach(x=>x.StoreDefaultLocalState());
             this.eyes.ForEach(x=>x.StoreDefaultLocalState());
         }
@@ -46,7 +46,7 @@ namespace XenoIK
             if (!this.initiated) return;
             if (this.IKWeight <= 0) return;
             
-            if (this.head.transform != null) this.head.FixTransform();
+            this.head?.FixTransform();
             this.spines.ForEach(x=>x.FixTransform());
             this.eyes.ForEach(x=>x.FixTransform());
         }

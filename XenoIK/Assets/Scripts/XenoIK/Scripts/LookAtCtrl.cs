@@ -1,11 +1,11 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace XenoIK
 {
     [RequireComponent(typeof(LookAtIK))]
     public class LookAtCtrl : MonoBehaviour
     {
-        
         public LookAtIK lookAtIK;
 
         public Transform target;
@@ -24,5 +24,20 @@ namespace XenoIK
         
         public AnimationCurve lookAtCurve = new AnimationCurve(new Keyframe(0,0,1,1), new Keyframe(1,1,1,1));
         public AnimationCurve lookAwayCurve = new AnimationCurve(new Keyframe(0,0,1,1), new Keyframe(1,1,1,1));
+
+
+        private Transform lastTarget;
+        
+
+        private void Update()
+        {
+            
+        }
+
+
+        private void LateUpdate()
+        {
+            
+        }
     }
 }
