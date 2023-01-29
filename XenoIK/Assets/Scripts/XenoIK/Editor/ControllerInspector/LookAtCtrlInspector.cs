@@ -18,6 +18,7 @@ namespace XenoIK.Editor
         {
             EditorGUILayout.PropertyField(this.serializedObject.FindProperty("lookAtIK"), new GUIContent("LookAtIK"));
             EditorGUILayout.PropertyField(this.serializedObject.FindProperty("target"), new GUIContent("目标"));
+            EditorGUILayout.PropertyField(this.serializedObject.FindProperty("weight"), new GUIContent("全局权重"));
             EditorGUILayout.PropertyField(this.serializedObject.FindProperty("angle"), new GUIContent("角度"));
             EditorGUILayout.PropertyField(this.serializedObject.FindProperty("maxDistance"), new GUIContent("最大距离"));
             EditorGUILayout.PropertyField(this.serializedObject.FindProperty("minDistance"), new GUIContent("最小距离"));
