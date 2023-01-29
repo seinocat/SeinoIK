@@ -313,89 +313,37 @@ MonoBehaviour:
   m_GameObject: {fileID: 1044802008}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 776adaaacdc5c4e8ab0395120a6e972b, type: 3}
+  m_Script: {fileID: 11500000, guid: d1bdf043679c4f2cadf1d17fa13967b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fixTransforms: 0
   solver:
-    executedInEditor: 0
-    IKPosition: {x: 0.8982266, y: 1.2997409, z: 3.480338}
-    IKPositionWeight: 1
+    IKPosition: {x: 0, y: 0, z: 0}
+    IKWeight: 1
     root: {fileID: 1044802013}
-    target: {fileID: 2100574396}
-    spine: []
+    target: {fileID: 0}
+    defaultAxis: {x: 0, y: 0, z: 1}
     head:
-      transform: {fileID: 1094703167}
-      weight: 1
-      solverPosition: {x: 0, y: 0, z: 0}
-      solverRotation: {x: 0, y: 0, z: 0, w: 1}
-      defaultLocalPosition: {x: -0.078083195, y: -0.0055345367, z: -0.0000000015732664}
-      defaultLocalRotation: {x: 0.021434488, y: -0.005929963, z: 0.090837546, w: 0.9956174}
+      transform: {fileID: 0}
       length: 0
-      sqrMag: 0
-      axis: {x: 0.13626829, y: 0.9897227, z: -0.043358922}
-      baseForwardOffsetEuler: {x: 0, y: 0, z: 0}
+      weight: 1
+      axis: {x: 0, y: 0, z: 0}
+      solverPosition: {x: 0, y: 0, z: 0}
+      solverRotation: {x: 0, y: 0, z: 0, w: 0}
+      defaultLocalPosition: {x: 0, y: 0, z: 0}
+      defaultLocalRotation: {x: 0, y: 0, z: 0, w: 0}
     eyes: []
-    bodyWeight: 0.578
-    headWeight: 0.5
-    eyesWeight: 1
-    clampWeight: 0.5
-    clampWeightHead: 0.5
-    clampWeightEyes: 0.5
-    clampSmoothing: 2
-    spineWeightCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0.3
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    spineTargetOffset: {x: 0, y: 0, z: 0}
+    spines: []
+    headWeight: 1
+    eyesWeight: 0
+    bodyWeight: 0
+    headUseAxis: 0
+    spineUseAxis: 0
+    eyeUseAxis: 0
 --- !u!4 &1044802013 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400100, guid: 40046bae76ac54bffb59f14f47d9ba1b, type: 3}
   m_PrefabInstance: {fileID: 1269195717}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1094703166 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 100178, guid: 40046bae76ac54bffb59f14f47d9ba1b, type: 3}
-  m_PrefabInstance: {fileID: 1269195717}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1094703167 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 400180, guid: 40046bae76ac54bffb59f14f47d9ba1b, type: 3}
-  m_PrefabInstance: {fileID: 1269195717}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1094703168
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1094703166}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5db2cc9d15d8e1c4e81fbc747c163d99, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Target: {fileID: 2100574396}
 --- !u!1 &1165709801
 GameObject:
   m_ObjectHideFlags: 0
@@ -565,16 +513,6 @@ PrefabInstance:
     - {fileID: 5400000, guid: 40046bae76ac54bffb59f14f47d9ba1b, type: 3}
     - {fileID: 13600000, guid: 40046bae76ac54bffb59f14f47d9ba1b, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 40046bae76ac54bffb59f14f47d9ba1b, type: 3}
---- !u!4 &2091491387 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 400180, guid: 40046bae76ac54bffb59f14f47d9ba1b, type: 3}
-  m_PrefabInstance: {fileID: 2091891471}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &2091491819 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 400100, guid: 40046bae76ac54bffb59f14f47d9ba1b, type: 3}
-  m_PrefabInstance: {fileID: 2091891471}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2091793661 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100338, guid: 40046bae76ac54bffb59f14f47d9ba1b, type: 3}
@@ -587,82 +525,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2091793661}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d1bdf043679c4f2cadf1d17fa13967b7, type: 3}
+  m_Script: {fileID: 11500000, guid: dcaee860eef04da59489a8cadb9f3929, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  solver:
-    IKPosition: {x: 0, y: 0, z: 0}
-    IKWeight: 1
-    root: {fileID: 2091491819}
-    target: {fileID: 2100574396}
-    head:
-      transform: {fileID: 2091491387}
-      length: 0
-      weight: 1
-      axis: {x: 0.13626829, y: 0.9897227, z: -0.043358922}
-      solverPosition: {x: 0, y: 0, z: 0}
-      solverRotation: {x: 0, y: 0, z: 0, w: 0}
-      defaultLocalPosition: {x: 0, y: 0, z: 0}
-      defaultLocalRotation: {x: 0, y: 0, z: 0, w: 0}
-    eyes: []
-    spines: []
-    headWeight: 0.499
-    eyesWeight: 0
-    bodyWeight: 0
-    angle: 0
-    distance: 0
-    fadeInTime: 0
-    fadeOutTime: 0
-    fadeInCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 1
-        outSlope: 1
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 1
-        outSlope: 1
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    fadeOutCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 1
-        outSlope: 1
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 1
-        outSlope: 1
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
+  target: {fileID: 1044802013}
+  speed: 1
 --- !u!1001 &2091891471
 PrefabInstance:
   m_ObjectHideFlags: 0

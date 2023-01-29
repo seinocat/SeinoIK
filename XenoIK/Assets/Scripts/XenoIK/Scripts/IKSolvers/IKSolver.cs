@@ -12,6 +12,8 @@ namespace XenoIK
         public abstract void FixTransform();
         
         public bool initiated { get; private set; }
+        public bool firstInitiated { get; private set; }
+        
         
         public Vector3 IKPosition;
         
@@ -31,6 +33,7 @@ namespace XenoIK
             this.root = root;
             this.OnInitialize();
             this.initiated = true;
+            this.firstInitiated = false;
             this.StoreDefaultLocalState();
         }
         

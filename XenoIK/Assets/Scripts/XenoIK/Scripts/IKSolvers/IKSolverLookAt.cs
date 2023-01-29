@@ -8,6 +8,7 @@ namespace XenoIK
     public class IKSolverLookAt : IKSolver
     {
         public Transform target;
+        public Vector3 defaultAxis = Vector3.forward;
         public LookAtBone head;
         public List<LookAtBone> eyes = new List<LookAtBone>();
         public List<LookAtBone> spines = new List<LookAtBone>();
@@ -18,12 +19,25 @@ namespace XenoIK
         public float eyesWeight;
         [Range(0, 1f)]
         public float bodyWeight;
+
+        public bool headUseAxis = true;
+        public bool spineUseAxis;
+        public bool eyeUseAxis;
+        
         
         protected override void OnInitialize()
         {
-            this.head?.Init(this.root);
-            this.spines.ForEach(x=>x.Init(this.root));
-            this.eyes.ForEach(x=>x.Init(this.root));
+            if (this.firstInitiated)
+            {
+                if (this.spines.Count > 0) this.IKPosition = this.spines.FindLastBone().Position + this.root.forward * 3f;
+                else if (this.head != null) this.IKPosition = this.head.Position + this.root.forward * 3f;
+                else if (this.eyes.Count > 0) this.IKPosition = this.eyes[0].Position + this.root.forward * 3f;
+            }
+            
+            
+            this.head?.Init(this.root, this.headUseAxis ? this.defaultAxis : Vector3.forward);
+            this.spines.ForEach(x=>x.Init(this.root, this.spineUseAxis ? this.defaultAxis : Vector3.forward));
+            this.eyes.ForEach(x=>x.Init(this.root, this.eyeUseAxis ? this.defaultAxis : Vector3.forward));
         }
 
         protected override void OnUpdate(float deltaTime)
@@ -36,9 +50,15 @@ namespace XenoIK
 
         public override void StoreDefaultLocalState()
         {
-            this.head?.StoreDefaultLocalState();
-            this.spines.ForEach(x=>x.StoreDefaultLocalState());
-            this.eyes.ForEach(x=>x.StoreDefaultLocalState());
+            if(this.head.transform != null) this.head.StoreDefaultLocalState();
+            this.spines.ForEach(x=>
+            {
+                if (x.transform != null) x.StoreDefaultLocalState();
+            });
+            this.eyes.ForEach(x=>
+            {
+                if (x.transform != null) x.StoreDefaultLocalState();
+            });
         }
 
         public override void FixTransform()

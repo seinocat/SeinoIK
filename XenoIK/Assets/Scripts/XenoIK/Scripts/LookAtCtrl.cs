@@ -15,12 +15,8 @@ namespace XenoIK
         public float weight = 1f;
 
         public float smoothWeightTime = 0.25f;
-
         public float swithWeghtTime = 0.25f;
-        
-
         public float maxRadiansDelta = 3f;
-        
         public float maxMagnitudeDelta = 3f;
         
         [Range(0, 360)]
@@ -34,15 +30,11 @@ namespace XenoIK
         public float lookAtSpeed = 3f;
         [Range(0, float.MaxValue)]
         public float lookAwaySpeed;
-        
         public Vector3 pivotOffset = Vector3.up;
-
         public Vector3 offset;
-        
         public AnimationCurve lookAtCurve = new AnimationCurve(new Keyframe(0,0,1,1), new Keyframe(1,1,1,1));
         public AnimationCurve lookAwayCurve = new AnimationCurve(new Keyframe(0,0,1,1), new Keyframe(1,1,1,1));
-
-
+        
         private Transform lastTarget;
         private Vector3 lastPosition;
         private Vector3 direction;

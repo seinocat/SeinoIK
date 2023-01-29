@@ -19,7 +19,10 @@ namespace XenoIK
         
         public override void StoreDefaultLocalState()
         {
-            this.bones.ForEach(x=>x.StoreDefaultLocalState());
+            this.bones.ForEach(x=>
+            {
+                if(x.transform != null) x.StoreDefaultLocalState();
+            });
         }
 
         public override void FixTransform()

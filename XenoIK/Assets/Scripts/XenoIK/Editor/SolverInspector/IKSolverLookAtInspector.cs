@@ -6,18 +6,31 @@ namespace XenoIK.Editor
     public class IKSolverLookAtInspector : IKSolverInspector
     {
         private static MonoBehaviour script;
+        private static bool showAxis;
         public static void DrawInspector(SerializedProperty prop, MonoBehaviour mono)
         {
             script = mono;
             EditorGUILayout.PropertyField(prop.FindPropertyRelative("target"), new GUIContent("注视目标"));
             EditorGUILayout.PropertyField(prop.FindPropertyRelative("IKWeight"), new GUIContent("全局权重"));
+            DrawAxis(prop);
             EditorGUILayout.PropertyField(prop.FindPropertyRelative("headWeight"), new GUIContent("头部权重"));
             EditorGUILayout.PropertyField(prop.FindPropertyRelative("eyesWeight"), new GUIContent("眼睛权重"));
             EditorGUILayout.PropertyField(prop.FindPropertyRelative("bodyWeight"), new GUIContent("身体权重"));
-            
             EditorGUILayout.PropertyField(prop.FindPropertyRelative("head.transform"), new GUIContent("头骨骼"));
             DrawElements(prop.FindPropertyRelative("eyes"), 0, new GUIContent("眼睛"), DrawLookAtBone, DrawEyeBtns);
             DrawElements(prop.FindPropertyRelative("spines"), 1, new GUIContent("身体"), DrawLookAtBone, DrawSpineBtns);
+        }
+
+        public static void DrawAxis(SerializedProperty prop)
+        {
+            showAxis = EditorGUILayout.Foldout(showAxis, "轴向配置");
+            if (showAxis)
+            {
+                EditorGUILayout.PropertyField(prop.FindPropertyRelative("defaultAxis"), new GUIContent("默认轴向"));
+                EditorGUILayout.PropertyField(prop.FindPropertyRelative("headUseAxis"), new GUIContent("头"));
+                EditorGUILayout.PropertyField(prop.FindPropertyRelative("spineUseAxis"), new GUIContent("身体"));
+                EditorGUILayout.PropertyField(prop.FindPropertyRelative("eyeUseAxis"), new GUIContent("眼睛"));
+            }
         }
         
         public static void DrawLookAtBone(SerializedProperty bone, int index)
@@ -105,16 +118,19 @@ namespace XenoIK.Editor
         public static void DrawSceneGUI(IKSolverLookAt solver)
         {
             if (Application.isPlaying && !solver.initiated) return;
-
+            
             //Draw Head
             if (solver.head.transform != null)
             {
                 Handles.color = Color.green;
                 Handles.SphereHandleCap(0, solver.head.Position, Quaternion.identity, GetHandleSize(solver.head.Position), EventType.Repaint);
-                //Draw Target
+                //Draw target
                 Handles.SphereHandleCap(0, solver.IKPosition, Quaternion.identity, GetHandleSize(solver.IKPosition), EventType.Repaint);
-                //Draw Head to Tagert line
+                //Draw head to tagert line
                 Handles.DrawLine(solver.head.Position, solver.IKPosition, 1);
+                //Draw axis line
+                Handles.color = Color.red;
+                Handles.DrawLine(solver.head.Position, solver.head.Position + solver.head.Forward * 1f);
             }
             
             //Draw Spines
