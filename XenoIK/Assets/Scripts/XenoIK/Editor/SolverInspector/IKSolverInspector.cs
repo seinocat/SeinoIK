@@ -13,8 +13,8 @@ namespace XenoIK.Editor
         public const float CBtnWidth = 65;
         
         private static SerializedProperty element;
-        private static bool isShowList1 = true;
-        private static bool isShowList2 = true;
+        private static bool isShowList1;
+        private static bool isShowList2;
 
         private static bool IsShow(int index)
         {

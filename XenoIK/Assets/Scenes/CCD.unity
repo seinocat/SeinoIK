@@ -313,24 +313,99 @@ MonoBehaviour:
   m_GameObject: {fileID: 1044802008}
   m_Enabled: 1
   m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bf3e5d8e15f4eb385db378c42cd71f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lookAtIK: {fileID: 1044802010}
+  target: {fileID: 2100574396}
+  weight: 1
+  smoothWeightTime: 0.25
+  swithWeghtTime: 0.25
+  maxRadiansDelta: 3
+  maxMagnitudeDelta: 3
+  angle: 180
+  maxDistance: 10000
+  minDistance: 1
+  lookAtSpeed: 3
+  lookAwaySpeed: 0
+  pivotOffset: {x: 0, y: 1, z: 0}
+  offset: {x: 0, y: 0, z: 0}
+  lookAtCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  lookAwayCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!114 &1044802010
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1044802008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d1bdf043679c4f2cadf1d17fa13967b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   solver:
-    IKPosition: {x: 0, y: 0, z: 0}
+    firstInitiated: 0
+    IKPosition: {x: 0.8982266, y: 1.2997409, z: 3.480338}
     IKWeight: 1
     root: {fileID: 1044802013}
     target: {fileID: 0}
-    defaultAxis: {x: 0, y: 0, z: 1}
+    defaultAxis: {x: 0, y: 0.55, z: 1}
     head:
-      transform: {fileID: 0}
+      transform: {fileID: 1094703167}
       length: 0
       weight: 1
-      axis: {x: 0, y: 0, z: 0}
+      axis: {x: 0.13626829, y: 0.9897227, z: -0.043358922}
       solverPosition: {x: 0, y: 0, z: 0}
       solverRotation: {x: 0, y: 0, z: 0, w: 0}
-      defaultLocalPosition: {x: 0, y: 0, z: 0}
-      defaultLocalRotation: {x: 0, y: 0, z: 0, w: 0}
+      defaultLocalPosition: {x: -0.078083195, y: -0.0055345367, z: -0.0000000015732664}
+      defaultLocalRotation: {x: 0.021434488, y: -0.005929963, z: 0.090837546, w: 0.9956174}
     eyes: []
     spines: []
     headWeight: 1
@@ -342,6 +417,11 @@ MonoBehaviour:
 --- !u!4 &1044802013 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400100, guid: 40046bae76ac54bffb59f14f47d9ba1b, type: 3}
+  m_PrefabInstance: {fileID: 1269195717}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1094703167 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 400180, guid: 40046bae76ac54bffb59f14f47d9ba1b, type: 3}
   m_PrefabInstance: {fileID: 1269195717}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1165709801

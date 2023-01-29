@@ -12,7 +12,7 @@ namespace XenoIK
         public abstract void FixTransform();
         
         public bool initiated { get; private set; }
-        public bool firstInitiated { get; private set; }
+        public bool firstInitiated = true;
         
         
         public Vector3 IKPosition;

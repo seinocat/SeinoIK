@@ -1,6 +1,4 @@
-﻿using System;
-using RootMotion.FinalIK;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace XenoIK
 {

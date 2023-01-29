@@ -30,7 +30,6 @@ namespace XenoIK
         {
             if (this.transform.localPosition != defaultLocalPosition) transform.localPosition = this.defaultLocalPosition;
             if (this.transform.localRotation != defaultLocalRotation) transform.localRotation = this.defaultLocalRotation;
-
         }
 
         public Vector3 Position
