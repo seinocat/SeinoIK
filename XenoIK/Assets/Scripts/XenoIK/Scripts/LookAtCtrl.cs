@@ -32,10 +32,14 @@ namespace XenoIK
         public Vector3 offset;
         public AnimationCurve lookAtCurve = new AnimationCurve(new Keyframe(0,0,1,1), new Keyframe(1,1,1,1));
         public AnimationCurve lookAwayCurve = new AnimationCurve(new Keyframe(0,0,1,1), new Keyframe(1,1,1,1));
+
+        public bool pauseIK;
+        
         
         private Transform lastTarget;
         private Vector3 lastPosition;
         private Vector3 direction;
+        private float lastWeight;
         private float smoothWeightSpeed;
         private float switchWeight, switchWeightSpeed;
 
@@ -43,6 +47,22 @@ namespace XenoIK
         private Vector3 Pivot => lookAtIK.transform.position + lookAtIK.transform.rotation * pivotOffset;
 
         private IKSolverLookAt Solver => this.lookAtIK?.solver;
+
+
+        /// <summary>
+        /// 保持target但是权重归零, 用于播放技能或者特殊动画时暂时关闭IK
+        /// </summary>
+        public void PauseIK()
+        {
+            this.pauseIK = true;
+            this.lastWeight = this.weight;
+        }
+
+        public void ReopenIK()
+        {
+            this.pauseIK = false;
+            this.weight = this.lastWeight;
+        }
 
 
         private void Start()
@@ -71,7 +91,10 @@ namespace XenoIK
                 this.lastTarget = this.target;
             }
 
+            
+            if (this.pauseIK) this.weight = 0f;
             float ikWeight = this.target == null ? 0f : this.weight;
+
             this.Solver.IKWeight = Mathf.SmoothDamp(this.Solver.IKWeight, ikWeight, ref smoothWeightSpeed, this.smoothWeightTime);
             
             if (this.Solver.IKWeight <= 0) return;

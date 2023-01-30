@@ -15,6 +15,7 @@ namespace XenoIK.Editor
         private static SerializedProperty element;
         private static bool isShowList1;
         private static bool isShowList2;
+        private static bool isShowList3;
 
         private static bool IsShow(int index)
         {
@@ -22,6 +23,7 @@ namespace XenoIK.Editor
             {
                 0 => isShowList1,
                 1 => isShowList2,
+                2 => isShowList3,
                 _ => false
             };
         }
@@ -35,6 +37,9 @@ namespace XenoIK.Editor
                     break;
                 case 1:
                     isShowList2 = show;
+                    break;
+                case 2:
+                    isShowList3 = show;
                     break;
             }
         }
