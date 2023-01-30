@@ -1,9 +1,0 @@
-{
-	"name" : "com.svily.xeno-ik",
-	"displayName" : "Xeno IK",
-	"description" : "IK Solve",
-	"version" : "1.0.0",
-	"unity" : "2020.3.33",
-	"license" : "MIT",
-	"dependencies" : {}
-}
