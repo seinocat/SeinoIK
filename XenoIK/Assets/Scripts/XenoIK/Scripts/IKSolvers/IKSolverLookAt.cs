@@ -34,7 +34,6 @@ namespace XenoIK
                 else if (this.eyes.Count > 0) this.IKPosition = this.eyes[0].Position + this.root.forward * 3f;
             }
             
-            
             this.head?.Init(this.root, this.headUseAxis ? this.defaultAxis : Vector3.forward);
             this.spines.ForEach(x=>x.Init(this.root, this.spineUseAxis ? this.defaultAxis : Vector3.forward));
             this.eyes.ForEach(x=>x.Init(this.root, this.eyeUseAxis ? this.defaultAxis : Vector3.forward));
@@ -45,7 +44,8 @@ namespace XenoIK
             if (this.IKWeight <= 0) return;
             if (this.target != null) this.IKPosition = this.target.position;
 
-            SolveHead();
+            this.SolveHead();
+            this.SolveEyes();
         }
 
         public override void StoreDefaultLocalState()
@@ -81,6 +81,40 @@ namespace XenoIK
             Vector3 targetForward = Vector3.Lerp(baseForward, (this.IKPosition - this.head.Position).normalized, weight).normalized;
             
             this.head.LookAt(targetForward, weight);
+        }
+
+        private void SolveEyes()
+        {
+            if (this.eyesWeight <= 0 || this.IKWeight <= 0) return;
+            if (this.eyes.Count == 0) return;
+
+            float weight = this.eyesWeight * this.IKWeight;
+
+            Vector3 baseForward = this.head.Forward;
+            Vector3 targetForward = Vector3.Lerp(baseForward, (this.IKPosition - baseForward).normalized, weight).normalized;
+            
+            this.eyes.ForEach(eye =>
+            {
+                if (eye.transform != null) eye.LookAt(targetForward, weight);
+            });
+        }
+
+        private void SolveSpines()
+        {
+            if (this.bodyWeight <= 0 || this.IKWeight <= 0) return;
+            if (this.spines.Count == 0) return;
+
+            float weight = this.bodyWeight * this.IKWeight;
+            
+            this.spines.ForEach(spine =>
+            {
+                if (spine.transform == null) return;
+
+                Vector3 targetForward = (this.IKPosition - spine.Position).normalized;
+                spine.LookAt(targetForward, weight);
+            });
+            
+
         }
     }
 }
