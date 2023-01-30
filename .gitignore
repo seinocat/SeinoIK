@@ -11,6 +11,7 @@
 /[Ll]ogs/
 /[Mm]emoryCaptures/
 /.idea/
+/UserSettings/
 
 *.meta
 
