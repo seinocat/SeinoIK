@@ -34,7 +34,7 @@ namespace XenoIK
 
         public Vector3 Position
         {
-            get => this.transform.position;
+            get => this.transform != null ? this.transform.position : Vector3.zero;
             set => this.transform.position = value;
         }
 
