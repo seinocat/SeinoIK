@@ -311,7 +311,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1044802008}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9bf3e5d8e15f4eb385db378c42cd71f2, type: 3}
   m_Name: 
@@ -395,7 +395,7 @@ MonoBehaviour:
     IKPosition: {x: 0.8982266, y: 1.2997409, z: 3.480338}
     IKWeight: 1
     root: {fileID: 1044802013}
-    target: {fileID: 0}
+    target: {fileID: 2100574396}
     defaultAxis: {x: 0, y: 0.55, z: 1}
     head:
       transform: {fileID: 1094703167}
