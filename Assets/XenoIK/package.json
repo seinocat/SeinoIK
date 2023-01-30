@@ -4,7 +4,5 @@
   "description": "IK Solver!",
   "version": "1.0.0",
   "unity": "2020.3",
-  "license": "MIT",
-  "dependencies": {
-  }
+  "author": "Svily_0"
 }
