@@ -16,9 +16,15 @@ namespace XenoIK
         public float swithWeghtTime = 0.25f;
         public float maxRadiansDelta = 3f;
         public float maxMagnitudeDelta = 3f;
+
+        [Tooltip("When the target out of range,  hold look at within followAngle")]
+        public bool holdLookAt;
         
         [Range(0, 360)]
-        public float angle = 180;
+        public float detectAngle = 120;
+        [Range(0, 360)]
+        public float followAngle = 120;
+        
         [Range(0, 100000)]
         public float maxDistance = 10000;
         [Range(0, 100000)]
@@ -33,15 +39,16 @@ namespace XenoIK
         public AnimationCurve lookAtCurve = new AnimationCurve(new Keyframe(0,0,1,1), new Keyframe(1,1,1,1));
         public AnimationCurve lookAwayCurve = new AnimationCurve(new Keyframe(0,0,1,1), new Keyframe(1,1,1,1));
 
-        public bool pauseIK;
-        
         
         private Transform lastTarget;
+        private Transform tempTarget;
         private Vector3 lastPosition;
         private Vector3 direction;
         private float lastWeight;
         private float smoothWeightSpeed;
         private float switchWeight, switchWeightSpeed;
+        private bool enableIk = true;
+        private bool watching;
 
 
         private Vector3 Pivot => lookAtIK.transform.position + lookAtIK.transform.rotation * pivotOffset;
@@ -50,27 +57,73 @@ namespace XenoIK
 
 
         /// <summary>
-        /// 保持target但是权重归零, 用于播放技能或者特殊动画时暂时关闭IK
+        /// Hold target and revert weight value
         /// </summary>
-        public void PauseIK()
+        public void OpenIK()
         {
-            this.pauseIK = true;
-            this.lastWeight = this.weight;
-        }
-
-        public void ReopenIK()
-        {
-            this.pauseIK = false;
             this.weight = this.lastWeight;
+            this.enableIk = true;
         }
 
+        /// <summary>
+        /// Store weight and set weight to 0
+        /// </summary>
+        public void CloseIK()
+        {
+            this.lastWeight = this.weight;
+            this.enableIk = false;
+        }
+
+        public void ResetTarget()
+        {
+            this.target = null;
+        }
+
+        public void SetTarget(Transform target)
+        {
+            if (this.tempTarget != null) Destroy(this.tempTarget);
+            this.target = target;
+        }
+
+        /// <summary>
+        /// Look at point via create a temp gameobject
+        /// </summary>
+        /// <param name="point"></param>
+        public void SetLookAtPoint(Vector3 point)
+        {
+            if(this.tempTarget == null) this.tempTarget = new GameObject("temp_target").transform;
+            this.tempTarget.position = point;
+            this.target = this.tempTarget;
+        }
+
+
+        /// <summary>
+        /// Detect the target whether in range
+        /// </summary>
+        /// <returns></returns>
+        private bool DetectRange()
+        {
+            if (this.target == null) return false;
+            
+            float angle = (this.watching ? this.followAngle : this.detectAngle) / 2;
+
+            var forwardDir = this.Solver.root.forward;
+            var targetDir = this.target.position - this.Solver.root.position;
+
+            var distance = targetDir.magnitude;
+            if (distance > this.maxDistance || distance < minDistance) return false;
+
+            var targeAngle = Vector3.Angle(forwardDir, targetDir);
+            return !(targeAngle > angle);
+        }
 
         private void Start()
         {
             this.lastPosition = this.Solver.IKPosition;
             this.direction = this.Solver.IKPosition - this.Pivot;
+            this.lastWeight = this.weight;
         }
-
+        
 
         private void LateUpdate()
         {
@@ -90,11 +143,16 @@ namespace XenoIK
 
                 this.lastTarget = this.target;
             }
-
             
-            if (this.pauseIK) this.weight = 0f;
+            if (!this.enableIk || !this.DetectRange())
+                this.weight = 0;
+            else
+                this.weight = this.lastWeight;
+            
+            
             float ikWeight = this.target == null ? 0f : this.weight;
-
+            this.watching = ikWeight > 0;
+            
             this.Solver.IKWeight = Mathf.SmoothDamp(this.Solver.IKWeight, ikWeight, ref smoothWeightSpeed, this.smoothWeightTime);
             
             if (this.Solver.IKWeight <= 0) return;
