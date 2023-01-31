@@ -112,7 +112,5 @@ namespace XenoIK
             this.direction = Vector3.RotateTowards(this.direction, targetDir, Time.deltaTime * this.maxRadiansDelta, this.maxMagnitudeDelta);
             this.Solver.IKPosition = this.direction + this.Pivot;
         }
-        
-        
     }
 }
