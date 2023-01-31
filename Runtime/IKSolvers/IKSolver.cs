@@ -20,8 +20,7 @@ namespace XenoIK
         [Range(0, 1f)]
         public float IKWeight = 1f;
         
-        [SerializeField][HideInInspector]
-        protected Transform root;
+        public Transform root;
         
         public void Update(float deltaTime)
         {
@@ -30,7 +29,7 @@ namespace XenoIK
 
         public void Init(Transform root)
         {
-            this.root = root;
+            if (this.root == null) this.root = root;
             this.OnInitialize();
             this.initiated = true;
             this.firstInitiated = false;

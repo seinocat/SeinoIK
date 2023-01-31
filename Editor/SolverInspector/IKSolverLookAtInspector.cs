@@ -24,6 +24,7 @@ namespace XenoIK.Editor
             showAxis = EditorGUILayout.Foldout(showAxis, "轴向配置");
             if (showAxis)
             {
+                EditorGUILayout.PropertyField(prop.FindPropertyRelative("root"), new GUIContent("根节点"));
                 EditorGUILayout.PropertyField(prop.FindPropertyRelative("defaultAxis"), new GUIContent("默认轴向"));
                 EditorGUILayout.PropertyField(prop.FindPropertyRelative("headUseAxis"), new GUIContent("头"));
                 EditorGUILayout.PropertyField(prop.FindPropertyRelative("spineUseAxis"), new GUIContent("身体"));
