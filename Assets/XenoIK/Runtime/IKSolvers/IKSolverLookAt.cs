@@ -23,6 +23,8 @@ namespace XenoIK
         public bool headUseAxis = true;
         public bool spineUseAxis;
         public bool eyeUseAxis;
+
+        public Vector3 RootForward => this.root.rotation * this.defaultAxis;
         
         
         protected override void OnInitialize()
