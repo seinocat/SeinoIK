@@ -36,7 +36,9 @@ namespace XenoIK
                 else if (this.eyes.Count > 0) this.IKPosition = this.eyes[0].Position + this.root.forward * 3f;
             }
             
-            this.InitialAxis();
+            this.head?.Init(this.root, this.headUseAxis ? this.defaultAxis : Vector3.forward);
+            this.spines.ForEach(x=>x.Init(this.root, this.spineUseAxis ? this.defaultAxis : Vector3.forward));
+            this.eyes.ForEach(x=>x.Init(this.root, this.eyeUseAxis ? this.defaultAxis : Vector3.forward));
         }
         
         protected override void OnUpdate(float deltaTime)
@@ -70,14 +72,7 @@ namespace XenoIK
             this.spines.ForEach(x=>x.FixTransform());
             this.eyes.ForEach(x=>x.FixTransform());
         }
-
-        private void InitialAxis()
-        {
-            this.head?.Init(this.root, this.headUseAxis ? this.defaultAxis : Vector3.forward);
-            this.spines.ForEach(x=>x.Init(this.root, this.spineUseAxis ? this.defaultAxis : Vector3.forward));
-            this.eyes.ForEach(x=>x.Init(this.root, this.eyeUseAxis ? this.defaultAxis : Vector3.forward));
-        }
-
+        
         public void UpdateAxis()
         {
             this.head?.UpdateAxis(this.headUseAxis ? this.defaultAxis : Vector3.forward);
