@@ -8,33 +8,36 @@ namespace XenoIK
         public LookAtIK lookAtIK;
         public bool enableIk = true;
         public Transform target;
-
-
+        
         [Range(0, 1)]
         public float defaultWeight = 1f;
-
-        public float smoothWeightTime = 0.25f;
-        public float swithWeghtTime = 0.25f;
-        public float maxRadiansDelta = 3f;
-        public float maxMagnitudeDelta = 3f;
-
+        
         [Tooltip("When the target out of range,  hold look at within followAngle")]
         public bool holdLookAt;
         
-        public Vector2 detectAngleXZ = new Vector2(120, 90);
-        public Vector2 followAngleXZ = new Vector2(120, 90);
-        
         [Range(0, 100000)]
         public float maxDistance = 10000;
+        
         [Range(0, 100000)]
         public float minDistance = 1;
         
         [Range(0, float.MaxValue)]
         public float lookAtSpeed = 3f;
+        
         [Range(0, float.MaxValue)]
         public float lookAwaySpeed;
+        
+        public Vector2 detectAngleXZ = new Vector2(120, 90);
+        public Vector2 followAngleXZ = new Vector2(120, 90);
+        public float smoothWeightTime = 0.25f;
+        public float smoothWeightSpeed = 0.5f;
+        public float switchWeightTime = 0.25f;
+        public float switchWeightSpeed = 0f;
+        public float maxRadiansDelta = 3f;
+        public float maxMagnitudeDelta = 3f;
         public Vector3 pivotOffset = Vector3.up;
         public Vector3 offset;
+        public bool useCustomCurve = false;
         public AnimationCurve lookAtCurve = new AnimationCurve(new Keyframe(0,0,1,1), new Keyframe(1,1,1,1));
         public AnimationCurve lookAwayCurve = new AnimationCurve(new Keyframe(0,0,1,1), new Keyframe(1,1,1,1));
 
@@ -43,11 +46,10 @@ namespace XenoIK
         private Transform tempTarget;
         private Vector3 lastPosition;
         private Vector3 direction;
- 
-
+        
         private float runtimeWeight = 1f;
-        private float smoothWeightSpeed;
-        private float switchWeight, switchWeightSpeed;
+        
+        private float switchWeight;
         
         private bool watching;
 
@@ -66,7 +68,7 @@ namespace XenoIK
         }
 
         /// <summary>
-        /// Store runtimeWeight and set runtimeWeight to 0
+        /// Set runtimeWeight to 0
         /// </summary>
         public void CloseIK()
         {
@@ -97,10 +99,10 @@ namespace XenoIK
 
 
         /// <summary>
-        /// Detect the target whether in range
+        /// Check the target whether in range
         /// </summary>
         /// <returns></returns>
-        private bool DetectRange()
+        private bool CheckRange()
         {
             if (this.target == null) return false;
             
@@ -127,8 +129,9 @@ namespace XenoIK
             this.defaultWeight = this.runtimeWeight;
             this.head = this.Solver.head.transform;
         }
-        
 
+        private float durationTime = 0f;
+        
         private void LateUpdate()
         {
             if (this.target != this.lastTarget)
@@ -146,17 +149,17 @@ namespace XenoIK
                 }
 
                 this.switchWeight = 0f;
+                this.durationTime = 0f;
                 this.lastTarget = this.target;
             }
             
-            if (!this.enableIk || !this.DetectRange())
+            if (!this.enableIk || !this.CheckRange())
                 this.runtimeWeight = 0;
             else
                 this.runtimeWeight = this.defaultWeight;
             
-            
             float ikWeight = this.target == null ? 0f : this.runtimeWeight;
-            this.watching = ikWeight > 0;
+            this.watching = ikWeight > 0 && this.target != null;
             
             this.Solver.IKWeight = Mathf.SmoothDamp(this.Solver.IKWeight, ikWeight, ref smoothWeightSpeed, this.smoothWeightTime);
             
@@ -164,7 +167,21 @@ namespace XenoIK
             if (this.Solver.IKWeight >= 0.999f && ikWeight > this.Solver.IKWeight) this.Solver.IKWeight = 1f;
             if (this.Solver.IKWeight <= 0.001f && ikWeight < this.Solver.IKWeight) this.Solver.IKWeight = 0f;
 
-            this.switchWeight = Mathf.SmoothDamp(switchWeight, 1f, ref switchWeightSpeed, this.swithWeghtTime);
+            if (this.useCustomCurve)
+            {
+                AnimationCurve curve = this.watching ? this.lookAtCurve : this.lookAwayCurve;
+                if (this.durationTime >= this.switchWeightTime) 
+                    this.durationTime = this.switchWeightTime;
+                else 
+                    this.durationTime += Time.deltaTime * 0.05f;
+                float curveTime = this.durationTime / this.switchWeightTime;
+                this.switchWeight = curve.Evaluate(curveTime);
+            }
+            else
+            {
+                this.switchWeight = Mathf.SmoothDamp(switchWeight, 1f, ref switchWeightSpeed, this.switchWeightTime);
+            }
+            
             if (this.switchWeight >= 0.999f) this.switchWeight = 1f;
 
             if (this.target != null) 
