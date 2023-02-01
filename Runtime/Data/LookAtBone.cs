@@ -6,10 +6,20 @@ namespace XenoIK
     [Serializable]
     public class LookAtBone : Bone
     {
+        private Quaternion defaultRotation;
+        private Quaternion defaultRootRotation;
+        
         public void Init(Transform root, Vector3 defaultAxis)
         {
             if (this.transform == null) return;
+            this.defaultRotation = this.transform.rotation;
+            this.defaultRootRotation = root.rotation;
             this.axis = Quaternion.Inverse(this.transform.rotation) * (root.rotation * defaultAxis);
+        }
+
+        public void UpdateAxis(Vector3 newAxis)
+        {
+            this.axis = Quaternion.Inverse(this.defaultRotation) * (this.defaultRootRotation * newAxis);
         }
 
         public void LookAt(Vector3 target, float targetWeight)

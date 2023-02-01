@@ -34,7 +34,7 @@ namespace XenoIK.Editor
             EditorGUILayout.PropertyField(this.serializedObject.FindProperty("lookAtCurve"), new GUIContent("注视速率曲线"));
             EditorGUILayout.PropertyField(this.serializedObject.FindProperty("lookAwayCurve"), new GUIContent("移开注视曲线"));
         }
-
+        
         protected override void OnModifty()
         {
             

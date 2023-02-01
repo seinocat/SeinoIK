@@ -5,11 +5,11 @@ namespace XenoIK.Editor
 {
     public class IKSolverLookAtInspector : IKSolverInspector
     {
-        private static MonoBehaviour script;
+        private static LookAtIK script;
         private static bool showAxis;
         private static bool showWeight;
         
-        public static void DrawInspector(SerializedProperty prop, MonoBehaviour mono)
+        public static void DrawInspector(SerializedProperty prop, LookAtIK mono)
         {
             script = mono;
             EditorGUILayout.PropertyField(prop.FindPropertyRelative("target"), new GUIContent("注视目标"));
@@ -133,6 +133,8 @@ namespace XenoIK.Editor
                 }
             }
         }
+
+        
         
         public static void DrawSceneGUI(IKSolverLookAt solver)
         {
@@ -149,7 +151,7 @@ namespace XenoIK.Editor
                 Handles.DrawLine(solver.head.Position, solver.IKPosition, 1);
                 //Draw axis line
                 Handles.color = Color.red;
-                Handles.DrawLine(solver.head.Position, solver.head.Position + solver.head.Forward * 0.5f);
+                Handles.DrawLine(solver.head.Position, solver.head.Position + solver.head.Forward * 100f);
             }
             
             //Draw Spines

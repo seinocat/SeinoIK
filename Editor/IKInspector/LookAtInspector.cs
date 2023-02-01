@@ -17,6 +17,8 @@ namespace XenoIK.Editor
         protected override void OnModifty()
         {
             if (!Application.isPlaying) this.script?.solver.Init(this.script.transform);
+            script.solver.defaultAxis.Normalize();
+            script.solver.UpdateAxis();
         }
 
         protected override void DrawInspector()
