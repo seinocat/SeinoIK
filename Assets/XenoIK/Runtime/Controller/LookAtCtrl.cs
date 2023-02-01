@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace XenoIK
 {
@@ -126,6 +127,11 @@ namespace XenoIK
                 return false;
             
             return true;
+        }
+
+        private void Awake()
+        {
+            if (this.lookAtIK == null) this.lookAtIK = this.GetComponent<LookAtIK>();
         }
 
         private void Start()
