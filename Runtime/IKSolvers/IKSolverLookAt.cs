@@ -8,7 +8,9 @@ namespace XenoIK
     public class IKSolverLookAt : IKSolver
     {
         public Transform target;
-        public Vector3 defaultAxis = Vector3.forward;
+        public Vector3 headAxis = Vector3.forward;
+        public Vector3 eyesAxis = Vector3.forward;
+        public Vector3 spinesAxis = Vector3.forward;
         public LookAtBone head;
         public List<LookAtBone> eyes = new List<LookAtBone>();
         public List<LookAtBone> spines = new List<LookAtBone>();
@@ -19,12 +21,8 @@ namespace XenoIK
         public float eyesWeight;
         [Range(0, 1f)]
         public float bodyWeight;
-
-        public bool headUseAxis = true;
-        public bool spineUseAxis;
-        public bool eyeUseAxis;
-
-        public Vector3 RootForward => this.root.rotation * this.defaultAxis;
+        
+        public Vector3 RootForward => this.root.rotation * this.headAxis;
         
         
         protected override void OnInitialize()
@@ -36,9 +34,9 @@ namespace XenoIK
                 else if (this.eyes.Count > 0) this.IKPosition = this.eyes[0].Position + this.root.forward * 3f;
             }
             
-            this.head?.Init(this.root, this.headUseAxis ? this.defaultAxis : Vector3.forward);
-            this.spines.ForEach(x=>x.Init(this.root, this.spineUseAxis ? this.defaultAxis : Vector3.forward));
-            this.eyes.ForEach(x=>x.Init(this.root, this.eyeUseAxis ? this.defaultAxis : Vector3.forward));
+            this.head?.Init(this.root, this.headAxis);
+            this.spines.ForEach(x=>x.Init(this.root, this.eyesAxis));
+            this.eyes.ForEach(x=>x.Init(this.root, this.spinesAxis));
         }
         
         protected override void OnUpdate(float deltaTime)
@@ -75,9 +73,9 @@ namespace XenoIK
         
         public void UpdateAxis()
         {
-            this.head?.UpdateAxis(this.headUseAxis ? this.defaultAxis : Vector3.forward);
-            this.spines.ForEach(x=>x.UpdateAxis(this.spineUseAxis ? this.defaultAxis : Vector3.forward));
-            this.eyes.ForEach(x=>x.UpdateAxis(this.eyeUseAxis ? this.defaultAxis : Vector3.forward));
+            this.head?.UpdateAxis(this.headAxis);
+            this.spines.ForEach(x=>x.UpdateAxis(this.spinesAxis));
+            this.eyes.ForEach(x=>x.UpdateAxis(this.eyesAxis));
         }
 
         private void SolveHead()
