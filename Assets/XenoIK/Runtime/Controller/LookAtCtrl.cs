@@ -32,33 +32,39 @@ namespace XenoIK
         public float smoothWeightTime = 0.25f;
         public float smoothWeightSpeed = 0.5f;
         public float switchWeightTime = 0.25f;
-        public float switchWeightSpeed = 0f;
+        public float switchWeightSpeed;
         public float maxRadiansDelta = 3f;
         public float maxMagnitudeDelta = 3f;
         public Vector3 pivotOffset = Vector3.up;
         public Vector3 offset;
+
+        #region Animation Curve
+
         public bool useCustomCurve = false;
         public AnimationCurve lookAtCurve = new AnimationCurve(new Keyframe(0,0,1,1), new Keyframe(1,1,1,1));
         public AnimationCurve lookAwayCurve = new AnimationCurve(new Keyframe(0,0,1,1), new Keyframe(1,1,1,1));
+        public float curveWeightTime = 0.25f;
+        public float curveWeightSpeed = 0.05f;
+
+        #endregion
+
+        #region Private paramters
 
         private Transform head;
         private Transform lastTarget;
         private Transform tempTarget;
         private Vector3 lastPosition;
         private Vector3 direction;
-        
         private float runtimeWeight = 1f;
-        
         private float switchWeight;
-        
         private bool watching;
-
         
         private Vector3 Pivot => lookAtIK.transform.position + lookAtIK.transform.rotation * pivotOffset;
 
         private IKSolverLookAt Solver => this.lookAtIK?.solver;
 
-
+        #endregion
+        
         /// <summary>
         /// Hold target and revert runtimeWeight value
         /// </summary>
@@ -188,7 +194,7 @@ namespace XenoIK
                 this.Solver.IKPosition = Vector3.Lerp(this.lastPosition, this.target.position + this.offset, switchWeight);
 
             Vector3 targetDir = this.Solver.IKPosition - this.Pivot;
-            this.direction = Vector3.Slerp(this.direction, targetDir, Time.deltaTime * lookAtSpeed);
+            this.direction = Vector3.Slerp(this.direction, targetDir, Time.deltaTime * this.lookAtSpeed);
             this.direction = Vector3.RotateTowards(this.direction, targetDir, Time.deltaTime * this.maxRadiansDelta, this.maxMagnitudeDelta);
             this.Solver.IKPosition = this.direction + this.Pivot;
         }
