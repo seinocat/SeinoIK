@@ -6,6 +6,10 @@ namespace XenoIK.Runtime.Config
     [CreateAssetMenu(fileName = "New LookAt Config", menuName = "Xeno IK/Create LookAt Config")]
     public class LookAtConfig : IKConfig
     {
+        public Vector3 headAxis = Vector3.forward;
+        public Vector3 eyesAxis = Vector3.forward;
+        public Vector3 spinesAxis = Vector3.forward;
+        
         [Tooltip("When the target out of range,  hold look at within followAngle")]
         public bool holdLookAt;
         
