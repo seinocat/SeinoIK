@@ -12,7 +12,6 @@ namespace XenoIK
         
         protected SerializedProperty solver;
         
-
         private void OnEnable()
         {
             this.solver = this.serializedObject.FindProperty("solver");
