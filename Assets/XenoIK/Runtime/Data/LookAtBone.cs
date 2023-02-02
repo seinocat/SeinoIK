@@ -8,6 +8,7 @@ namespace XenoIK
     {
         private Quaternion defaultRotation;
         private Quaternion defaultRootRotation;
+
         
         public void Init(Transform root, Vector3 defaultAxis)
         {
@@ -30,5 +31,7 @@ namespace XenoIK
         }
         
         public Vector3 Forward => this.transform.rotation * this.axis;
+
+        public Vector3 DefaultForward => this.defaultRotation * this.axis;
     }
 }
