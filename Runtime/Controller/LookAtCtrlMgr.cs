@@ -22,5 +22,20 @@ namespace XenoIK
         {
             this.ctrls?.ForEach(ctrl=>ctrl.CloseIK());
         }
+
+        public void SetTarget(Transform target)
+        {
+            this.ctrls?.ForEach(ctrl=>ctrl.SetTarget(target));
+        }
+
+        public void SetPoint(Vector3 point)
+        {
+            this.ctrls?.ForEach(ctrl=>ctrl.SetLookAtPoint(point));
+        }
+
+        public void ResetTarget()
+        {
+            this.ctrls?.ForEach(ctrl=>ctrl.ResetTarget());
+        }
     }
 }
