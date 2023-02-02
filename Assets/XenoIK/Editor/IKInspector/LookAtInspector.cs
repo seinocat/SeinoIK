@@ -15,11 +15,8 @@ namespace XenoIK.Editor
         }
         
         protected override void OnModifty()
-        {
+        {   
             if (!Application.isPlaying) this.script?.solver.Init(this.script.transform);
-            script.solver.headAxis.Normalize();
-            script.solver.eyesAxis.Normalize();
-            script.solver.spinesAxis.Normalize();
             script.solver.UpdateAxis();
         }
 
