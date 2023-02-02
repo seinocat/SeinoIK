@@ -8,6 +8,8 @@ namespace XenoIK
     {
         public List<LookAtCtrl> ctrls;
 
+        public bool Enable => this.ctrls != null && this.ctrls.Count > 0;
+
         private void Awake()
         {
             if (this.ctrls == null) this.OnInit();
