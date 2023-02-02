@@ -46,6 +46,7 @@ namespace XenoIK.Editor
             this.script.lookAtIK.solver.eyesAxis = this.config.eyesAxis;
             this.config.spinesAxis = EditorGUILayout.Vector3Field("身体轴向", this.config.spinesAxis);
             this.script.lookAtIK.solver.spinesAxis = this.config.spinesAxis;
+            this.script.lookAtIK.solver.UpdateAxis();
             
             GUILayout.Space(5);
             this.config.detectAngleXZ = EditorGUILayout.Vector2Field("发现角度", this.config.detectAngleXZ);
