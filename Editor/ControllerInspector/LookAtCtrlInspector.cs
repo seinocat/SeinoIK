@@ -52,7 +52,7 @@ namespace XenoIK.Editor
             this.config.followAngleXZ = EditorGUILayout.Vector2Field("跟随角度", this.config.followAngleXZ);
             this.config.offset = EditorGUILayout.Vector3Field("偏移量", this.config.offset);
             this.config.maxDistance = EditorGUILayout.Slider("最大距离", this.config.maxDistance, 0, 100000);
-            this.config.maxDistance = EditorGUILayout.Slider("最小距离", this.config.minDistance, 0, 100000);
+            this.config.minDistance = EditorGUILayout.Slider("最小距离", this.config.minDistance, 0, 100000);
             this.config.lookAtSpeed = EditorGUILayout.Slider("看向转速", this.config.lookAtSpeed, 0, 360);
             this.config.lookAwaySpeed = EditorGUILayout.Slider("离开转速", this.config.lookAwaySpeed, 0, 360);
             
