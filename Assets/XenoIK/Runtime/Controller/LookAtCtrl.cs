@@ -116,6 +116,7 @@ namespace XenoIK
             if (this.config == null)
             {
                 Debug.LogError("The IK Config is null, this Ik component will not work!");
+                this.Solver.IKWeight = 0;
                 return;
             }
             

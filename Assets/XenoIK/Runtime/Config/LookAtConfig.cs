@@ -13,10 +13,8 @@ namespace XenoIK.Runtime.Config
         [Tooltip("When the target out of range,  hold look at within followAngle")]
         public bool holdLookAt;
         
-        [Range(0, 100000)]
+
         public float maxDistance = 10000;
-        
-        [Range(0, 100000)]
         public float minDistance = 1;
         
         [Range(0, 360)]
