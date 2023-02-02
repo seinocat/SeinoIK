@@ -10,6 +10,11 @@ namespace XenoIK
 
         private void Awake()
         {
+            if (this.ctrls == null) this.OnInit();
+        }
+
+        public void OnInit()
+        {
             this.ctrls = this.transform.GetComponentsInChildren<LookAtCtrl>().ToList();
         }
         

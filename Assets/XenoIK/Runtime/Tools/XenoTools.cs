@@ -52,5 +52,13 @@ namespace XenoIK
 
             return null;
         }
+        
+        public static LookAtCtrlMgr RequireLookAtMgr(this GameObject go)
+        {
+            var component = go.GetComponent<LookAtCtrlMgr>();
+            if (component == null) component = go.AddComponent<LookAtCtrlMgr>();
+            component.OnInit();
+            return component;
+        }
     }
 }

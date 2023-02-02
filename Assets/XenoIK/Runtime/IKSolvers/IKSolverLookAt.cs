@@ -16,9 +16,9 @@ namespace XenoIK
         public List<LookAtBone> spines = new List<LookAtBone>();
 
         [Range(0, 1f)]
-        public float headWeight = 1f;
+        public float headWeight = 0.6f;
         [Range(0, 1f)]
-        public float eyesWeight;
+        public float eyesWeight = 1.0f;
         [Range(0, 1f)]
         public float bodyWeight;
         
@@ -46,6 +46,7 @@ namespace XenoIK
 
             this.SolveHead();
             this.SolveEyes();
+            this.SolveSpines();
         }
 
         public override void StoreDefaultLocalState()
