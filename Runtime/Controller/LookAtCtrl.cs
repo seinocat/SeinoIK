@@ -24,7 +24,7 @@ namespace XenoIK
         private float switchWeight;
         private bool watching;
         
-        private Vector3 Pivot => lookAtIK.transform.position + lookAtIK.transform.rotation * this.config.pivotOffset;
+        private Vector3 Pivot => this.config != null ? lookAtIK.transform.position + lookAtIK.transform.rotation * this.config.pivotOffset : Vector3.up;
 
         private IKSolverLookAt Solver => this.lookAtIK?.solver;
 
@@ -77,29 +77,48 @@ namespace XenoIK
         {
             if (this.target == null) return false;
             
-            Vector2 angleLimit = (this.watching ? this.config.followAngleXZ : this.config.detectAngleXZ)/2;
-            Vector3 targetDir = this.target.position - this.Solver.head.Position;
+            // Vector2 angleLimit = (this.watching ? this.config.followAngleXZ : this.config.detectAngleXZ)/2;
+            // Vector3 targetDir = this.target.position - this.Solver.head.Position;
+            //
+            // float distance = targetDir.magnitude;
+            // if (distance > this.config.maxDistance || distance < this.config.minDistance) return false;
+            //
+            // Vector3 baseForward = this.head.position + this.Solver.RootForward;
+            // Debug.DrawLine(this.head.position, baseForward * 2 , Color.black);
+            // Vector3 dirYZ = new Vector3(0, this.target.position.y, this.target.position.z);
+            // Vector3 dirXZ = new Vector3(this.target.position.x, 0, this.target.position.z);
+            // if (Vector3.Angle(baseForward, dirXZ) > angleLimit.x || Vector3.Angle(baseForward, dirYZ) > angleLimit.y)
+            //     return false;
+            //
+            // return true;
             
-            float distance = targetDir.magnitude;
-            if (distance > this.config.maxDistance || distance < this.config.minDistance) return false;
-
-            Vector3 baseForward = this.head.position + this.Solver.RootForward;
-            Debug.DrawLine(this.head.position, baseForward * 2 , Color.black);
-            Vector3 dirYZ = new Vector3(0, this.target.position.y, this.target.position.z);
-            Vector3 dirXZ = new Vector3(this.target.position.x, 0, this.target.position.z);
-            if (Vector3.Angle(baseForward, dirXZ) > angleLimit.x || Vector3.Angle(baseForward, dirYZ) > angleLimit.y)
+            float angleLimit = (this.watching ? this.config.followAngleXZ.x : this.config.detectAngleXZ.x);
+            Vector2 aimTargetHorVec = new Vector2(this.target.position.x, this.target.position.z);
+            Vector2 forwardVec = new Vector2(this.Solver.head.Forward.x, this.Solver.head.Forward.z);
+            Vector2 TargetHorVector = aimTargetHorVec - new Vector2(this.head.position.x, this.head.position.z);
+            
+            var distance = TargetHorVector.magnitude;
+            if (distance > this.config.maxDistance || distance < this.config.minDistance)
                 return false;
             
-            return true;
+            var targetAngle = Vector2.Angle(forwardVec, TargetHorVector);
+            return !(targetAngle > (angleLimit / 2));
         }
 
         private void Awake()
         {
             if (this.lookAtIK == null) this.lookAtIK = this.GetComponent<LookAtIK>();
         }
+        
 
         private void Start()
         {
+            if (this.config == null)
+            {
+                Debug.LogError("The IK Config is null, this Ik component will not work!");
+                return;
+            }
+            
             this.lastPosition = this.Solver.IKPosition;
             this.direction = this.Solver.IKPosition - this.Pivot;
             this.config.defaultWeight = this.runtimeWeight;
@@ -110,6 +129,8 @@ namespace XenoIK
         
         private void LateUpdate()
         {
+            if (this.config == null) return;
+            
             if (this.target != this.lastTarget)
             {
                 if (this.target != null && this.lastTarget == null && this.Solver.IKWeight <= 0f)
