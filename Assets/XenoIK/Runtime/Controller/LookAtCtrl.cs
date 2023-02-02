@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using XenoIK.Runtime.Config;
 
 namespace XenoIK
 {
@@ -10,45 +11,8 @@ namespace XenoIK
         public bool enableIk = true;
         public Transform target;
         
-        [Range(0, 1)]
-        public float defaultWeight = 1f;
+        public LookAtConfig config;
         
-        [Tooltip("When the target out of range,  hold look at within followAngle")]
-        public bool holdLookAt;
-        
-        [Range(0, 100000)]
-        public float maxDistance = 10000;
-        
-        [Range(0, 100000)]
-        public float minDistance = 1;
-        
-        [Range(0, float.MaxValue)]
-        public float lookAtSpeed = 3f;
-        
-        [Range(0, float.MaxValue)]
-        public float lookAwaySpeed;
-        
-        public Vector2 detectAngleXZ = new Vector2(120, 90);
-        public Vector2 followAngleXZ = new Vector2(120, 90);
-        public float smoothWeightTime = 0.25f;
-        public float smoothWeightSpeed = 0.5f;
-        public float switchWeightTime = 0.25f;
-        public float switchWeightSpeed;
-        public float maxRadiansDelta = 3f;
-        public float maxMagnitudeDelta = 3f;
-        public Vector3 pivotOffset = Vector3.up;
-        public Vector3 offset;
-
-        #region Animation Curve
-
-        public bool useCustomCurve = false;
-        public AnimationCurve lookAtCurve = new AnimationCurve(new Keyframe(0,0,1,1), new Keyframe(1,1,1,1));
-        public AnimationCurve lookAwayCurve = new AnimationCurve(new Keyframe(0,0,1,1), new Keyframe(1,1,1,1));
-        public float curveWeightTime = 0.25f;
-        public float curveWeightSpeed = 0.05f;
-
-        #endregion
-
         #region Private paramters
 
         private Transform head;
@@ -60,7 +24,7 @@ namespace XenoIK
         private float switchWeight;
         private bool watching;
         
-        private Vector3 Pivot => lookAtIK.transform.position + lookAtIK.transform.rotation * pivotOffset;
+        private Vector3 Pivot => lookAtIK.transform.position + lookAtIK.transform.rotation * this.config.pivotOffset;
 
         private IKSolverLookAt Solver => this.lookAtIK?.solver;
 
@@ -113,11 +77,11 @@ namespace XenoIK
         {
             if (this.target == null) return false;
             
-            Vector2 angleLimit = (this.watching ? this.followAngleXZ : this.detectAngleXZ)/2;
+            Vector2 angleLimit = (this.watching ? this.config.followAngleXZ : this.config.detectAngleXZ)/2;
             Vector3 targetDir = this.target.position - this.Solver.head.Position;
             
             float distance = targetDir.magnitude;
-            if (distance > this.maxDistance || distance < minDistance) return false;
+            if (distance > this.config.maxDistance || distance < this.config.minDistance) return false;
 
             Vector3 baseForward = this.head.position + this.Solver.RootForward;
             Debug.DrawLine(this.head.position, baseForward * 2 , Color.black);
@@ -138,7 +102,7 @@ namespace XenoIK
         {
             this.lastPosition = this.Solver.IKPosition;
             this.direction = this.Solver.IKPosition - this.Pivot;
-            this.defaultWeight = this.runtimeWeight;
+            this.config.defaultWeight = this.runtimeWeight;
             this.head = this.Solver.head.transform;
         }
 
@@ -152,7 +116,7 @@ namespace XenoIK
                 {
                     this.lastPosition = this.target.position;
                     this.direction = this.target.position - this.Pivot;
-                    this.Solver.IKPosition = this.target.position + this.offset;
+                    this.Solver.IKPosition = this.target.position + this.config.offset;
                 }
                 else
                 {
@@ -168,40 +132,40 @@ namespace XenoIK
             if (!this.enableIk || !this.CheckRange())
                 this.runtimeWeight = 0;
             else
-                this.runtimeWeight = this.defaultWeight;
+                this.runtimeWeight = this.config.defaultWeight;
             
             float ikWeight = this.target == null ? 0f : this.runtimeWeight;
             this.watching = ikWeight > 0 && this.target != null;
             
-            this.Solver.IKWeight = Mathf.SmoothDamp(this.Solver.IKWeight, ikWeight, ref smoothWeightSpeed, this.smoothWeightTime);
+            this.Solver.IKWeight = Mathf.SmoothDamp(this.Solver.IKWeight, ikWeight, ref this.config.smoothWeightSpeed, this.config.smoothWeightTime);
             
             if (this.Solver.IKWeight <= 0) return;
             if (this.Solver.IKWeight >= 0.999f && ikWeight > this.Solver.IKWeight) this.Solver.IKWeight = 1f;
             if (this.Solver.IKWeight <= 0.001f && ikWeight < this.Solver.IKWeight) this.Solver.IKWeight = 0f;
 
-            if (this.useCustomCurve)
+            if (this.config.useCustomCurve)
             {
-                AnimationCurve curve = this.watching ? this.lookAtCurve : this.lookAwayCurve;
-                if (this.durationTime >= this.switchWeightTime) 
-                    this.durationTime = this.switchWeightTime;
+                AnimationCurve curve = this.watching ? this.config.lookAtCurve : this.config.lookAwayCurve;
+                if (this.durationTime >= this.config.switchWeightTime) 
+                    this.durationTime = this.config.switchWeightTime;
                 else 
                     this.durationTime += Time.deltaTime * 0.05f;
-                float curveTime = this.durationTime / this.switchWeightTime;
+                float curveTime = this.durationTime / this.config.switchWeightTime;
                 this.switchWeight = curve.Evaluate(curveTime);
             }
             else
             {
-                this.switchWeight = Mathf.SmoothDamp(switchWeight, 1f, ref switchWeightSpeed, this.switchWeightTime);
+                this.switchWeight = Mathf.SmoothDamp(switchWeight, 1f, ref this.config.switchWeightSpeed, this.config.switchWeightTime);
             }
             
             if (this.switchWeight >= 0.999f) this.switchWeight = 1f;
 
             if (this.target != null) 
-                this.Solver.IKPosition = Vector3.Lerp(this.lastPosition, this.target.position + this.offset, switchWeight);
+                this.Solver.IKPosition = Vector3.Lerp(this.lastPosition, this.target.position + this.config.offset, switchWeight);
 
             Vector3 targetDir = this.Solver.IKPosition - this.Pivot;
-            this.direction = Vector3.Slerp(this.direction, targetDir, Time.deltaTime * this.lookAtSpeed);
-            this.direction = Vector3.RotateTowards(this.direction, targetDir, Time.deltaTime * this.maxRadiansDelta, this.maxMagnitudeDelta);
+            this.direction = Vector3.Slerp(this.direction, targetDir, Time.deltaTime * this.config.lookAtSpeed);
+            this.direction = Vector3.RotateTowards(this.direction, targetDir, Time.deltaTime * this.config.maxRadiansDelta, this.config.maxMagnitudeDelta);
             this.Solver.IKPosition = this.direction + this.Pivot;
         }
     }

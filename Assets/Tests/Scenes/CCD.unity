@@ -123,6 +123,27 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &453605808 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100338, guid: 40046bae76ac54bffb59f14f47d9ba1b, type: 3}
+  m_PrefabInstance: {fileID: 1269195717}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &453605809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 453605808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bf3e5d8e15f4eb385db378c42cd71f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lookAtIK: {fileID: 0}
+  enableIk: 1
+  target: {fileID: 0}
+  config: {fileID: 11400000, guid: 170b631015b467e47b761ec5f2e8b43c, type: 2}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -451,6 +472,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1044802010, guid: 40046bae76ac54bffb59f14f47d9ba1b, type: 3}
+      propertyPath: config
+      value: 
+      objectReference: {fileID: 11400000, guid: 170b631015b467e47b761ec5f2e8b43c, type: 2}
+    - target: {fileID: 1044802010, guid: 40046bae76ac54bffb59f14f47d9ba1b, type: 3}
       propertyPath: target
       value: 
       objectReference: {fileID: 2100574396}
@@ -461,6 +486,10 @@ PrefabInstance:
     - target: {fileID: 1044802010, guid: 40046bae76ac54bffb59f14f47d9ba1b, type: 3}
       propertyPath: followAngle
       value: 160
+      objectReference: {fileID: 0}
+    - target: {fileID: 1044802010, guid: 40046bae76ac54bffb59f14f47d9ba1b, type: 3}
+      propertyPath: useCustomCurve
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1044802010, guid: 40046bae76ac54bffb59f14f47d9ba1b, type: 3}
       propertyPath: smoothWeightTime
@@ -574,7 +603,8 @@ PrefabInstance:
       propertyPath: lookAtCurve.m_Curve.Array.data[3].outWeight
       value: 0.2172503
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1044802010, guid: 40046bae76ac54bffb59f14f47d9ba1b, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 40046bae76ac54bffb59f14f47d9ba1b, type: 3}
 --- !u!1001 &2091891471
 PrefabInstance:
