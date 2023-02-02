@@ -17,9 +17,10 @@ namespace XenoIK.Editor.ConfigInspector
 
         public override void OnInspectorGUI()
         {
-            
-            
             EditorGUILayout.PropertyField(this.serializedObject.FindProperty("defaultWeight"), new GUIContent("全局权重"));
+            EditorGUILayout.PropertyField(this.serializedObject.FindProperty("headAxis"), new GUIContent("头轴向"));
+            EditorGUILayout.PropertyField(this.serializedObject.FindProperty("eyesAxis"), new GUIContent("眼睛轴向"));
+            EditorGUILayout.PropertyField(this.serializedObject.FindProperty("spinesAxis"), new GUIContent("身体轴向"));
             EditorGUILayout.PropertyField(this.serializedObject.FindProperty("detectAngleXZ"), new GUIContent("发现角度"));
             EditorGUILayout.PropertyField(this.serializedObject.FindProperty("followAngleXZ"), new GUIContent("跟随角度"));
             EditorGUILayout.PropertyField(this.serializedObject.FindProperty("offset"), new GUIContent("偏移量"));
