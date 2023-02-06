@@ -8,10 +8,9 @@ namespace XenoIK
     public class LookAtCtrl : MonoBehaviour
     {
         public LookAtIK lookAtIK;
-        public bool enableIk = true;
         public Transform target;
-        
         public LookAtConfig config;
+        public bool enableIk = true;
         
         #region Private paramters
 
@@ -68,6 +67,14 @@ namespace XenoIK
             this.target = this.tempTarget;
         }
 
+        public void UpdateAxis()
+        {
+            this.Solver.headAxis = this.config.headAxis;
+            this.Solver.eyesAxis = this.config.eyesAxis;
+            this.Solver.spinesAxis = this.config.spinesAxis;
+            this.Solver.UpdateAxis();
+        }
+
 
         /// <summary>
         /// Check the target whether in range
@@ -109,6 +116,7 @@ namespace XenoIK
         private void Awake()
         {
             if (this.lookAtIK == null) this.lookAtIK = this.GetComponent<LookAtIK>();
+            if (this.lookAtIK != null) this.UpdateAxis();
         }
         
 
