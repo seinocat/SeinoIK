@@ -75,6 +75,7 @@ namespace XenoIK
         /// <returns></returns>
         private bool CheckRange()
         {
+            return true;
             if (this.target == null) return false;
             
             // Vector2 angleLimit = (this.watching ? this.config.followAngleXZ : this.config.detectAngleXZ)/2;

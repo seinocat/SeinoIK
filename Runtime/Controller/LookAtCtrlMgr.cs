@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -6,13 +7,25 @@ namespace XenoIK
 {
     public class LookAtCtrlMgr : MonoBehaviour
     {
+        public Transform target;
         public List<LookAtCtrl> ctrls;
+
+        private Transform lastTarget;
 
         public bool Enable => this.ctrls != null && this.ctrls.Count > 0;
 
         private void Awake()
         {
-            if (this.ctrls == null) this.OnInit();
+            if (this.ctrls.Count == 0) this.OnInit();
+        }
+
+        private void LateUpdate()
+        {
+            if (this.target != this.lastTarget && this.target != null)
+            {
+                this.SetTarget(this.target);
+                this.lastTarget = this.target;
+            }
         }
 
         public void OnInit()
@@ -32,6 +45,7 @@ namespace XenoIK
 
         public void SetTarget(Transform target)
         {
+            this.target = target;
             this.ctrls?.ForEach(ctrl=>ctrl.SetTarget(target));
         }
 
