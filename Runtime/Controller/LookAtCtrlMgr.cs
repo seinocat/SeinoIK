@@ -16,7 +16,7 @@ namespace XenoIK
 
         private void Awake()
         {
-            if (this.ctrls.Count == 0) this.OnInit();
+            if (!this.Enable) this.OnInit();
         }
 
         private void LateUpdate()
