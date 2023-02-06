@@ -22,9 +22,6 @@ namespace XenoIK
         [Range(0, 1f)]
         public float bodyWeight;
         
-        public Vector3 RootForward => this.root.rotation * this.headAxis;
-        
-        
         protected override void OnInitialize()
         {
             if (this.firstInitiated)
