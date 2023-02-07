@@ -180,7 +180,8 @@ namespace XenoIK
                 if (this.durationTime >= this.config.switchWeightTime) 
                     this.durationTime = this.config.switchWeightTime;
                 else 
-                    this.durationTime += Time.deltaTime * 0.05f;
+                    this.durationTime += Time.deltaTime * this.config.curveWeightSpeed;
+                
                 float curveTime = this.durationTime / this.config.switchWeightTime;
                 this.switchWeight = curve.Evaluate(curveTime);
             }
@@ -192,7 +193,7 @@ namespace XenoIK
             if (this.switchWeight >= 0.999f) this.switchWeight = 1f;
 
             if (this.target != null) 
-                this.Solver.IKPosition = Vector3.Lerp(this.lastPosition, this.target.position + this.config.offset, switchWeight);
+                this.Solver.IKPosition = Vector3.Lerp(this.lastPosition, this.target.position + this.config.offset, this.switchWeight);
 
             Vector3 targetDir = this.Solver.IKPosition - this.Pivot;
             this.direction = Vector3.Slerp(this.direction, targetDir, Time.deltaTime * this.config.lookAtSpeed);
