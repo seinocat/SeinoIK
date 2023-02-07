@@ -21,11 +21,7 @@ namespace XenoIK
 
         private void LateUpdate()
         {
-            if (this.target != this.lastTarget && this.target != null)
-            {
-                this.SetTarget(this.target);
-                this.lastTarget = this.target;
-            }
+            if (this.target != this.lastTarget) this.SetTarget(this.target);
         }
 
         public void OnInit()
@@ -47,6 +43,7 @@ namespace XenoIK
         {
             this.target = target;
             this.ctrls?.ForEach(ctrl=>ctrl.SetTarget(target));
+            this.lastTarget = this.target;
         }
 
         public void SetPoint(Vector3 point)
