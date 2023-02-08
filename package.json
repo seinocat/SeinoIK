@@ -1,8 +1,7 @@
 ﻿{
-  "name": "com.svily.xeno.ik",
+  "name": "com.gygame.ik",
   "displayName": "Xeno IK",
-  "description": "Modify from final ik, Only for study!",
+  "description": "ik solver",
   "version": "0.0.10",
-  "unity": "2020.3",
-  "author": "Svily_0"
+  "unity": "2020.3"
 }
