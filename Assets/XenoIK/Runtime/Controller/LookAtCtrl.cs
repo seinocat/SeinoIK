@@ -169,7 +169,17 @@ namespace XenoIK
             float ikWeight = this.target == null ? 0f : this.runtimeWeight;
             this.watching = ikWeight > 0 && this.target != null;
             
-            this.Solver.IKWeight = Mathf.SmoothDamp(this.Solver.IKWeight, ikWeight, ref this.config.smoothWeightSpeed, this.config.smoothWeightTime);
+            
+            if (this.config.useCustomCurve)
+            {
+                AnimationCurve curve = this.watching ? this.config.lookAtCurve : this.config.lookAwayCurve;
+                
+            }
+            else
+            {
+                this.Solver.IKWeight = Mathf.SmoothDamp(this.Solver.IKWeight, ikWeight, ref this.config.smoothWeightSpeed, this.config.smoothWeightTime);
+            }
+            
             
             if (this.Solver.IKWeight <= 0) return;
             if (this.Solver.IKWeight >= 0.999f && ikWeight > this.Solver.IKWeight) this.Solver.IKWeight = 1f;
@@ -188,7 +198,7 @@ namespace XenoIK
             }
             else
             {
-                this.switchWeight = Mathf.SmoothDamp(switchWeight, 1f, ref this.config.switchWeightSpeed, this.config.switchWeightTime);
+                this.switchWeight = Mathf.SmoothDamp(switchWeight, ikWeight, ref this.config.switchWeightSpeed, this.config.switchWeightTime);
             }
             
             if (this.switchWeight >= 0.999f) this.switchWeight = 1f;
