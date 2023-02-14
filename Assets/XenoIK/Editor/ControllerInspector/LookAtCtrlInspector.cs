@@ -64,8 +64,6 @@ namespace XenoIK.Editor
                 this.config.lookAtCurve = EditorGUILayout.CurveField("注视曲线", this.config.lookAtCurve);
                 this.config.lookAwayCurve = EditorGUILayout.CurveField("移开注视曲线", this.config.lookAwayCurve);
             }
-
-
         }
         
         protected override void OnModifty()
