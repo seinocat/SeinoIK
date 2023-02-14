@@ -21,13 +21,19 @@ namespace XenoIK.Editor.ConfigInspector
             EditorGUILayout.PropertyField(this.serializedObject.FindProperty("headAxis"), new GUIContent("头轴向"));
             EditorGUILayout.PropertyField(this.serializedObject.FindProperty("eyesAxis"), new GUIContent("眼睛轴向"));
             EditorGUILayout.PropertyField(this.serializedObject.FindProperty("spinesAxis"), new GUIContent("身体轴向"));
+            EditorGUILayout.PropertyField(this.serializedObject.FindProperty("offset"), new GUIContent("偏移量"));
+            
+            EditorGUILayout.Space(5);
             EditorGUILayout.PropertyField(this.serializedObject.FindProperty("detectAngleXZ"), new GUIContent("发现角度"));
             EditorGUILayout.PropertyField(this.serializedObject.FindProperty("followAngleXZ"), new GUIContent("跟随角度"));
-            EditorGUILayout.PropertyField(this.serializedObject.FindProperty("offset"), new GUIContent("偏移量"));
             EditorGUILayout.PropertyField(this.serializedObject.FindProperty("maxDistance"), new GUIContent("最大距离"));
             EditorGUILayout.PropertyField(this.serializedObject.FindProperty("minDistance"), new GUIContent("最小距离"));
+            
+            EditorGUILayout.Space(5);
             EditorGUILayout.PropertyField(this.serializedObject.FindProperty("lookAtSpeed"), new GUIContent("看向转速"));
             EditorGUILayout.PropertyField(this.serializedObject.FindProperty("lookAwaySpeed"), new GUIContent("离开转速"));
+            
+            EditorGUILayout.Space(5);
             EditorGUILayout.PropertyField(this.serializedObject.FindProperty("useCustomCurve"), new GUIContent("自定义动画曲线"));
 
             if (this.config.useCustomCurve)
