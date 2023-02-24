@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using XenoIK.Runtime.Config;
 
 namespace XenoIK
