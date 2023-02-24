@@ -38,13 +38,13 @@ namespace XenoIK
                 Vector3 toEffectorVec = lastBone.Position - curBone.Position;
                 Vector3 toTargetVec = this.IKPosition - curBone.Position;
                 
-                // 另一种实现，使用轴-角旋转
+                // 另一种写法，使用轴-角旋转
                 // Vector3 axis = Vector3.Cross(toEffectorVec, toTargetVec).normalized;
                 // float angle = Vector3.Angle(toEffectorVec, toTargetVec);
                 // Quaternion qua = Quaternion.AngleAxis(angle, axis) * curBone.transform.rotation;
                 // curBone.transform.rotation = qua;
                 
-                // 四元数
+                // 四元数直接算
                 Quaternion finalQuater = Quaternion.FromToRotation(toEffectorVec, toTargetVec) * curBone.Rotation;
                 curBone.Rotation = weight >= 1 ? finalQuater : Quaternion.Lerp(curBone.Rotation, finalQuater, weight);
             }

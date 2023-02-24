@@ -118,8 +118,6 @@ namespace XenoIK
                 Vector3 targetForward = (this.IKPosition - spine.Position).normalized;
                 spine.LookAt(targetForward, weight);
             });
-            
-
         }
     }
 }
