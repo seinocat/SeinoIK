@@ -5,7 +5,7 @@ namespace XenoIK.Editor
 {
     public class IKSolverHeuristicInspector : IKSolverInspector
     {
-        public  void DrawInspector(SerializedProperty solver)
+        public void DrawInspector(SerializedProperty solver)
         {
             DrawGUI(solver);
         }
@@ -75,11 +75,6 @@ namespace XenoIK.Editor
             GUILayout.EndHorizontal();
         }
         
-        public void OnAddBone(SerializedProperty bone)
-        {
-            bone.FindPropertyRelative("weight").floatValue = 1;
-        }
-
         public void CreateChians(SerializedProperty prop)
         {
             if (prop.arraySize != 0) return;

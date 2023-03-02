@@ -5,12 +5,12 @@ namespace XenoIK.Editor
 {
     public class IKSolverTwoBoneInspector : IKSolverInspector
     {
-        private static TwoBoneIK script;
+        private TwoBoneIK script;
         
         public void DrawInspector(SerializedProperty prop, TwoBoneIK mono)
         {
             script = mono;
-
+            EditorGUILayout.PropertyField(prop.FindPropertyRelative("target"), new GUIContent("目标"));
             DrawTwoBoneList(prop);
         }
 
