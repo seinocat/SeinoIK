@@ -52,11 +52,9 @@ namespace XenoIK
             float angleTAC = Mathf.Rad2Deg * Mathf.Acos(Mathf.Clamp(Vector3.Dot(vecAT, vecAC), -1, 1));
 
             float targetAngleBAC = Mathf.Rad2Deg * Mathf.Acos(Mathf.Clamp(
-                    ((lengthCB * lengthCB - lengthAB * lengthAB - lengthAT * lengthAT) / (-2 * lengthAB * lengthAT)),
-                    -1, 1));
+                    ((lengthCB * lengthCB - lengthAB * lengthAB - lengthAT * lengthAT) / (-2 * lengthAB * lengthAT)), -1, 1));
             float targetAngleABC = Mathf.Rad2Deg * Mathf.Acos(Mathf.Clamp(
-                    ((lengthAT * lengthAT - lengthAB * lengthAB - lengthCB * lengthCB) / (-2 * lengthAB * lengthCB)),
-                    -1, 1));
+                    ((lengthAT * lengthAT - lengthAB * lengthAB - lengthCB * lengthCB) / (-2 * lengthAB * lengthCB)), -1, 1));
 
             Vector3 fixVec = (jointB.Rotation * new Vector3(0, 0, 1)).normalized;
             Vector3 axis1 = Vector3.Cross(vecAC, vecAB).normalized;
@@ -66,10 +64,8 @@ namespace XenoIK
             Quaternion rotateABC = Quaternion.AngleAxis(targetAngleABC - angleABC, Quaternion.Inverse(jointB.Rotation) * axis1);
             Quaternion rotateTAC = Quaternion.AngleAxis(angleTAC, Quaternion.Inverse(jointA.Rotation) * axis2);
             
-            
-            jointA.LocalRotation = (rotateTAC * rotateBAC) * jointA.LocalRotation;
+            jointA.LocalRotation = rotateTAC * (rotateBAC * jointA.LocalRotation);
             jointB.LocalRotation = rotateABC * jointB.LocalRotation;
-
         } 
     }
 }
