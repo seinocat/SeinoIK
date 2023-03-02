@@ -9,10 +9,8 @@ namespace XenoIK.Editor
     {
         public LookAtIK script => target as LookAtIK;
         
-        protected override MonoBehaviour GetMonoScript()
-        {
-            return script;
-        }
+        private IKSolverLookAtInspector Inspector => this.solverInspector as IKSolverLookAtInspector;
+        
         
         protected override void OnModifty()
         {   
@@ -20,14 +18,19 @@ namespace XenoIK.Editor
             script.solver.UpdateAxis();
         }
 
+        protected override void OnInspectorEnable()
+        {
+            this.solverInspector = new IKSolverLookAtInspector();
+        }
+
         protected override void DrawInspector()
         {
-            IKSolverLookAtInspector.DrawInspector(this.solver, script);
+            this.Inspector.DrawInspector(this.solver, script);
         }
         
         private void OnSceneGUI()
         {
-            IKSolverLookAtInspector.DrawSceneGUI(this.script.solver);
+            this.Inspector.DrawSceneGUI(this.script.solver);
         }
     }
 }

@@ -13,11 +13,11 @@ namespace XenoIK.Editor
         public const float CBtnWidth = 65;
         
         private static SerializedProperty element;
-        private static bool isShowList1;
-        private static bool isShowList2;
-        private static bool isShowList3;
+        private bool isShowList1;
+        private bool isShowList2;
+        private bool isShowList3;
 
-        private static bool IsShow(int index)
+        private bool IsShow(int index)
         {
             return index switch
             {
@@ -28,7 +28,7 @@ namespace XenoIK.Editor
             };
         }
 
-        private static void SetShow(bool show, int index)
+        private void SetShow(bool show, int index)
         {
             switch (index)
             {
@@ -49,8 +49,8 @@ namespace XenoIK.Editor
             return Mathf.Lerp(s, 0.025f, 0.5f);
         }
         
-        public static void DrawElements(SerializedProperty prop, int listIndex, 
-            GUIContent guiContent, DrawElement drawElement, DrawButtons drawButtons = null)
+        public void DrawElements(SerializedProperty prop, int listIndex, 
+            GUIContent guiContent, DrawElement drawElement, DrawButtons drawButtons = null, bool isCanEidtor = true)
         {
             int deleteIndex = -1;
             string headLabel = $"{guiContent.text}({prop.arraySize})";
@@ -67,11 +67,16 @@ namespace XenoIK.Editor
                 GUILayout.BeginHorizontal();
                 //Draw Bones Chians
                 drawElement(element, i);
-                GUILayout.Space(5);
-                if (GUILayout.Button(new GUIContent("×", "删除"), EditorStyles.miniButton, GUILayout.Width(BtnWidth)))
+
+                if (isCanEidtor)
                 {
-                    deleteIndex = i;
+                    GUILayout.Space(5);
+                    if (GUILayout.Button(new GUIContent("×", "删除"), EditorStyles.miniButton, GUILayout.Width(BtnWidth)))
+                    {
+                        deleteIndex = i;
+                    }
                 }
+                
                 if (GUILayout.Button(new GUIContent("↑", "上移"), EditorStyles.miniButton, GUILayout.Width(BtnWidth)))
                 {
                     prop.MoveArrayElement(i, Math.Max(0, i - 1));
@@ -87,7 +92,18 @@ namespace XenoIK.Editor
             }
             GUILayout.Space(5);
             // Draw Btns
+            EditorGUILayout.BeginHorizontal();
             drawButtons?.Invoke(prop);
+            if (isCanEidtor)
+            {
+                GUILayout.Space(5);
+                if (GUILayout.Button(new GUIContent("添加骨骼", "添加"), EditorStyles.toolbarButton, GUILayout.Width(IKSolverInspector.CBtnWidth)))
+                {
+                    prop.arraySize++;
+                    OnAddBone(prop.GetArrayElementAtIndex(prop.arraySize - 1));
+                }
+            }
+            EditorGUILayout.EndHorizontal();
             
             if (deleteIndex != -1)
             {
@@ -96,10 +112,13 @@ namespace XenoIK.Editor
         }
         
         
-        
+        public void OnAddBone(SerializedProperty bone)
+        {
+            bone.FindPropertyRelative("weight").floatValue = 1;
+        }
 
 
-        public static void AddObjectReference(SerializedProperty prop, GUIContent guiContent, int lableWidth, int propWidth)
+        public void AddObjectReference(SerializedProperty prop, GUIContent guiContent, int lableWidth, int propWidth)
         {
             EditorGUILayout.LabelField(guiContent, GUILayout.Width(lableWidth));
             EditorGUILayout.PropertyField(prop, GUIContent.none, GUILayout.Width(propWidth));

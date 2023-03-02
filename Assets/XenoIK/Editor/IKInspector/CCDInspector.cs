@@ -7,27 +7,27 @@ namespace XenoIK.Editor
     public class CCDInspector : IKInspector
     {
         private CCDIK script => target as CCDIK;
-
-        protected override MonoBehaviour GetMonoScript()
+        private IKSolverHeuristicInspector Inspector => this.solverInspector as IKSolverHeuristicInspector;
+        
+        
+        protected override void OnInspectorEnable()
         {
-            return script;
+            this.solverInspector = new IKSolverHeuristicInspector();
         }
-        
-        
 
         protected override void DrawInspector()
         {
-            IKSolverHeuristicInspector.DrawInspector(this.solver);
+            this.Inspector.DrawInspector(this.solver);
         }
 
         protected override void OnModifty()
         {
             this.script?.solver.Init(this.script.transform);
         }
-
+        
         private void OnSceneGUI()
         {
-            IKSolverHeuristicInspector.DrawSceneGUI(this.script.solver);
+            this.Inspector.DrawSceneGUI(this.script.solver);
         }
     }
 }

@@ -5,16 +5,12 @@ namespace XenoIK.Editor
 {
     public class IKSolverHeuristicInspector : IKSolverInspector
     {
-
-        public bool IsShowList;
-
-        
-        public static void DrawInspector(SerializedProperty solver)
+        public  void DrawInspector(SerializedProperty solver)
         {
             DrawGUI(solver);
         }
 
-        public static void DrawSceneGUI(IKSolverHeuristic solver)
+        public void DrawSceneGUI(IKSolverHeuristic solver)
         {
             if (Application.isPlaying && !solver.initiated) return;
             if (solver.bones.Count == 0) return;
@@ -29,7 +25,7 @@ namespace XenoIK.Editor
             }
         }
 
-        public static void DrawGUI(SerializedProperty solver)
+        public void DrawGUI(SerializedProperty solver)
         {
             EditorGUILayout.PropertyField(solver.FindPropertyRelative("target"), new GUIContent("目标物体"));
             EditorGUILayout.PropertyField(solver.FindPropertyRelative("IKWeight"), new GUIContent("全局权重"));
@@ -38,19 +34,19 @@ namespace XenoIK.Editor
             DrawElements(solver.FindPropertyRelative("bones"), 0, new GUIContent("骨骼"), DrawBones, DrawButton);
         }
         
-        private static void DrawBones(SerializedProperty bone, int index)
+        private void DrawBones(SerializedProperty bone, int index)
         {
             AddObjectReference(bone.FindPropertyRelative("transform"), GUIContent.none, 0, 120);
             DrawWightSlider(bone.FindPropertyRelative("weight"));
         }
         
-        private static void DrawWightSlider(SerializedProperty Weight)
+        private void DrawWightSlider(SerializedProperty Weight)
         {
             GUILayout.Label("权重", GUILayout.Width(45));
             EditorGUILayout.PropertyField(Weight, GUIContent.none);
         }
         
-        public static void DrawButton(SerializedProperty prop)
+        public void DrawButton(SerializedProperty prop)
         {
             GUILayout.Space(5);
             GUILayout.BeginHorizontal();
@@ -79,12 +75,12 @@ namespace XenoIK.Editor
             GUILayout.EndHorizontal();
         }
         
-        public static void OnAddBone(SerializedProperty bone)
+        public void OnAddBone(SerializedProperty bone)
         {
             bone.FindPropertyRelative("weight").floatValue = 1;
         }
 
-        public static void CreateChians(SerializedProperty prop)
+        public void CreateChians(SerializedProperty prop)
         {
             if (prop.arraySize != 0) return;
             var transList = XenoTools.CreateBoneChains(Selection.activeTransform);

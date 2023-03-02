@@ -9,7 +9,7 @@ namespace XenoIK.Editor
         private static bool showAxis;
         private static bool showWeight;
         
-        public static void DrawInspector(SerializedProperty prop, LookAtIK mono)
+        public void DrawInspector(SerializedProperty prop, LookAtIK mono)
         {
             script = mono;
             EditorGUILayout.PropertyField(prop.FindPropertyRelative("target"), new GUIContent("注视目标"));
@@ -19,7 +19,7 @@ namespace XenoIK.Editor
             DrawBone(prop);
         }
 
-        public static void DrawAxis(SerializedProperty prop)
+        public void DrawAxis(SerializedProperty prop)
         {
             showAxis = EditorGUILayout.Foldout(showAxis, "轴向配置");
             if (showAxis)
@@ -31,7 +31,7 @@ namespace XenoIK.Editor
             }
         }
 
-        public static void DrawWeight(SerializedProperty prop)
+        public void DrawWeight(SerializedProperty prop)
         {
             EditorGUILayout.Space(5);
             showWeight = EditorGUILayout.Foldout(showWeight, "权重配置");
@@ -43,7 +43,7 @@ namespace XenoIK.Editor
             }
         }
 
-        public static void DrawBone(SerializedProperty prop)
+        public void DrawBone(SerializedProperty prop)
         {
             EditorGUILayout.Space(5);
             EditorGUILayout.PropertyField(prop.FindPropertyRelative("head.transform"), new GUIContent("头"));
@@ -51,19 +51,19 @@ namespace XenoIK.Editor
             DrawElements(prop.FindPropertyRelative("spines"), 1, new GUIContent("身体"), DrawLookAtBone, DrawSpineBtns);
         }
         
-        public static void DrawLookAtBone(SerializedProperty bone, int index)
+        public void DrawLookAtBone(SerializedProperty bone, int index)
         {
             EditorGUILayout.PropertyField(bone.FindPropertyRelative("transform"), GUIContent.none, GUILayout.Width(120));
             DrawWightSlider(bone.FindPropertyRelative("weight"));
         }
         
-        private static void DrawWightSlider(SerializedProperty Weight)
+        private void DrawWightSlider(SerializedProperty Weight)
         {
             GUILayout.Label("权重", GUILayout.Width(45));
             EditorGUILayout.PropertyField(Weight, GUIContent.none);
         }
         
-        public static void DrawEyeBtns(SerializedProperty prop)
+        public void DrawEyeBtns(SerializedProperty prop)
         {
             GUILayout.Space(5);
             GUILayout.BeginHorizontal();
@@ -72,7 +72,7 @@ namespace XenoIK.Editor
             GUILayout.EndHorizontal();
         }
 
-        public static void DrawSpineBtns(SerializedProperty prop)
+        public void DrawSpineBtns(SerializedProperty prop)
         {
             GUILayout.Space(5);
             GUILayout.BeginHorizontal();
@@ -88,7 +88,7 @@ namespace XenoIK.Editor
             GUILayout.EndHorizontal();
         }
         
-        public static void DrawCommonBtn(SerializedProperty prop)
+        public void DrawCommonBtn(SerializedProperty prop)
         {
             if (GUILayout.Button(new GUIContent("删除全部", "删除全部列表元素"), EditorStyles.toolbarButton, GUILayout.Width(IKSolverInspector.CBtnWidth)))
             {
@@ -97,21 +97,10 @@ namespace XenoIK.Editor
                     prop.arraySize = 0;
                 }
             }
-            GUILayout.Space(5);
-
-            if (GUILayout.Button(new GUIContent("添加骨骼", "添加"), EditorStyles.toolbarButton, GUILayout.Width(IKSolverInspector.CBtnWidth)))
-            {
-                prop.arraySize++;
-                OnAddBone(prop.GetArrayElementAtIndex(prop.arraySize - 1));
-            }
         }
         
-        public static void OnAddBone(SerializedProperty bone)
-        {
-            bone.FindPropertyRelative("weight").floatValue = 1;
-        }
         
-        public static void CreateSpines(SerializedProperty prop)
+        public void CreateSpines(SerializedProperty prop)
         {
             if (prop.arraySize != 0) return;
 
@@ -132,10 +121,8 @@ namespace XenoIK.Editor
                 }
             }
         }
-
         
-        
-        public static void DrawSceneGUI(IKSolverLookAt solver)
+        public void DrawSceneGUI(IKSolverLookAt solver)
         {
             if (Application.isPlaying && !solver.initiated) return;
             

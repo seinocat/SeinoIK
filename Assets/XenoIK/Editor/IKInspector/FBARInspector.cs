@@ -8,25 +8,26 @@ namespace XenoIK.Editor
     {
         private FABRIK script => target as FABRIK;
         
+        private IKSolverHeuristicInspector Inspector => this.solverInspector as IKSolverHeuristicInspector;
         
-        protected override MonoBehaviour GetMonoScript()
+        protected override void OnInspectorEnable()
         {
-            return script;
+            this.solverInspector = new IKSolverInspector();
         }
-        
+
         protected override void OnModifty()
         {
             this.script?.solver.Init(this.script.transform);
         }
-
+        
         protected override void DrawInspector()
         {
-            IKSolverHeuristicInspector.DrawInspector(this.solver);
+            this.Inspector.DrawInspector(this.solver);
         }
 
         private void OnSceneGUI()
         {
-            IKSolverHeuristicInspector.DrawSceneGUI(this.script.solver);
+            this.Inspector.DrawSceneGUI(this.script.solver);
         }
     }
 }
