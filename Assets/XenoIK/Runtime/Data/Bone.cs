@@ -37,11 +37,23 @@ namespace XenoIK
             get => this.transform != null ? this.transform.position : Vector3.zero;
             set => this.transform.position = value;
         }
+        
+        public Vector3 LocalPosition
+        {
+            get => this.transform != null ? this.transform.localPosition : Vector3.zero;
+            set => this.transform.localPosition = value;
+        }
 
         public Quaternion Rotation
         {
             get => this.transform.rotation;
             set => this.transform.rotation = value;
+        }
+
+        public Quaternion LocalRotation
+        {
+            get => this.transform.localRotation;
+            set => this.transform.localRotation = value;
         }
 
         public Bone() { }

@@ -12,7 +12,7 @@ namespace XenoIK.Editor
         
         protected override void OnInspectorEnable()
         {
-            this.solverInspector = new IKSolverInspector();
+            this.solverInspector = new IKSolverHeuristicInspector();
         }
 
         protected override void OnModifty()

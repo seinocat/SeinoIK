@@ -9,7 +9,6 @@ namespace XenoIK.Editor
         private CCDIK script => target as CCDIK;
         private IKSolverHeuristicInspector Inspector => this.solverInspector as IKSolverHeuristicInspector;
         
-        
         protected override void OnInspectorEnable()
         {
             this.solverInspector = new IKSolverHeuristicInspector();

@@ -5,9 +5,9 @@ namespace XenoIK.Editor
 {
     public class IKSolverLookAtInspector : IKSolverInspector
     {
-        private static LookAtIK script;
-        private static bool showAxis;
-        private static bool showWeight;
+        private LookAtIK script;
+        private bool showAxis;
+        private bool showWeight;
         
         public void DrawInspector(SerializedProperty prop, LookAtIK mono)
         {

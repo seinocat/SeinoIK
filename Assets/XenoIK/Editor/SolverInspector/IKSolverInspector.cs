@@ -12,7 +12,7 @@ namespace XenoIK.Editor
         public const float BtnWidth = 20;
         public const float CBtnWidth = 65;
         
-        private static SerializedProperty element;
+        private SerializedProperty element;
         private bool isShowList1;
         private bool isShowList2;
         private bool isShowList3;
@@ -57,26 +57,23 @@ namespace XenoIK.Editor
             SetShow(EditorGUILayout.Foldout(IsShow(listIndex), headLabel), listIndex);
 
             if (!IsShow(listIndex)) return;
-            GUILayout.Space(5);
+            EditorGUILayout.Space(5);
             for (int i = 0; i < prop.arraySize; i++)
             {
-                GUILayout.BeginHorizontal();
-                GUILayout.BeginVertical();
+                EditorGUILayout.BeginHorizontal();
+                EditorGUILayout.BeginVertical();
                 element = prop.GetArrayElementAtIndex(i);
                 
-                GUILayout.BeginHorizontal();
+                EditorGUILayout.BeginHorizontal();
                 //Draw Bones Chians
                 drawElement(element, i);
 
-                if (isCanEidtor)
-                {
-                    GUILayout.Space(5);
-                    if (GUILayout.Button(new GUIContent("×", "删除"), EditorStyles.miniButton, GUILayout.Width(BtnWidth)))
-                    {
-                        deleteIndex = i;
-                    }
-                }
+                EditorGUILayout.Space(5);
                 
+                if (isCanEidtor && GUILayout.Button(new GUIContent("×", "删除"), EditorStyles.miniButton, GUILayout.Width(BtnWidth)))
+                {
+                    deleteIndex = i;
+                }
                 if (GUILayout.Button(new GUIContent("↑", "上移"), EditorStyles.miniButton, GUILayout.Width(BtnWidth)))
                 {
                     prop.MoveArrayElement(i, Math.Max(0, i - 1));
@@ -86,22 +83,19 @@ namespace XenoIK.Editor
                     prop.MoveArrayElement(i, Math.Min(prop.arraySize - 1, i + 1));
                 }
 
-                GUILayout.EndHorizontal();
-                GUILayout.EndVertical();
-                GUILayout.EndHorizontal();
+                EditorGUILayout.EndHorizontal();
+                EditorGUILayout.EndVertical();
+                EditorGUILayout.EndHorizontal();
             }
-            GUILayout.Space(5);
+            EditorGUILayout.Space(5);
             // Draw Btns
             EditorGUILayout.BeginHorizontal();
             drawButtons?.Invoke(prop);
-            if (isCanEidtor)
+            EditorGUILayout.Space(5);
+            if (isCanEidtor && GUILayout.Button(new GUIContent("添加骨骼", "添加"), EditorStyles.toolbarButton, GUILayout.Width(CBtnWidth)))
             {
-                GUILayout.Space(5);
-                if (GUILayout.Button(new GUIContent("添加骨骼", "添加"), EditorStyles.toolbarButton, GUILayout.Width(IKSolverInspector.CBtnWidth)))
-                {
-                    prop.arraySize++;
-                    OnAddBone(prop.GetArrayElementAtIndex(prop.arraySize - 1));
-                }
+                prop.arraySize++;
+                OnAddBone(prop.GetArrayElementAtIndex(prop.arraySize - 1));
             }
             EditorGUILayout.EndHorizontal();
             
