@@ -12,9 +12,9 @@ namespace XenoIK.Editor
 
         private bool showSettings = true;
 
-        protected override MonoBehaviour GetMonoScript()
+        protected override void OnInspectorEnable()
         {
-            return script;
+            this.solverInspector = new IKSolverLookAtInspector();
         }
 
         protected override void DrawInspector()
@@ -70,5 +70,7 @@ namespace XenoIK.Editor
         {
             
         }
+
+
     }
 }
