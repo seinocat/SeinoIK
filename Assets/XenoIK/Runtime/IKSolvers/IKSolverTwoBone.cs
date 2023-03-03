@@ -8,6 +8,7 @@ namespace XenoIK
     public class IKSolverTwoBone : IKSolver
     {
         public Transform target;
+        
         public List<Bone> TwoBoneList = new List<Bone>(){new Bone(), new Bone(), new Bone()};
 
         protected override void OnInitialize()
@@ -18,7 +19,6 @@ namespace XenoIK
         protected override void OnUpdate(float deltaTime)
         {
             if (this.target != null) this.IKPosition = this.target.position;
-
             this.Solve();
         }
 
@@ -32,6 +32,9 @@ namespace XenoIK
             
         }
         
+        /// <summary>
+        /// 算法参考 https://theorangeduck.com/page/simple-two-joint
+        /// </summary>
         private void Solve()
         {
             float eps = 0.01f;
@@ -64,7 +67,7 @@ namespace XenoIK
             Quaternion rotateABC = Quaternion.AngleAxis(targetAngleABC - angleABC, Quaternion.Inverse(jointB.Rotation) * axis1);
             Quaternion rotateTAC = Quaternion.AngleAxis(angleTAC, Quaternion.Inverse(jointA.Rotation) * axis2);
             
-            jointA.LocalRotation = rotateTAC * (rotateBAC * jointA.LocalRotation);
+            jointA.LocalRotation = (rotateTAC * rotateBAC) * jointA.LocalRotation;
             jointB.LocalRotation = rotateABC * jointB.LocalRotation;
         } 
     }
