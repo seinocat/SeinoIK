@@ -44,7 +44,7 @@ namespace XenoIK
             Vector3 vecAB = (jointB.Position - jointA.Position).normalized;
             Vector3 vecAC = (jointC.Position - jointA.Position).normalized;
             Vector3 vecBC = (jointC.Position - jointB.Position).normalized;
-            Vector3 vecAT = (IKPosition - jointA.Position).normalized;
+            Vector3 vecAT = (this.IKPosition - jointA.Position).normalized;
             
             float lengthAB = (jointA.Position - jointB.Position).magnitude;
             float lengthCB = (jointB.Position - jointC.Position).magnitude;
