@@ -18,7 +18,7 @@ public class TwoBoneIKTest : MonoBehaviour
     private float c;
     private Vector3 en;//Normal of plane we want our arm to be on
     
-    void Update()
+    void LateUpdate()
     { 
         a = Lower.localPosition.magnitude;
         b = End.localPosition.magnitude;

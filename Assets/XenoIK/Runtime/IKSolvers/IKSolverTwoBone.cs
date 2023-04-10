@@ -37,7 +37,6 @@ namespace XenoIK
         /// </summary>
         private void Solve()
         {
-            float eps = 0.01f;
             Bone jointA = this.TwoBoneList[0];
             Bone jointB = this.TwoBoneList[1];
             Bone jointC = this.TwoBoneList[2];
@@ -48,7 +47,7 @@ namespace XenoIK
             
             float lengthAB = (jointA.Position - jointB.Position).magnitude;
             float lengthCB = (jointB.Position - jointC.Position).magnitude;
-            float lengthAT = Mathf.Clamp((jointA.Position - this.IKPosition).magnitude, eps, lengthAB + lengthCB - eps);
+            float lengthAT = Mathf.Clamp((jointA.Position - this.IKPosition).magnitude, Mathf.Epsilon, lengthAB + lengthCB - Mathf.Epsilon);
 
             float angleBAC = Mathf.Rad2Deg * Mathf.Acos(Vector3.Dot(vecAB, vecAC));
             float angleABC = Mathf.Rad2Deg * Mathf.Acos(Vector3.Dot(-vecAB, vecBC));
