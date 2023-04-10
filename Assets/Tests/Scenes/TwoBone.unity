@@ -306,7 +306,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1888223931}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 860c096c77ba42199f63995fd846fdae, type: 3}
   m_Name: 
@@ -342,52 +342,6 @@ MonoBehaviour:
       solverRotation: {x: 0, y: 0, z: 0, w: 0}
       defaultLocalPosition: {x: 0, y: 0, z: 0}
       defaultLocalRotation: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &1888223934
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1888223931}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa7f20b18e674916bd1f23ce5f34e2bd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  solver:
-    firstInitiated: 0
-    IKPosition: {x: 0, y: 0, z: 0}
-    IKWeight: 1
-    root: {fileID: 1888223932}
-    maxIterations: 5
-    bonesCount: 3
-    target: {fileID: 906082582}
-    bones:
-    - transform: {fileID: 1888223932}
-      length: 0.35192725
-      weight: 1
-      axis: {x: 0, y: 0, z: 0}
-      solverPosition: {x: 0, y: 0, z: 0}
-      solverRotation: {x: 0, y: 0, z: 0, w: 0}
-      defaultLocalPosition: {x: 0.06083579, y: 0.0020787853, z: -0.072552614}
-      defaultLocalRotation: {x: 0.011196001, y: 0.99993575, z: 0.000012512218, w: 0.0017732558}
-    - transform: {fileID: 410778756}
-      length: 0.3787049
-      weight: 1
-      axis: {x: 0, y: 0, z: 0}
-      solverPosition: {x: 0, y: 0, z: 0}
-      solverRotation: {x: 0, y: 0, z: 0, w: 0}
-      defaultLocalPosition: {x: -0.35136372, y: -0.0080112815, z: -0.018233713}
-      defaultLocalRotation: {x: -0.0000073946076, y: -0.0000015158422, z: 0.016451556, w: 0.9998647}
-    - transform: {fileID: 724717601}
-      length: 0
-      weight: 1
-      axis: {x: 0, y: 0, z: 0}
-      solverPosition: {x: 0, y: 0, z: 0}
-      solverRotation: {x: 0, y: 0, z: 0, w: 0}
-      defaultLocalPosition: {x: -0.3785454, y: 0.0038244387, z: -0.010314554}
-      defaultLocalRotation: {x: 0.0000005580623, y: -0.0000024002752, z: -0.26428223, w: 0.9644454}
-    chainLength: 0.7306322
 --- !u!114 &1888223935
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -395,7 +349,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1888223931}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 43f45db1d03640b6bad3a226c9812a8b, type: 3}
   m_Name: 
