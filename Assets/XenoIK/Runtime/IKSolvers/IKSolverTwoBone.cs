@@ -60,9 +60,9 @@ namespace XenoIK
             Vector3 axis1 = Vector3.Cross(vecAC, vecAB).normalized;
             Vector3 axis2 = Vector3.Cross(vecAT, vecAC).normalized;
             
-            Quaternion rotateBAC = Quaternion.AngleAxis(targetAngleBAC - angleBAC, Quaternion.Inverse(jointA.Rotation) * axis1);
-            Quaternion rotateABC = Quaternion.AngleAxis(targetAngleABC - angleABC, Quaternion.Inverse(jointB.Rotation) * axis1);
-            Quaternion rotateTAC = Quaternion.AngleAxis(angleTAC, Quaternion.Inverse(jointA.Rotation) * axis2);
+            Quaternion rotateBAC = Quaternion.AngleAxis(targetAngleBAC - angleBAC, jointA.LocalRotation * axis1);
+            Quaternion rotateABC = Quaternion.AngleAxis(targetAngleABC - angleABC, jointB.LocalRotation * axis1);
+            Quaternion rotateTAC = Quaternion.AngleAxis(angleTAC, jointA.LocalRotation * axis2);
             
             jointA.LocalRotation = (rotateTAC * rotateBAC) * jointA.LocalRotation;
             jointB.LocalRotation = rotateABC * jointB.LocalRotation;
