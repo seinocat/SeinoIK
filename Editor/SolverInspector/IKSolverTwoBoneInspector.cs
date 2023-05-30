@@ -11,6 +11,7 @@ namespace XenoIK.Editor
         {
             script = mono;
             EditorGUILayout.PropertyField(prop.FindPropertyRelative("target"), new GUIContent("目标"));
+            EditorGUILayout.PropertyField(prop.FindPropertyRelative("pole"), new GUIContent("极向量"));
             DrawTwoBoneList(prop);
         }
 

@@ -8,6 +8,7 @@ namespace XenoIK
     public class IKSolverTwoBone : IKSolver
     {
         public Transform target;
+        public Transform pole;
         
         public List<Bone> TwoBoneList = new List<Bone>(){new Bone(), new Bone(), new Bone()};
 
@@ -32,6 +33,8 @@ namespace XenoIK
             
         }
         
+        const float k_SqrEpsilon = 1e-8f;
+        
         /// <summary>
         /// 算法参考 https://theorangeduck.com/page/simple-two-joint
         /// </summary>
@@ -40,32 +43,43 @@ namespace XenoIK
             Bone jointA = this.TwoBoneList[0];
             Bone jointB = this.TwoBoneList[1];
             Bone jointC = this.TwoBoneList[2];
-            Vector3 vecAB = (jointB.Position - jointA.Position).normalized;
-            Vector3 vecAC = (jointC.Position - jointA.Position).normalized;
-            Vector3 vecBC = (jointC.Position - jointB.Position).normalized;
-            Vector3 vecAT = (this.IKPosition - jointA.Position).normalized;
+            Vector3 vecAB = jointB.Position - jointA.Position;
+            Vector3 vecBC = jointC.Position - jointB.Position;
+            Vector3 vecAC = jointC.Position - jointA.Position;
+            Vector3 vecAT = this.target.position - jointA.Position;
             
-            float lengthAB = (jointA.Position - jointB.Position).magnitude;
-            float lengthCB = (jointB.Position - jointC.Position).magnitude;
-            float lengthAT = Mathf.Clamp((jointA.Position - this.IKPosition).magnitude, Mathf.Epsilon, lengthAB + lengthCB - Mathf.Epsilon);
+            float lenAB = vecAB.magnitude;
+            float lenBC = vecBC.magnitude;
+            float lenAC = vecAC.magnitude;
+            float lenAT = vecAT.magnitude;
 
-            float angleBAC = Mathf.Rad2Deg * Mathf.Acos(Vector3.Dot(vecAB, vecAC));
-            float angleABC = Mathf.Rad2Deg * Mathf.Acos(Vector3.Dot(-vecAB, vecBC));
-            float angleTAC = Mathf.Rad2Deg * Mathf.Acos(Vector3.Dot(vecAT, vecAC));
+            float oldABCAngle = CosineTriangle(lenAC, lenAB, lenBC) ;
+            float newABCAngle = CosineTriangle(lenAT, lenAB, lenBC) ;
 
-            float targetAngleBAC = Mathf.Rad2Deg * CosineTriangle(lengthCB, lengthAT, lengthAB);
-            float targetAngleABC = Mathf.Rad2Deg * CosineTriangle(lengthAT, lengthCB, lengthAB);
+            Vector3 axis = Vector3.Cross(vecAB, vecBC);
+            if (axis.sqrMagnitude < k_SqrEpsilon)
+            {
+                axis = Vector3.zero;
+                
+                if (axis.sqrMagnitude < k_SqrEpsilon)
+                    axis = Vector3.Cross(vecAT, vecBC);
 
-            // Vector3 fixVec = (jointB.Rotation * new Vector3(0, 0, 1)).normalized;
-            Vector3 axis1 = Vector3.Cross(vecAC, vecAB).normalized;
-            Vector3 axis2 = Vector3.Cross(vecAT, vecAC).normalized;
-            
-            Quaternion rotateBAC = Quaternion.AngleAxis(targetAngleBAC - angleBAC, jointA.LocalRotation * axis1);
-            Quaternion rotateABC = Quaternion.AngleAxis(targetAngleABC - angleABC, jointB.LocalRotation * axis1);
-            Quaternion rotateTAC = Quaternion.AngleAxis(angleTAC, jointA.LocalRotation * axis2);
-            
-            jointA.LocalRotation = (rotateTAC * rotateBAC) * jointA.LocalRotation;
-            jointB.LocalRotation = rotateABC * jointB.LocalRotation;
+                if (axis.sqrMagnitude < k_SqrEpsilon)
+                    axis = Vector3.up;
+            }
+
+            axis = axis.normalized;
+            //
+            // float a = 0.5f * (oldABCAngle - newABCAngle);
+            // float sin = Mathf.Sin(a);
+            // float cos = Mathf.Cos(a);
+            // Quaternion deltaRotate = new Quaternion(axis.x * sin, axis.y * sin, axis.z * sin, cos);
+
+            jointB.Rotation = Quaternion.AngleAxis((oldABCAngle - newABCAngle) * Mathf.Rad2Deg, axis) * jointB.Rotation;
+            vecAC = jointC.Position - jointA.Position;
+            jointA.Rotation = Quaternion.FromToRotation(vecAC, vecAT) * jointA.Rotation;
+
+            // jointC.Rotation = target.rotation;
         }
         
         private float CosineTriangle(float sideA, float sideB, float sideC)
