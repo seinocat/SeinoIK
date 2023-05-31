@@ -8,10 +8,10 @@ namespace XenoIK
     public class IKSolverLookAt : IKSolver
     {
         public Transform target;
+        public LookAtBone head;
         public Vector3 headAxis = Vector3.forward;
         public Vector3 eyesAxis = Vector3.forward;
         public Vector3 spinesAxis = Vector3.forward;
-        public LookAtBone head;
         public List<LookAtBone> eyes = new List<LookAtBone>();
         public List<LookAtBone> spines = new List<LookAtBone>();
 
