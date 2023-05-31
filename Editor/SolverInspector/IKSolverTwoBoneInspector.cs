@@ -11,13 +11,13 @@ namespace XenoIK.Editor
         {
             script = mono;
             EditorGUILayout.PropertyField(prop.FindPropertyRelative("target"), new GUIContent("目标"));
-            EditorGUILayout.PropertyField(prop.FindPropertyRelative("pole"), new GUIContent("极向量"));
+            EditorGUILayout.PropertyField(prop.FindPropertyRelative("poleTarget"), new GUIContent("极向量"));
             DrawTwoBoneList(prop);
         }
 
         public void DrawTwoBoneList(SerializedProperty prop)
         {
-            DrawElements(prop.FindPropertyRelative("TwoBoneList"), 0, new GUIContent("骨骼列表"), DrawTwoBoneList, null, false);
+            DrawElements(prop.FindPropertyRelative("twoBoneList"), 0, new GUIContent("骨骼列表"), DrawTwoBoneList, null, false);
         }
 
         public void DrawTwoBoneList(SerializedProperty bone, int index)

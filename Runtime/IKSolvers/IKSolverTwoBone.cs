@@ -8,11 +8,9 @@ namespace XenoIK
     public class IKSolverTwoBone : IKSolver
     {
         public Transform target;
-        public Transform pole;
-        
-        public List<Bone> TwoBoneList = new List<Bone>(){new Bone(), new Bone(), new Bone()};
-        
-        const float k_SqrEpsilon = 1e-8f;
+        public Transform poleTarget;
+        public List<Bone> twoBoneList = new List<Bone>() { new Bone(), new Bone(), new Bone() };
+        public const float sqrEpsilon = 1e-8f;
 
         protected override void OnInitialize()
         {
@@ -35,16 +33,17 @@ namespace XenoIK
             
         }
         
-
-        
         /// <summary>
-        /// 算法参考 https://theorangeduck.com/page/simple-two-joint
+        /// 算法参考
+        /// 1. Unity Animation Rigging
+        /// 2. https://theorangeduck.com/page/simple-two-joint
         /// </summary>
         private void Solve()
         {
-            Bone jointA = this.TwoBoneList[0];
-            Bone jointB = this.TwoBoneList[1];
-            Bone jointC = this.TwoBoneList[2];
+            Bone jointA = this.twoBoneList[0];
+            Bone jointB = this.twoBoneList[1];
+            Bone jointC = this.twoBoneList[2];
+            
             Vector3 vecAB = jointB.Position - jointA.Position;
             Vector3 vecBC = jointC.Position - jointB.Position;
             Vector3 vecAC = jointC.Position - jointA.Position;
@@ -59,14 +58,11 @@ namespace XenoIK
             float newABCAngle = CosineTriangle(lenAT, lenAB, lenBC) ;
 
             Vector3 axis = Vector3.Cross(vecAB, vecBC);
-            if (axis.sqrMagnitude < k_SqrEpsilon)
+            if (axis.sqrMagnitude < sqrEpsilon)
             {
-                axis = Vector3.zero;
-                
-                if (axis.sqrMagnitude < k_SqrEpsilon)
+                if (axis.sqrMagnitude < sqrEpsilon)
                     axis = Vector3.Cross(vecAT, vecBC);
-
-                if (axis.sqrMagnitude < k_SqrEpsilon)
+                if (axis.sqrMagnitude < sqrEpsilon)
                     axis = Vector3.up;
             }
 
@@ -76,7 +72,7 @@ namespace XenoIK
             vecAC = jointC.Position - jointA.Position;
             jointA.Rotation = Quaternion.FromToRotation(vecAC, vecAT) * jointA.Rotation;
 
-            if (pole != null)
+            if (poleTarget != null)
             {
                 float acSqrLen = vecAC.sqrMagnitude;
                 if (acSqrLen > 0)
@@ -84,14 +80,18 @@ namespace XenoIK
                     vecAB = jointB.Position - jointA.Position;
                     vecAC = jointC.Position - jointA.Position;
                     Vector3 acNormal = vecAC / Mathf.Sqrt(acSqrLen);
-                    Vector3 vecAP = this.pole.position - jointA.Position;
-                    Vector3 abProj = vecAB - acNormal * Vector3.Dot(vecAB, acNormal);
-                    Vector3 apProj = vecAP - acNormal * Vector3.Dot(vecAP, acNormal);
+                    //极向量
+                    Vector3 poleVec = this.poleTarget.position - jointA.Position;
+                    //求出jointB在AC上的投影向量
+                    Vector3 vecJointB = vecAB - acNormal * Vector3.Dot(vecAB, acNormal);
+                    //求出极向量在AC上的投影向量
+                    Vector3 vecPole = poleVec - acNormal * Vector3.Dot(poleVec, acNormal);
 
                     float maxReach = lenAB + lenBC;
-                    if (abProj.sqrMagnitude >( maxReach * maxReach * 0.001f) && apProj.sqrMagnitude > 0f)
+                    if (vecJointB.sqrMagnitude > maxReach * maxReach * 0.001f)
                     {
-                        Quaternion poleR = Quaternion.FromToRotation(abProj, apProj);
+                        //将jointB朝向旋转到极向量的朝向
+                        Quaternion poleR = Quaternion.FromToRotation(vecJointB, vecPole);
                         jointA.Rotation = poleR * jointA.Rotation;
                     }
                 }

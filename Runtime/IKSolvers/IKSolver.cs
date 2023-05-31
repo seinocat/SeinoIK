@@ -6,21 +6,12 @@ namespace XenoIK
     [Serializable]
     public abstract class IKSolver
     {
-        protected abstract void OnInitialize();
-        protected abstract void OnUpdate(float deltaTime);
-        public abstract void StoreDefaultLocalState();
-        public abstract void FixTransform();
-        
         public bool initiated { get; private set; }
         public bool firstInitiated = true;
-        
-        
         public Vector3 IKPosition;
-        
+        public Transform root;
         [Range(0, 1f)]
         public float IKWeight = 1f;
-        
-        public Transform root;
         
         public void Update(float deltaTime)
         {
@@ -36,6 +27,9 @@ namespace XenoIK
             this.StoreDefaultLocalState();
         }
         
-    
+        protected abstract void OnInitialize();
+        protected abstract void OnUpdate(float deltaTime);
+        public abstract void StoreDefaultLocalState();
+        public abstract void FixTransform();
     }
 }
