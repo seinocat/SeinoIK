@@ -11,6 +11,8 @@ namespace XenoIK
         public Transform pole;
         
         public List<Bone> TwoBoneList = new List<Bone>(){new Bone(), new Bone(), new Bone()};
+        
+        const float k_SqrEpsilon = 1e-8f;
 
         protected override void OnInitialize()
         {
@@ -33,7 +35,7 @@ namespace XenoIK
             
         }
         
-        const float k_SqrEpsilon = 1e-8f;
+
         
         /// <summary>
         /// 算法参考 https://theorangeduck.com/page/simple-two-joint
@@ -69,17 +71,31 @@ namespace XenoIK
             }
 
             axis = axis.normalized;
-            //
-            // float a = 0.5f * (oldABCAngle - newABCAngle);
-            // float sin = Mathf.Sin(a);
-            // float cos = Mathf.Cos(a);
-            // Quaternion deltaRotate = new Quaternion(axis.x * sin, axis.y * sin, axis.z * sin, cos);
-
+            
             jointB.Rotation = Quaternion.AngleAxis((oldABCAngle - newABCAngle) * Mathf.Rad2Deg, axis) * jointB.Rotation;
             vecAC = jointC.Position - jointA.Position;
             jointA.Rotation = Quaternion.FromToRotation(vecAC, vecAT) * jointA.Rotation;
 
-            // jointC.Rotation = target.rotation;
+            if (pole != null)
+            {
+                float acSqrLen = vecAC.sqrMagnitude;
+                if (acSqrLen > 0)
+                {
+                    vecAB = jointB.Position - jointA.Position;
+                    vecAC = jointC.Position - jointA.Position;
+                    Vector3 acNormal = vecAC / Mathf.Sqrt(acSqrLen);
+                    Vector3 vecAP = this.pole.position - jointA.Position;
+                    Vector3 abProj = vecAB - acNormal * Vector3.Dot(vecAB, acNormal);
+                    Vector3 apProj = vecAP - acNormal * Vector3.Dot(vecAP, acNormal);
+
+                    float maxReach = lenAB + lenBC;
+                    if (abProj.sqrMagnitude >( maxReach * maxReach * 0.001f) && apProj.sqrMagnitude > 0f)
+                    {
+                        Quaternion poleR = Quaternion.FromToRotation(abProj, apProj);
+                        jointA.Rotation = poleR * jointA.Rotation;
+                    }
+                }
+            }
         }
         
         private float CosineTriangle(float sideA, float sideB, float sideC)
