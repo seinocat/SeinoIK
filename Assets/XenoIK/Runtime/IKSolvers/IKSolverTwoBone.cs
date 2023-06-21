@@ -68,7 +68,7 @@ namespace XenoIK
 
             axis = axis.normalized;
             
-            jointB.Rotation = Quaternion.AngleAxis((oldABCAngle - newABCAngle) * Mathf.Rad2Deg, axis) * jointB.Rotation;
+            jointB.Rotation = Quaternion.AngleAxis(oldABCAngle - newABCAngle, axis) * jointB.Rotation;
             vecAC = jointC.Position - jointA.Position;
             jointA.Rotation = Quaternion.FromToRotation(vecAC, vecAT) * jointA.Rotation;
 
@@ -98,10 +98,17 @@ namespace XenoIK
             }
         }
         
+        /// <summary>
+        /// Acos求出为弧度，需要转换成角度
+        /// </summary>
+        /// <param name="sideA"></param>
+        /// <param name="sideB"></param>
+        /// <param name="sideC"></param>
+        /// <returns></returns>
         private float CosineTriangle(float sideA, float sideB, float sideC)
         {
             float cosA = Mathf.Clamp((sideB * sideB + sideC * sideC - sideA * sideA) / (2 * sideB * sideC), -1f, 1f);
-            return Mathf.Acos(cosA);
+            return Mathf.Acos(cosA) * Mathf.Rad2Deg;
         }
         
         
