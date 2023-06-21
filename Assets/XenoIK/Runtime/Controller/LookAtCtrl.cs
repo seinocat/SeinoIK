@@ -83,34 +83,34 @@ namespace XenoIK
         private bool CheckRange()
         {
             return true;
-            if (this.target == null) return false;
-            
-            // Vector2 angleLimit = (this.watching ? this.config.followAngleXZ : this.config.detectAngleXZ)/2;
-            // Vector3 targetDir = this.target.position - this.Solver.head.Position;
+            // if (this.target == null) return false;
             //
-            // float distance = targetDir.magnitude;
-            // if (distance > this.config.maxDistance || distance < this.config.minDistance) return false;
+            // // Vector2 angleLimit = (this.watching ? this.config.followAngleXZ : this.config.detectAngleXZ)/2;
+            // // Vector3 targetDir = this.target.position - this.Solver.head.Position;
+            // //
+            // // float distance = targetDir.magnitude;
+            // // if (distance > this.config.maxDistance || distance < this.config.minDistance) return false;
+            // //
+            // // Vector3 baseForward = this.head.position + this.Solver.RootForward;
+            // // Debug.DrawLine(this.head.position, baseForward * 2 , Color.black);
+            // // Vector3 dirYZ = new Vector3(0, this.target.position.y, this.target.position.z);
+            // // Vector3 dirXZ = new Vector3(this.target.position.x, 0, this.target.position.z);
+            // // if (Vector3.Angle(baseForward, dirXZ) > angleLimit.x || Vector3.Angle(baseForward, dirYZ) > angleLimit.y)
+            // //     return false;
+            // //
+            // // return true;
             //
-            // Vector3 baseForward = this.head.position + this.Solver.RootForward;
-            // Debug.DrawLine(this.head.position, baseForward * 2 , Color.black);
-            // Vector3 dirYZ = new Vector3(0, this.target.position.y, this.target.position.z);
-            // Vector3 dirXZ = new Vector3(this.target.position.x, 0, this.target.position.z);
-            // if (Vector3.Angle(baseForward, dirXZ) > angleLimit.x || Vector3.Angle(baseForward, dirYZ) > angleLimit.y)
+            // float angleLimit = (this.watching ? this.config.followAngleXZ.x : this.config.detectAngleXZ.x);
+            // Vector2 aimTargetHorVec = new Vector2(this.target.position.x, this.target.position.z);
+            // Vector2 forwardVec = new Vector2(this.Solver.head.Forward.x, this.Solver.head.Forward.z);
+            // Vector2 TargetHorVector = aimTargetHorVec - new Vector2(this.head.position.x, this.head.position.z);
+            //
+            // var distance = TargetHorVector.magnitude;
+            // if (distance > this.config.maxDistance || distance < this.config.minDistance)
             //     return false;
             //
-            // return true;
-            
-            float angleLimit = (this.watching ? this.config.followAngleXZ.x : this.config.detectAngleXZ.x);
-            Vector2 aimTargetHorVec = new Vector2(this.target.position.x, this.target.position.z);
-            Vector2 forwardVec = new Vector2(this.Solver.head.Forward.x, this.Solver.head.Forward.z);
-            Vector2 TargetHorVector = aimTargetHorVec - new Vector2(this.head.position.x, this.head.position.z);
-            
-            var distance = TargetHorVector.magnitude;
-            if (distance > this.config.maxDistance || distance < this.config.minDistance)
-                return false;
-            
-            var targetAngle = Vector2.Angle(forwardVec, TargetHorVector);
-            return !(targetAngle > (angleLimit / 2));
+            // var targetAngle = Vector2.Angle(forwardVec, TargetHorVector);
+            // return !(targetAngle > (angleLimit / 2));
         }
 
         private void Awake()
