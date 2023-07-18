@@ -45,8 +45,8 @@ namespace XenoIK
                 // curBone.transform.rotation = qua;
                 
                 // 四元数直接算
-                Quaternion finalQuater = Quaternion.FromToRotation(toEffectorVec, toTargetVec) * curBone.Rotation;
-                curBone.Rotation = weight >= 1 ? finalQuater : Quaternion.Lerp(curBone.Rotation, finalQuater, weight);
+                Quaternion finalR = Quaternion.FromToRotation(toEffectorVec, toTargetVec) * curBone.Rotation;
+                curBone.Rotation = weight >= 1 ? finalR : Quaternion.Lerp(curBone.Rotation, finalR, weight);
             }
         }
         
