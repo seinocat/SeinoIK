@@ -5,7 +5,7 @@ namespace XenoIK
     public class FABRIK : XenoIK
     {
 
-        public IKSolverFBAR solver = new IKSolverFBAR();
+        public IKSolverFABR solver = new IKSolverFABR();
         
         protected override IKSolver GetIKSolver()
         {

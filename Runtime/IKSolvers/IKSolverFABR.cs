@@ -4,7 +4,7 @@ using UnityEngine;
 namespace XenoIK
 {
     [Serializable]
-    public class IKSolverFBAR : IKSolverHeuristic
+    public class IKSolverFABR : IKSolverHeuristic
     {
         protected override void OnInitialize()
         {
