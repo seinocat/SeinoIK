@@ -1,7 +1,13 @@
 ﻿namespace XenoIK
 {
-    public class IkSolverLimb : IKSolver
+    public class IKSolverFootIK : IKSolver
     {
+        public Bone Thigh;
+        public Bone Calf;
+        public Bone Foot;
+
+        public bool UseNavmesh = false;
+        
         protected override void OnInitialize()
         {
             
