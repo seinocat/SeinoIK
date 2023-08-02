@@ -15,7 +15,11 @@ namespace XenoIK
         
         public void Update(float deltaTime)
         {
+            if (!this.initiated) return;
+
+            OnPreUpdate?.Invoke();
             OnUpdate(deltaTime);
+            OnPostUpdate?.Invoke();
         }
 
         public void Init(Transform root)
@@ -31,5 +35,9 @@ namespace XenoIK
         protected abstract void OnUpdate(float deltaTime);
         public abstract void StoreDefaultLocalState();
         public abstract void FixTransform();
+        
+        
+        public Action OnPreUpdate;
+        public Action OnPostUpdate;
     }
 }
