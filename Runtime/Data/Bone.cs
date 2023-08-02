@@ -9,6 +9,7 @@ namespace XenoIK
         public Transform transform;
         
         public float length;
+        public float sqrMag;
         [Range(0, 1f)]
         public float weight = 1f;
 
@@ -55,6 +56,8 @@ namespace XenoIK
             get => this.transform.localRotation;
             set => this.transform.localRotation = value;
         }
+
+        public Quaternion ToLocalRotation => Quaternion.Inverse(this.Rotation);
 
         public Bone() { }
 

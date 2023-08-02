@@ -1,11 +1,43 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace XenoIK
 {
     public static class XenoTools 
     {
+
+        #region Math
+
+        public static float LerpValue(float value, float target, float increaseSpeed, float decreaseSpeed) {
+            if (Math.Abs(value - target) < 0.01f) return target; 
+            if (value < target) return Mathf.Clamp(value + Time.deltaTime * increaseSpeed, -Mathf.Infinity, target);
+            return Mathf.Clamp(value - Time.deltaTime * decreaseSpeed, target, Mathf.Infinity);
+        }
         
+        /// <summary>
+        /// 求直线和平面的交点
+        /// </summary>
+        /// <param name="origin"></param>
+        /// <param name="direction"></param>
+        /// <param name="normal"></param>
+        /// <param name="point"></param>
+        /// <returns></returns>
+        public static Vector3 LineToPlane(Vector3 origin, Vector3 direction, Vector3 normal, Vector3 point)
+        {
+            float dot = Vector3.Dot(point - origin, normal);
+            float normalDot = Vector3.Dot(direction, normal);
+
+            if (normalDot == 0f) return Vector3.zero;
+            
+            float distance = dot / normalDot;
+            return origin + direction.normalized * distance;
+        }
+
+        #endregion
+
+        #region Editor
+
         public static Color jointColor = Color.cyan;
         public static Color boneColor = Color.cyan;
 
@@ -60,5 +92,9 @@ namespace XenoIK
             component.OnInit();
             return component;
         }
+
+        #endregion
+        
+        
     }
 }
