@@ -18,20 +18,21 @@ namespace XenoIK
         /// <summary>
         /// 求直线和平面的交点
         /// </summary>
-        /// <param name="origin"></param>
-        /// <param name="direction"></param>
-        /// <param name="normal"></param>
-        /// <param name="point"></param>
+        /// <param name="linePoint">直线上的点</param>
+        /// <param name="lineDir">直线方向向量(需要归一化)</param>
+        /// <param name="planeNormal">平面法线</param>
+        /// <param name="planePoint">平面上的点</param>
         /// <returns></returns>
-        public static Vector3 LineToPlane(Vector3 origin, Vector3 direction, Vector3 normal, Vector3 point)
+        public static Vector3 LineToPlane(Vector3 linePoint, Vector3 lineDir, Vector3 planeNormal, Vector3 planePoint)
         {
-            float dot = Vector3.Dot(point - origin, normal);
-            float normalDot = Vector3.Dot(direction, normal);
+            lineDir = lineDir.normalized;
+            float dot = Vector3.Dot(planePoint - linePoint, planeNormal);
+            float normalDot = Vector3.Dot(lineDir, planeNormal);
 
             if (normalDot == 0f) return Vector3.zero;
             
             float distance = dot / normalDot;
-            return origin + direction.normalized * distance;
+            return linePoint + lineDir * distance;
         }
 
         #endregion

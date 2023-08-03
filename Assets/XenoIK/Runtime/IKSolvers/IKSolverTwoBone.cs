@@ -16,6 +16,13 @@ namespace XenoIK
     {
         private Quaternion m_TargetToLocalSpace;
         private Vector3 m_DefaultLocalBendNormal;
+        
+        public TwoBone(){}
+
+        public TwoBone(Transform trans)
+        {
+            this.transform = trans;
+        }
 
         public void Init(Vector3 childPos, Vector3 bendNormal)
         {
@@ -42,18 +49,19 @@ namespace XenoIK
     [Serializable]
     public class IKSolverTwoBone : IKSolver
     {
-        public Transform target;
-        public TwoBone Bone1;
-        public TwoBone Bone2;
-        public TwoBone Bone3;
         public SolverType SolverType = SolverType.Animation;
+        public Transform Bone1;
+        public Transform Bone2;
+        public Transform Bone3;
+        
+        private TwoBone m_Bone1;
+        private TwoBone m_Bone2;
+        private TwoBone m_Bone3;
+        
         
         protected override void OnInitialize()
         {
-            if (this.BendNormal == Vector3.zero) this.BendNormal = Vector3.right;
-
             OnInit();
-            this.IKPosition = Bone3.Position;
             InitBones();
         }
 
@@ -61,37 +69,37 @@ namespace XenoIK
         protected override void OnUpdate(float deltaTime)
         {
             if (this.target != null) this.IKPosition = this.target.position;
-
-            if (this.SolverType == SolverType.Animation)
+            
+            switch (this.SolverType)
             {
-                this.OnUpdate();
-                this.Solve();
-                this.OnPostSolve();
+                case SolverType.Animation:
+                    this.SolveWithAnimation();
+                    break;
+                case SolverType.Goal:
+                    this.SolveGoal();
+                    break;
             }
-            else
-            {
-                this.Solve2();
-            }
-           
         }
         
         public List<TwoBone> GetBones()
         {
-            return new List<TwoBone>() { this.Bone1, this.Bone2, this.Bone3 };
+            return new List<TwoBone>() { m_Bone1, m_Bone2, m_Bone3 };
         }
         
         public override void StoreDefaultLocalState()
         {
-            Bone1.StoreDefaultLocalState();
-            Bone2.StoreDefaultLocalState();
-            Bone3.StoreDefaultLocalState();
+            if(!this.initiated) return;
+            m_Bone1.StoreDefaultLocalState();
+            m_Bone2.StoreDefaultLocalState();
+            m_Bone3.StoreDefaultLocalState();
         }
-
+        
         public override void FixTransform()
         {
-            Bone1.FixTransform();
-            Bone2.FixTransform();
-            Bone3.FixTransform();
+            if(!this.initiated) return;
+            m_Bone1.FixTransform();
+            m_Bone2.FixTransform();
+            m_Bone3.FixTransform();
         }
 
         #region 解算器1
@@ -106,33 +114,32 @@ namespace XenoIK
 
         protected void OnInit()
         {
-            Vector3 normal = Vector3.Cross(Bone2.Position - Bone1.Position, Bone3.Position - Bone2.Position);
+            if (this.BendNormal == Vector3.zero) this.BendNormal = Vector3.right;
+            Vector3 normal = Vector3.Cross(Bone2.transform.position - Bone1.transform.position, Bone3.transform.position - Bone2.transform.position);
             if (normal != Vector3.zero) BendNormal = normal;
-
-            this.m_AnimationNormal = BendNormal;
+            m_AnimationNormal = BendNormal;
+            IKPosition = Bone3.transform.position;
         }
 
-        protected void OnUpdate()
+        private void OnPreSolve()
         {
-            if (IKWeight > 0)
-            {
-                this.m_BendNormal = BendNormal;
-                BendNormal = GetBendNormal();
-            }
-            
+            m_BendNormal = this.BendNormal;
+            BendNormal = GetBendNormal();
         }
 
-        protected void OnPostSolve()
+        private void OnPostSolve()
         {
-            BendNormal = this.m_BendNormal;
+            BendNormal = m_BendNormal;
         }
-
-
-
+        
         private void InitBones()
         {
-            Bone1.Init(Bone2.Position, BendNormal);
-            Bone2.Init(Bone3.Position, BendNormal);
+            m_Bone1 = new TwoBone(Bone1);
+            m_Bone2 = new TwoBone(Bone2);
+            m_Bone3 = new TwoBone(Bone3);
+
+            m_Bone1.Init(m_Bone2.Position, BendNormal);
+            m_Bone2.Init(m_Bone3.Position, BendNormal);
             SetBendPlaneToCurrent();
         }
         
@@ -140,42 +147,44 @@ namespace XenoIK
         {
             if (!this.initiated) return;
 
-            Vector3 normal = Vector3.Cross(Bone2.Position - Bone1.Position, Bone3.Position - Bone2.Position);
+            Vector3 normal = Vector3.Cross(m_Bone2.Position - m_Bone1.Position, m_Bone3.Position - m_Bone2.Position);
             if (normal != Vector3.zero) BendNormal = normal;
         }
         
         /// <summary>
-        /// 解算器1：参考Final IK的算法实现 
+        /// 解算器1：参考Final IK的算法实现
+        /// 带有动画融合处理的解算
         /// </summary>
-        private void Solve()
+        private void SolveWithAnimation()
         {
             if (this.IKWeight == 0) return;
+            this.OnPreSolve();
+            m_Bone1.sqrMag = (m_Bone2.Position - m_Bone1.Position).sqrMagnitude;
+            m_Bone2.sqrMag = (m_Bone3.Position - m_Bone2.Position).sqrMagnitude;
         
-            Bone1.sqrMag = (Bone2.Position - Bone1.Position).sqrMagnitude;
-            Bone2.sqrMag = (Bone3.Position - Bone2.Position).sqrMagnitude;
-        
-            this.m_WeightIKPosition = Vector3.Lerp(Bone3.Position, IKPosition, IKWeight);
+            this.m_WeightIKPosition = Vector3.Lerp(m_Bone3.Position, IKPosition, IKWeight);
             
-            Vector3 curBendNormal = Vector3.Lerp(Bone1.GetBendNormal(), BendNormal, this.IKWeight);
-            Vector3 bendDir = Vector3.Lerp(Bone2.Position - Bone1.Position,
+            Vector3 curBendNormal = Vector3.Lerp(m_Bone1.GetBendNormal(), BendNormal, this.IKWeight);
+            Vector3 bendDir = Vector3.Lerp(m_Bone2.Position - m_Bone1.Position,
                 GetBendDir(m_WeightIKPosition, curBendNormal), IKWeight);
         
-            if (bendDir == Vector3.zero) bendDir = Bone2.Position - Bone1.Position;
+            if (bendDir == Vector3.zero) bendDir = m_Bone2.Position - m_Bone1.Position;
         
-            Bone1.Rotation = Bone1.GetRotation(bendDir, curBendNormal);
-            Bone2.Rotation = Bone2.GetRotation(m_WeightIKPosition - Bone2.Position, Bone2.GetBendNormal());
+            m_Bone1.Rotation = m_Bone1.GetRotation(bendDir, curBendNormal);
+            m_Bone2.Rotation = m_Bone2.GetRotation(m_WeightIKPosition - m_Bone2.Position, m_Bone2.GetBendNormal());
+            this.OnPostSolve();
         }
         
         private Vector3 GetBendDir(Vector3 pos, Vector3 normal)
         {
-            Vector3 dir = pos - Bone1.Position;
+            Vector3 dir = pos - m_Bone1.Position;
             if (dir == Vector3.zero) return Vector3.zero;
 
             float dirSqlMag = dir.sqrMagnitude;
             float dirMag = dir.magnitude;
 
-            float x = (dirSqlMag + Bone1.sqrMag - Bone2.sqrMag) / (2f * dirMag);
-            float y = Mathf.Sqrt(Mathf.Clamp(Bone1.sqrMag - x * x, 0, Mathf.Infinity));
+            float x = (dirSqlMag + m_Bone1.sqrMag - m_Bone2.sqrMag) / (2f * dirMag);
+            float y = Mathf.Sqrt(Mathf.Clamp(m_Bone1.sqrMag - x * x, 0, Mathf.Infinity));
             
             Vector3 yDir = Vector3.Cross(dir.normalized, normal);
             return Quaternion.LookRotation(dir, yDir) * new Vector3(0f, y, x);
@@ -185,7 +194,7 @@ namespace XenoIK
         {
             if (!this.initiated) return;
 
-            this.m_AnimationNormal = Bone1.GetBendNormal();
+            this.m_AnimationNormal = m_Bone1.GetBendNormal();
             this.m_HasMaintainBend = true;
         }
 
@@ -200,20 +209,24 @@ namespace XenoIK
         #endregion
 
         #region 解算器2
-        
+        [ShowIf("SolverType", SolverType.Goal)]
+        public Transform target;
         [ShowIf("SolverType", SolverType.Goal)]
         public Transform poleTarget;
         
         /// <summary>
-        /// 解算器2: 算法参考
+        /// 解算器2: 
+        /// 直接解算目标，不处理动画
+        /// 
+        /// 算法参考:
         /// 1. Unity Animation Rigging
         /// 2. https://theorangeduck.com/page/simple-two-joint
         /// </summary>
-        private void Solve2()
+        private void SolveGoal()
         {
-            Bone jointA = this.Bone1;
-            Bone jointB = this.Bone2;
-            Bone jointC = this.Bone3;
+            Bone jointA = this.m_Bone1;
+            Bone jointB = this.m_Bone2;
+            Bone jointC = this.m_Bone3;
             
             Vector3 vecAB = jointB.Position - jointA.Position;
             Vector3 vecBC = jointC.Position - jointB.Position;
