@@ -22,7 +22,7 @@ namespace XenoIK.Runtime.Ground
         private RaycastHit m_PreHeelHit;
 
         //Navmesh
-        private float NavPosOffset = float.Epsilon;
+        private float NavPosOffset = 0.001f;
         private NavMeshHit m_HeelNavHit;
         private NavMeshHit m_PreHeelNavHit;
         private NavMeshHit m_ForwardNavHit;
@@ -35,8 +35,11 @@ namespace XenoIK.Runtime.Ground
         private Vector3 m_LastPosition;
         private Quaternion m_HitNormalR, m_FinalRotation;
         private Vector3 Up;
-        private Vector3 m_FootPosition; //脚本坐标
+        private Vector3 m_FootPosition; //脚部坐标
         private float m_HeelHeight; //脚跟高度
+        
+        private Vector3 m_HitPoint = Vector3.zero;
+        private Vector3 m_HitNormal = Vector3.up;
 
         public void InitLeg(GroundSolver solver, Transform foot)
         {
@@ -45,17 +48,9 @@ namespace XenoIK.Runtime.Ground
             this.FootTrans = foot;
             this.IKPosition = this.FootTrans.position;
             this.m_HeelHeight = (this.FootTrans.position - this.m_GroundSolver.Root.position).magnitude;
-            this.Inited = true;
-
-            this.OnEnable();
-        }
-
-        public void OnEnable()
-        {
-            if (!this.Inited) return;
-
             this.m_LastPosition = this.FootTrans.position;
             this.m_LastTime = Time.deltaTime;
+            this.Inited = true;
         }
 
         public void Solve()
@@ -77,23 +72,25 @@ namespace XenoIK.Runtime.Ground
             //根据速度预测下一帧的落脚点
             Vector3 prediction = Velocity * this.m_GroundSolver.Prediction;
             this.IsGounded = false;
-
-            //使用Navmesh作为地形检测
-            if (this.m_GroundSolver.UseNavmesh)
+            
+            //根据检测类型
+            switch (this.m_GroundSolver.CastType)
             {
-                this.m_HeelNavHit = this.GetNavmeshHit(Vector3.zero);
-                this.m_PreHeelNavHit = this.GetNavmeshHit(prediction);
-                if (this.m_HeelNavHit.hit || this.m_PreHeelNavHit.hit) this.IsGounded = true;
-                SetFootToPlane(m_PreHeelNavHit.normal, m_PreHeelNavHit.position);
+                case RayCastType.Phyics:
+                    GetPhycisCast(prediction);
+                    break;
+                case RayCastType.Navmesh:
+                    GetNavmeshCast(prediction);
+                    break;
+                case RayCastType.Mix:
+                    if (!GetPhycisCast(prediction))
+                    {
+                        GetNavmeshCast(prediction);
+                    }
+                    break;
             }
-            else
-            {
-                this.m_HeelHit = this.GetRaycastHit(Vector3.zero);
-                this.m_PreHeelHit = this.GetCapsuleHit(prediction);
-                if (this.m_HeelHit.collider != null || this.m_PreHeelHit.collider != null) this.IsGounded = true;
-                SetFootToPlane(m_PreHeelHit.normal, m_PreHeelHit.point);
-            }
-           
+            
+            GetHeightRotation(m_HitNormal, m_HitPoint);
             
             float offsetTarget =  Mathf.Clamp(this.HeightFromGround, -this.m_GroundSolver.MaxStep, this.m_GroundSolver.MaxStep);
             
@@ -116,24 +113,69 @@ namespace XenoIK.Runtime.Ground
             this.IKRotation = this.m_FinalRotation;
             
 #if UNITY_EDITOR
-            if (this.m_GroundSolver.UseNavmesh)
+            switch (this.m_GroundSolver.CastType)
             {
-                Debug.DrawLine(this.m_PreHeelNavHit.position, this.m_PreHeelNavHit.position + Vector3.up * 0.5f, Color.red);
-                Debug.DrawLine(this.m_HeelNavHit.position, this.m_HeelNavHit.position + Vector3.up * 0.5f, Color.green);
-                Debug.DrawLine(this.IKPosition, this.IKPosition + m_PreHeelNavHit.normal * 0.5f, Color.cyan);
+                case RayCastType.Phyics:
+                    Debug.DrawLine(this.IKPosition, this.IKPosition + m_PreHeelHit.normal * 0.5f, Color.cyan);
+                    break;
+                case RayCastType.Navmesh:
+                    Debug.DrawLine(this.IKPosition, this.IKPosition + m_PreHeelHit.normal * 0.5f, Color.cyan);
+                    break;
+                case RayCastType.Mix:
+                    break;
             }
-            else
-            {
-                Debug.DrawLine(this.m_PreHeelHit.point, this.m_PreHeelHit.point + Vector3.up * 0.5f, Color.red);
-                Debug.DrawLine(this.m_HeelHit.point, this.m_HeelHit.point + Vector3.up * 0.5f, Color.green);
-                Debug.DrawLine(this.IKPosition, this.IKPosition + m_PreHeelHit.normal * 0.5f, Color.cyan);
-            }
-           
 #endif
             
         }
 
-        private NavMeshHit GetNavmeshHit(Vector3 predictionOffset)
+        /// <summary>
+        /// 使用物理射线检测
+        /// </summary>
+        /// <param name="prediction"></param>
+        /// <returns></returns>
+        private bool GetPhycisCast(Vector3 prediction)
+        {
+            this.m_HeelHit = this.GetRaycastHit(Vector3.zero);
+            this.m_PreHeelHit = this.GetCapsuleHit(prediction);
+            if (this.m_HeelHit.collider != null || this.m_PreHeelHit.collider != null) this.IsGounded = true;
+
+            if (this.m_PreHeelHit.collider == null)
+            {
+                this.m_HitPoint = this.m_FootPosition;
+                this.m_HitNormal = this.Up;
+                return false;
+            }
+            this.m_HitPoint = m_PreHeelHit.point;
+            this.m_HitNormal = m_PreHeelHit.normal;
+
+
+            
+            return true;
+        }
+
+        /// <summary>
+        /// 使用Navmesh采样
+        /// </summary>
+        /// <param name="prediction"></param>
+        /// <returns></returns>
+        private bool GetNavmeshCast(Vector3 prediction)
+        {
+            this.m_HeelNavHit = this.GetNavmeshHit(Vector3.zero);
+            this.m_PreHeelNavHit = this.GetNavmeshHit(prediction, true);
+            if (this.m_HeelNavHit.hit || this.m_PreHeelNavHit.hit) this.IsGounded = true;
+            if (!this.m_PreHeelNavHit.hit)
+            {
+                this.m_HitPoint = this.m_FootPosition;
+                this.m_HitNormal = this.Up;
+                return false;
+            }
+            m_HitPoint = m_HeelNavHit.position;
+            m_HitNormal = m_HeelNavHit.normal;
+
+            return true;
+        }
+        
+        private NavMeshHit GetNavmeshHit(Vector3 predictionOffset, bool computeNormal = false)
         {
             NavMeshHit hit = new NavMeshHit();
             
@@ -141,7 +183,7 @@ namespace XenoIK.Runtime.Ground
             if (this.m_GroundSolver.MaxStep <= 0f) return hit;
 
             Vector3 samplePos = origin + this.Up * this.m_GroundSolver.MaxStep;
-            if (NavMesh.SamplePosition(samplePos, out hit, this.m_GroundSolver.MaxStep * 2f, NavMesh.AllAreas))
+            if (NavMesh.SamplePosition(samplePos, out hit, this.m_GroundSolver.MaxStep * 2f, NavMesh.AllAreas) && computeNormal)
             {
                 //因为NavHit不计算法线，所以需要手动计算法线
                 hit.normal = Vector3.up;
@@ -200,22 +242,23 @@ namespace XenoIK.Runtime.Ground
             {
                 hit.point = origin - this.Up * this.m_GroundSolver.MaxStep;
             }
+            
+#if UNITY_EDITOR
+            Debug.DrawLine(capsuleStart, hit.point, Color.red);
+#endif
 
             return hit;
         }
         
-        private void SetFootToPlane(Vector3 planeNormal, Vector3 planePoint)
+        private void GetHeightRotation(Vector3 hitNormal, Vector3 hitPoint)
         {
-            this.m_HitNormalR = Quaternion.FromToRotation(this.Up, planeNormal);
-            Vector3 point = XenoTools.LineToPlane(this.m_FootPosition + this.Up * this.m_GroundSolver.MaxStep, -this.Up, planeNormal, planePoint);
-            this.HeightFromGround = this.GetHeightFromGround(point);
-            this.HeightFromGround = Mathf.Clamp(HeightFromGround, -Mathf.Infinity, this.m_HeelHeight);
+            this.m_HitNormalR = Quaternion.FromToRotation(this.Up, hitNormal);
+            Vector3 point = XenoTools.LineToPlane(this.m_FootPosition, -this.Up, hitNormal, hitPoint);
+            this.HeightFromGround = m_GroundSolver.GetVerticalDist(this.m_FootPosition, point) 
+                - this.m_GroundSolver.GetVerticalDist(this.m_FootPosition, this.m_GroundSolver.Root.position) 
+                + this.m_GroundSolver.HeelOffset;
+            this.HeightFromGround = Mathf.Clamp(HeightFromGround, -this.m_GroundSolver.MaxStep, this.m_GroundSolver.MaxStep);
         }
         
-        private float GetHeightFromGround(Vector3 hitPoint)
-        {
-            return this.m_GroundSolver.GetVerticalDist(this.m_FootPosition, hitPoint) - this.m_GroundSolver.GetVerticalDist(this.FootTrans.position, this.m_GroundSolver.Root.transform.position)
-                + this.m_GroundSolver.HeelOffset;
-        }
     }
 }

@@ -6,14 +6,24 @@ using UnityEngine.AI;
 
 namespace XenoIK.Runtime.Ground
 {
+    public enum RayCastType
+    {
+        [InspectorName("物理")]
+        Phyics,
+        [InspectorName("导航网格")]
+        Navmesh,
+        [InspectorName("混合")]
+        Mix
+    }
+    
     [Serializable]
     public class GroundSolver
     {
         [Range(-1f, 1f)]
         public float HeelOffset; 
 
-        [LabelText("使用Navmesh")] 
-        public bool UseNavmesh;
+        [LabelText("检测类型")] 
+        public RayCastType CastType;
 
         [LabelText("层级")]
         public LayerMask Layers;
@@ -64,7 +74,25 @@ namespace XenoIK.Runtime.Ground
         private RaycastHit m_RootRayHit;
         private NavMeshHit m_RootNavHit;
         
-        public bool RootGrounded => (this.UseNavmesh ? m_RootNavHit.distance : m_RootRayHit.distance) < this.MaxStep * 2f;
+        public bool RootGrounded
+        {
+            get
+            {
+                switch (this.CastType)
+                {
+                    case RayCastType.Phyics:
+                        return m_RootRayHit.distance < this.MaxStep * 2f;
+                    case RayCastType.Navmesh:
+                        return m_RootNavHit.distance < this.MaxStep * 2f;
+                    case RayCastType.Mix:
+                        if (m_RootRayHit.collider != null) return m_RootRayHit.distance < this.MaxStep * 2f;
+                        if (m_RootNavHit.hit) return m_RootRayHit.distance < this.MaxStep * 2f;
+                        return false;
+                    default:
+                        return false;
+                }
+            }
+        }
 
         public Vector3 Up => this.UseRootRotation ? this.Root.up : Vector3.up;
         
@@ -153,13 +181,18 @@ namespace XenoIK.Runtime.Ground
         {
             if (!this.m_Inited) return;
 
-            if (this.UseNavmesh)
+            switch (this.CastType)
             {
-                this.m_RootNavHit = GetRootNavHit();
-            }
-            else
-            { 
-                this.m_RootRayHit = GetRootRayHit();
+                case RayCastType.Phyics:
+                    this.m_RootNavHit = GetRootNavHit();
+                    break;
+                case RayCastType.Navmesh:
+                    this.m_RootRayHit = GetRootRayHit();
+                    break;
+                case RayCastType.Mix:
+                    this.m_RootNavHit = GetRootNavHit();
+                    this.m_RootRayHit = GetRootRayHit();
+                    break;
             }
             
             this.IsGrounded = false;

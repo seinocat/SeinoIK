@@ -6,19 +6,21 @@ namespace XenoIK.Runtime.Ground
 {
     
     /// <summary>
-    /// Gournding IK, Foot Solver部分由Twobone IK解算
+    /// Gournder解算，负责解算骨盆偏移值和落脚点坐标旋转
+    /// Foot Solver部分由Twobone解算
     /// </summary>
-    public class Grounder : MonoBehaviour
+    public class GrounderIK : MonoBehaviour
     {
         [LabelText("权重"), Range(0, 1f)]
         public float Weight = 1f;
-        
-        [LabelText("解算器设置")]
-        public GroundSolver Solver;
-        
-        public List<TwoBoneIK> Legs;
+        [LabelText("腿部解算器")]
+        public List<TwoBoneIK> LegsIK; //只支持TwoBone Solver
+        [LabelText("骨盆")]
         public Transform Pelvis;
+        [LabelText("Root")]
         public Transform Root;
+        [LabelText("Ground解算器")]
+        public GroundSolver Solver;
 
         private List<Transform> m_Feet;
         private List<Quaternion> m_FootRotation;
@@ -43,14 +45,13 @@ namespace XenoIK.Runtime.Ground
             this.m_Feet = new List<Transform>();
 
             this.m_FootRotation = new List<Quaternion>();
-            this.Legs.ForEach(x =>
+            this.LegsIK.ForEach(x =>
             {
                 this.m_FootRotation.Add(Quaternion.identity);
-                this.m_Feet.Add(x.solver.Bone3.transform);
+                this.m_Feet.Add(x.solver.Bone3);
 
                 x.solver.OnPreUpdate += OnSolverUpdate;
                 x.solver.OnPostUpdate += OnPostSolverUpdate;
-                
             });
 
             this.m_AnimaPelvisLocalPos = this.Pelvis.localPosition;
@@ -69,9 +70,9 @@ namespace XenoIK.Runtime.Ground
             
             this.Solver.Update();
 
-            for (int i = 0; i < Legs.Count; i++)
+            for (int i = 0; i < LegsIK.Count; i++)
             {
-                var leg = Legs[i];
+                var leg = LegsIK[i];
                 m_FootRotation[i] = this.m_Feet[i].rotation;
 
                 leg.solver.IKPosition = Solver.Legs[i].IKPosition;

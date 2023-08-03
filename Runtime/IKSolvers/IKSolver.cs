@@ -7,8 +7,10 @@ namespace XenoIK
     public abstract class IKSolver
     {
         public bool initiated { get; private set; }
+        [HideInInspector]
         public bool firstInitiated = true;
         public Vector3 IKPosition;
+        [HideInInspector]
         public Transform root;
         [Range(0, 1f)]
         public float IKWeight = 1f;

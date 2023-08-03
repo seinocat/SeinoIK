@@ -1,8 +1,8 @@
 ﻿{
   "name": "com.gygame.ik",
-  "displayName": "GYGame.Ik",
-  "description": "Ik solver",
+  "displayName": "GYGame.IK",
+  "description": "IK solver",
   "url" : "https://github.com/Svily/XenoIK.git",
-  "version": "0.0.16",
+  "version": "0.0.18",
   "unity": "2020.3"
 }
