@@ -36,8 +36,6 @@ namespace XenoIK.Runtime.Ground
         private Quaternion m_HitNormalR, m_FinalRotation;
         private Vector3 Up;
         private Vector3 m_FootPosition; //脚部坐标
-        private float m_HeelHeight; //脚跟高度
-        
         private Vector3 m_HitPoint = Vector3.zero;
         private Vector3 m_HitNormal = Vector3.up;
 
@@ -47,7 +45,6 @@ namespace XenoIK.Runtime.Ground
             this.m_GroundSolver = solver;
             this.FootTrans = foot;
             this.IKPosition = this.FootTrans.position;
-            this.m_HeelHeight = (this.FootTrans.position - this.m_GroundSolver.Root.position).magnitude;
             this.m_LastPosition = this.FootTrans.position;
             this.m_LastTime = Time.deltaTime;
             this.Inited = true;

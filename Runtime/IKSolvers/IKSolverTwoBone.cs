@@ -238,8 +238,8 @@ namespace XenoIK
             float lenAC = vecAC.magnitude;
             float lenAT = vecAT.magnitude;
         
-            float oldABCAngle = CosineTriangle(lenAC, lenAB, lenBC) ;
-            float newABCAngle = CosineTriangle(lenAT, lenAB, lenBC) ;
+            float oldABCAngle = XenoTools.CosineTriangle(lenAC, lenAB, lenBC) ;
+            float newABCAngle = XenoTools.CosineTriangle(lenAT, lenAB, lenBC) ;
         
             Vector3 axis = Vector3.Cross(vecAB, vecBC);
             if (axis.sqrMagnitude < Mathf.Epsilon)
@@ -282,18 +282,7 @@ namespace XenoIK
             }
         }
         
-        /// <summary>
-        /// Acos求出为弧度，需要转换成角度
-        /// </summary>
-        /// <param name="sideA"></param>
-        /// <param name="sideB"></param>
-        /// <param name="sideC"></param>
-        /// <returns></returns>
-        private float CosineTriangle(float sideA, float sideB, float sideC)
-        {
-            float cosA = Mathf.Clamp((sideB * sideB + sideC * sideC - sideA * sideA) / (2 * sideB * sideC), -1f, 1f);
-            return Mathf.Acos(cosA) * Mathf.Rad2Deg;
-        }
+       
 
         #endregion
     }

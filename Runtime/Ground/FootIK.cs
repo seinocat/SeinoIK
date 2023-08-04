@@ -6,15 +6,15 @@ namespace XenoIK.Runtime.Ground
 {
     
     /// <summary>
-    /// Gournder解算，负责解算骨盆偏移值和落脚点坐标旋转
-    /// Foot Solver部分由Twobone解算
+    /// Gournd Solver负责解算骨盆偏移值和落脚点坐标旋转
+    /// IK Solver部分由Twobone解算
     /// </summary>
-    public class GrounderIK : MonoBehaviour
+    public class FootIK : MonoBehaviour
     {
         [LabelText("权重"), Range(0, 1f)]
         public float Weight = 1f;
-        [LabelText("腿部解算器")]
-        public List<TwoBoneIK> LegsIK; //只支持TwoBone Solver
+        [LabelText("IK解算器")]
+        public List<TwoBoneIK> LegsIK; //目前只支持TwoBone Solver
         [LabelText("骨盆")]
         public Transform Pelvis;
         [LabelText("Root")]
