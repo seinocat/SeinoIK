@@ -35,7 +35,7 @@ namespace XenoIK.Runtime.Ground
         public float MaxStep = 0.5f;
 
         [LabelText("脚部速度")]
-        public float FootSpeed = 2.5f;
+        public float FootSpeed = 3f;
 
         [LabelText("脚部半径")] 
         public float FootRadius = 0.1f;
@@ -50,7 +50,7 @@ namespace XenoIK.Runtime.Ground
         public bool RotateSolver = true;
 
         [LabelText("骨盆移动速度")] 
-        public float PelvisSpeed = 1f;
+        public float PelvisSpeed = 3f;
 
         [LabelText("骨盆阻尼"), Range(0f, 1f)]
         public float PelvisDamper;
@@ -59,7 +59,7 @@ namespace XenoIK.Runtime.Ground
         public float LowWeight = 1f;
         
         [Range(0f, 1f)]
-        public float HighWeight = 0f;
+        public float HighWeight;
 
         [Range(0f, 1f)]
         public float RootSphereCastRadius = 0.1f;
