@@ -78,7 +78,7 @@ namespace XenoIK.Runtime.Ground
                 leg.solver.IKWeight = this.Weight;
             }
 
-            this.Pelvis.position += this.Solver.Pelvis.IKOffset * Weight;
+            this.Pelvis.position += this.Solver.Pelvis.PelvisOffset * Weight;
             this.m_Solved = true;
             this.m_SolvedCounts = 0;
         }

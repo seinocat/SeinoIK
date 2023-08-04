@@ -13,7 +13,7 @@ namespace XenoIK.Runtime.Ground
         public float HeightFromGround;
         public Vector3 Velocity;
         public Transform FootTrans;
-        public float IKOffset;
+        public float FootOffset;
 
         #region Hit
 
@@ -93,20 +93,20 @@ namespace XenoIK.Runtime.Ground
             
             if (!this.m_GroundSolver.RootGrounded) offsetTarget = 0f;
             
-            this.IKOffset = XenoTools.LerpValue(this.IKOffset, offsetTarget, this.m_GroundSolver.FootSpeed, this.m_GroundSolver.FootSpeed);
-            this.IKOffset = Mathf.Lerp(this.IKOffset, offsetTarget, this.m_DeltaTime * this.m_GroundSolver.FootSpeed);
+            this.FootOffset = XenoTools.LerpValue(this.FootOffset, offsetTarget, this.m_GroundSolver.FootSpeed, this.m_GroundSolver.FootSpeed);
+            this.FootOffset = Mathf.Lerp(this.FootOffset, offsetTarget, this.m_DeltaTime * this.m_GroundSolver.FootSpeed);
 
             float legHeight = this.m_GroundSolver.GetVerticalDist(this.m_FootPosition, m_GroundSolver.Root.position);
             float maxOffset = Mathf.Clamp(this.m_GroundSolver.MaxStep - legHeight, 0f, this.m_GroundSolver.MaxStep);
             
-            this.IKOffset = Mathf.Clamp(this.IKOffset, -maxOffset, IKOffset);
+            this.FootOffset = Mathf.Clamp(this.FootOffset, -maxOffset, FootOffset);
             
             //获取脚部旋转
             Quaternion footDeltaR = Quaternion.RotateTowards(Quaternion.identity, this.m_HitNormalR, this.m_GroundSolver.MaxFootRotation);
             this.m_FinalRotation = Quaternion.Slerp(this.m_FinalRotation, footDeltaR, this.m_DeltaTime * this.m_GroundSolver.FootRotationSpeed);
 
             //返回IK Position和Rotation
-            this.IKPosition = this.m_FootPosition- this.Up * IKOffset;
+            this.IKPosition = this.m_FootPosition- this.Up * FootOffset;
             this.IKRotation = this.m_FinalRotation;
             
 #if UNITY_EDITOR
@@ -144,8 +144,6 @@ namespace XenoIK.Runtime.Ground
             }
             this.m_HitPoint = m_PreHeelHit.point;
             this.m_HitNormal = m_PreHeelHit.normal;
-
-
             
             return true;
         }
