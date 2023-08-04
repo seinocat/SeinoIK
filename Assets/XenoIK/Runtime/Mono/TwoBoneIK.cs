@@ -2,7 +2,6 @@
 
 namespace XenoIK
 {
-    [HideReferenceObjectPicker]
     public class TwoBoneIK : XenoIK
     {
         [HideLabel]
