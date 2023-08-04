@@ -17,7 +17,7 @@ namespace XenoIK
         
         /// <summary>
         /// 求直线和平面的交点
-        /// p = r + td
+        /// p = R + tV
         /// </summary>
         /// <param name="linePoint">直线上的点</param>
         /// <param name="lineDir">直线方向向量(需要归一化)</param>
@@ -47,9 +47,6 @@ namespace XenoIK
         {
             float cosA = Mathf.Clamp((sideB * sideB + sideC * sideC - sideA * sideA) / (2 * sideB * sideC), -1f, 1f);
             return Mathf.Acos(cosA) * Mathf.Rad2Deg;
-
-
-            
         }
 
         #endregion

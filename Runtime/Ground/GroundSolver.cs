@@ -202,8 +202,8 @@ namespace XenoIK.Runtime.Ground
             foreach (var leg in this.Legs)
             {
                 leg.Solve();
-                if (leg.IKOffset > lowOffset) lowOffset = leg.IKOffset;
-                if (leg.IKOffset < highOffset) highOffset = leg.IKOffset;
+                if (leg.FootOffset > lowOffset) lowOffset = leg.FootOffset;
+                if (leg.FootOffset < highOffset) highOffset = leg.FootOffset;
 
                 if (leg.IsGounded) this.IsGrounded = true;
             }
@@ -211,7 +211,7 @@ namespace XenoIK.Runtime.Ground
             lowOffset = Mathf.Max(lowOffset, 0f);
             highOffset = Mathf.Min(highOffset, 0f);
             
-            this.Pelvis.Solve(-lowOffset * this.LowWeight, -highOffset * this.HighWeight, this.IsGrounded);
+            this.Pelvis.Solve(-lowOffset * this.LowWeight, -highOffset * this.HighWeight);
         }
     }
 }
