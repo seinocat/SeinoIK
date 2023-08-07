@@ -97,8 +97,11 @@ namespace XenoIK.Runtime.Ground
             this.Pelvis.position += this.GroundSolver.PelvisSolver.PelvisOffset * Weight;
             
             //设置权重
-            bool isUp = this.Root.position.y - this.m_LastRootY > 0;
-            this.GroundSolver.HighWeight = XenoTools.LerpValue(this.GroundSolver.HighWeight, this.GroundSolver.Velocity > this.GroundSolver.MinFootSpeed &&  isUp? 1 : 0, this.GroundSolver.FootSpeed, this.GroundSolver.FootSpeed);
+            if (this.GroundSolver.AutoHighWeight)
+            {
+                bool isUp = this.Root.position.y - this.m_LastRootY > 0;
+                this.GroundSolver.HighWeight = XenoTools.LerpValue(this.GroundSolver.HighWeight, this.GroundSolver.Velocity > this.GroundSolver.MinFootSpeed &&  isUp? 1 : 0, this.GroundSolver.FootSpeed, this.GroundSolver.FootSpeed);
+            }
             
             this.m_IKSolvedCounts = 0;
             this.m_Solved = true;

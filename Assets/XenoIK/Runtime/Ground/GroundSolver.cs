@@ -53,7 +53,10 @@ namespace XenoIK.Runtime.Ground
         public float MaxFootRotation = 50f;
         
         [LabelText("脚部高度偏移"), Range(-1f, 1f)]
-        public float HeelOffset; 
+        public float HeelOffset;
+
+        [LabelText("自动调节高度权重")]
+        public bool AutoHighWeight = true;
 
         [LabelText("低偏移权重"), Range(0f, 1f)]
         public float LowWeight = 1f;
