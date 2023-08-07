@@ -48,6 +48,7 @@ MonoBehaviour:
     IKPosition: {x: 0, y: 0, z: 0}
     root: {fileID: 0}
     IKWeight: 1
+    IKGoal: 0
     SolverType: 0
     Bone1: {fileID: 0}
     Bone2: {fileID: 0}
@@ -102,30 +103,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Weight: 1
-  LegsIK:
-  - {fileID: 888901325004799429}
-  - {fileID: 4714634530351537387}
+  LegsIK: []
   Pelvis: {fileID: 0}
   Root: {fileID: 0}
-  Solver:
-    HeelOffset: 0
+  GroundSolver:
     CastType: 0
     Layers:
       serializedVersion: 2
       m_Bits: 1
+    RotateSolver: 1
     Prediction: 0.05
-    MaxStep: 0.5
+    PelvisSpeed: 3
     FootSpeed: 3
+    FootRotationSpeed: 7
+    MaxStep: 0.5
     FootRadius: 0.1
     MaxFootRotation: 50
-    FootRotationSpeed: 7
-    RotateSolver: 1
-    PelvisSpeed: 3
-    PelvisDamper: 0
+    HeelOffset: 0
     LowWeight: 1
     HighWeight: 0
     RootSphereCastRadius: 0.1
-    IsGrounded: 0
 --- !u!1 &2837630690831833230
 GameObject:
   m_ObjectHideFlags: 0
@@ -174,6 +171,7 @@ MonoBehaviour:
     IKPosition: {x: 0, y: 0, z: 0}
     root: {fileID: 0}
     IKWeight: 1
+    IKGoal: 1
     SolverType: 0
     Bone1: {fileID: 0}
     Bone2: {fileID: 0}

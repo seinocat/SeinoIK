@@ -19,52 +19,47 @@ namespace XenoIK.Runtime.Ground
     [Serializable]
     public class GroundSolver
     {
-        [Range(-1f, 1f)]
-        public float HeelOffset; 
-
         [LabelText("检测类型")] 
-        public RayCastType CastType;
+        public RayCastType CastType = RayCastType.Navmesh;
 
-        [LabelText("层级")]
+        [LabelText("检测层级")]
         public LayerMask Layers;
+        
+        [LabelText("旋转解算器")] 
+        public bool RotateSolver = true;
         
         [LabelText("预测速度")]
         public float Prediction = 0.05f;
-
-        [LabelText("脚部最大高度")] 
-        public float MaxStep = 0.5f;
-
+        
+        [LabelText("骨盆移动速度")] 
+        public float PelvisSpeed = 3f;
+        
         [LabelText("脚部速度")]
         public float FootSpeed = 3f;
 
-        [LabelText("脚部半径")] 
-        public float FootRadius = 0.1f;
-
-        [LabelText("脚部最大角度"), Range(0, 90f)]
-        public float MaxFootRotation = 50f;
-        
         [LabelText("脚部旋转速度")]
         public float FootRotationSpeed = 7f;
 
-        [LabelText("旋转解算器")] 
-        public bool RotateSolver = true;
+        [LabelText("脚部最大偏移高度")] 
+        public float MaxStep = 0.5f;
+        
+        [LabelText("脚部半径")] 
+        public float FootRadius = 0.1f;
 
-        [LabelText("骨盆移动速度")] 
-        public float PelvisSpeed = 3f;
+        [LabelText("脚部最大旋转角度"), Range(0, 90f)]
+        public float MaxFootRotation = 50f;
+        
+        [LabelText("脚部高度偏移"), Range(-1f, 1f)]
+        public float HeelOffset; 
 
-        [LabelText("骨盆阻尼"), Range(0f, 1f)]
-        public float PelvisDamper;
-
-        [Range(0f, 1f)]
+        [LabelText("低偏移权重"), Range(0f, 1f)]
         public float LowWeight = 1f;
         
-        [Range(0f, 1f)]
+        [LabelText("高偏移权重"), Range(0f, 1f)]
         public float HighWeight;
 
-        [Range(0f, 1f)]
+        [LabelText("Root检测半径"), Range(0f, 1f)]
         public float RootSphereCastRadius = 0.1f;
-        
-        public bool IsGrounded;
         
         public Transform Root { get; private set; }
         
@@ -73,6 +68,7 @@ namespace XenoIK.Runtime.Ground
         
         private RaycastHit m_RootRayHit;
         private NavMeshHit m_RootNavHit;
+        private bool m_Inited;
         
         public bool RootGrounded
         {
@@ -97,9 +93,7 @@ namespace XenoIK.Runtime.Ground
         public Vector3 Up => this.UseRootRotation ? this.Root.up : Vector3.up;
         
         public Vector3 FootCenterOffset => this.Root.forward * this.FootRadius;
-
-        private bool m_Inited;
-
+        
         public bool UseRootRotation
         {
             get
@@ -164,8 +158,7 @@ namespace XenoIK.Runtime.Ground
             this.m_RootRayHit = new RaycastHit();
             this.Legs = new List<GroundLeg>();
             this.Pelvis = new GroundPelvis();
-
-
+            
             for (int i = 0; i < feet.Count; i++)
             {
                 GroundLeg leg = new GroundLeg();
@@ -195,7 +188,6 @@ namespace XenoIK.Runtime.Ground
                     break;
             }
             
-            this.IsGrounded = false;
             float lowOffset = float.MinValue;
             float highOffset = float.MaxValue;
 
@@ -204,8 +196,6 @@ namespace XenoIK.Runtime.Ground
                 leg.Solve();
                 if (leg.FootOffset > lowOffset) lowOffset = leg.FootOffset;
                 if (leg.FootOffset < highOffset) highOffset = leg.FootOffset;
-
-                if (leg.IsGounded) this.IsGrounded = true;
             }
 
             lowOffset = Mathf.Max(lowOffset, 0f);
