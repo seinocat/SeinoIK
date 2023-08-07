@@ -25,13 +25,13 @@ namespace XenoIK.Runtime.Ground
         private List<Transform> m_Feet;
         private List<Quaternion> m_FootRotation;
         private Vector3 m_AnimaPelvisLocalPos, m_SolvedPelvisLocalPos;
-        private int m_SolvedCounts;
+        private int m_IKSolvedCounts;
         private bool m_Solved;
         private bool m_Inited;
 
         private void Awake()
-        {
-            if (!this.m_Inited) this.Init();
+        { 
+            this.Init();
         }
 
         public void Update()
@@ -64,14 +64,17 @@ namespace XenoIK.Runtime.Ground
 
         private void OnSolverUpdate()
         {
+            if (!this.m_Inited) return;
             if (this.Weight <= 0) return;
             if (this.m_Solved) return;
 
             if (this.Pelvis.localPosition != m_SolvedPelvisLocalPos) this.m_AnimaPelvisLocalPos = this.Pelvis.localPosition;
             else this.Pelvis.localPosition = this.m_AnimaPelvisLocalPos;
             
+            //Ground Solver先解算出落脚点和骨盆偏移值
             this.GroundSolver.Update();
 
+            //IK Solver获取Ground Solver的落脚点坐标再解算腿部姿态
             for (int i = 0; i < LegsIK.Count; i++)
             {
                 var leg = LegsIK[i];
@@ -81,18 +84,20 @@ namespace XenoIK.Runtime.Ground
                 leg.solver.IKWeight = this.Weight;
             }
 
+            //偏移骨盆
             this.Pelvis.position += this.GroundSolver.Pelvis.PelvisOffset * Weight;
             this.m_Solved = true;
-            this.m_SolvedCounts = 0;
+            this.m_IKSolvedCounts = 0;
         }
 
         private void OnPostSolverUpdate()
         {
+            if (!this.m_Inited) return;
             if (this.Weight <= 0f) return;
-            this.m_SolvedCounts++;
+            this.m_IKSolvedCounts++;
 
-            if (this.m_SolvedCounts < this.m_Feet.Count) return;
-
+            if (this.m_IKSolvedCounts < this.m_Feet.Count) return;
+            //等待这一帧所有Solver解算完成后再旋转脚部
             this.m_Solved = false;
             for (int i = 0; i < this.m_Feet.Count; i++)
             {

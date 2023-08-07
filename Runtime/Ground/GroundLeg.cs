@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AI;
 
 namespace XenoIK.Runtime.Ground
@@ -7,22 +6,20 @@ namespace XenoIK.Runtime.Ground
     public class GroundLeg
     {
         public Vector3 IKPosition;
+        public Vector3 Velocity;
         public Quaternion IKRotation;
+        public Transform FootTrans;
         public bool Inited;
         public float HeightFromGround;
-        public Vector3 Velocity;
-        public Transform FootTrans;
         public float FootOffset;
 
         #region Hit
 
         //射线
-        private RaycastHit m_HeelHit;
         private RaycastHit m_PreHeelHit;
 
         //Navmesh
         private float NavPosOffset = 0.001f;
-        private NavMeshHit m_HeelNavHit;
         private NavMeshHit m_PreHeelNavHit;
         private NavMeshHit m_ForwardNavHit;
         private NavMeshHit m_RightNavHit;
@@ -130,8 +127,7 @@ namespace XenoIK.Runtime.Ground
         /// <returns></returns>
         private bool GetPhycisCast(Vector3 prediction)
         {
-            this.m_HeelHit = this.GetRaycastHit(Vector3.zero);
-            this.m_PreHeelHit = this.GetCapsuleHit(prediction);
+            this.m_PreHeelHit = this.GetRayHit(prediction);
 
             if (this.m_PreHeelHit.collider == null)
             {
@@ -152,7 +148,6 @@ namespace XenoIK.Runtime.Ground
         /// <returns></returns>
         private bool GetNavmeshCast(Vector3 prediction)
         {
-            this.m_HeelNavHit = this.GetNavmeshHit(Vector3.zero);
             this.m_PreHeelNavHit = this.GetNavmeshHit(prediction, true);
 
             if (!this.m_PreHeelNavHit.hit)
@@ -161,8 +156,8 @@ namespace XenoIK.Runtime.Ground
                 this.m_HitNormal = this.Up;
                 return false;
             }
-            m_HitPoint = m_HeelNavHit.position;
-            m_HitNormal = m_HeelNavHit.normal;
+            m_HitPoint = m_PreHeelNavHit.position;
+            m_HitNormal = m_PreHeelNavHit.normal;
 
             return true;
         }
@@ -196,28 +191,7 @@ namespace XenoIK.Runtime.Ground
             return hit;
         }
         
-        private RaycastHit GetRaycastHit(Vector3 predictionOffset)
-        {
-            RaycastHit hit = new RaycastHit();
-            Vector3 origin = this.m_FootPosition + predictionOffset;
-
-            hit.point = origin - this.Up * this.m_GroundSolver.MaxStep;
-            hit.normal = this.Up;
-
-            if (this.m_GroundSolver.MaxStep <= 0f) return hit;
-
-            Physics.Raycast(origin + this.Up * this.m_GroundSolver.MaxStep, -this.Up, out hit,
-                this. m_GroundSolver.MaxStep * 2f, this.m_GroundSolver.Layers, QueryTriggerInteraction.Ignore);
-
-            if (hit.point == Vector3.zero && hit.normal == Vector3.zero)
-            {
-                hit.point = origin - this.Up * this.m_GroundSolver.MaxStep;
-            }
-            
-            return hit;
-        }
-
-        private RaycastHit GetCapsuleHit(Vector3 predictionOffset)
+        private RaycastHit GetRayHit(Vector3 predictionOffset)
         {
             RaycastHit hit = new RaycastHit();
             Vector3 footCenter = this.m_GroundSolver.FootCenterOffset;
