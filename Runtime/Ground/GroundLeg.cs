@@ -6,7 +6,6 @@ namespace XenoIK.Runtime.Ground
 {
     public class GroundLeg
     {
-        public bool IsGounded;
         public Vector3 IKPosition;
         public Quaternion IKRotation;
         public bool Inited;
@@ -68,8 +67,7 @@ namespace XenoIK.Runtime.Ground
 
             //根据速度预测下一帧的落脚点
             Vector3 prediction = Velocity * this.m_GroundSolver.Prediction;
-            this.IsGounded = false;
-            
+
             //根据检测类型
             switch (this.m_GroundSolver.CastType)
             {
@@ -134,7 +132,6 @@ namespace XenoIK.Runtime.Ground
         {
             this.m_HeelHit = this.GetRaycastHit(Vector3.zero);
             this.m_PreHeelHit = this.GetCapsuleHit(prediction);
-            if (this.m_HeelHit.collider != null || this.m_PreHeelHit.collider != null) this.IsGounded = true;
 
             if (this.m_PreHeelHit.collider == null)
             {
@@ -157,7 +154,7 @@ namespace XenoIK.Runtime.Ground
         {
             this.m_HeelNavHit = this.GetNavmeshHit(Vector3.zero);
             this.m_PreHeelNavHit = this.GetNavmeshHit(prediction, true);
-            if (this.m_HeelNavHit.hit || this.m_PreHeelNavHit.hit) this.IsGounded = true;
+
             if (!this.m_PreHeelNavHit.hit)
             {
                 this.m_HitPoint = this.m_FootPosition;

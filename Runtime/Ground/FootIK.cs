@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -19,7 +20,7 @@ namespace XenoIK.Runtime.Ground
         [LabelText("Root")]
         public Transform Root;
         [LabelText("Ground解算器")]
-        public GroundSolver Solver;
+        public GroundSolver GroundSolver;
 
         private List<Transform> m_Feet;
         private List<Quaternion> m_FootRotation;
@@ -42,8 +43,9 @@ namespace XenoIK.Runtime.Ground
         private void Init()
         {
             this.m_Feet = new List<Transform>();
-
             this.m_FootRotation = new List<Quaternion>();
+            
+            //初始化IK Solver
             this.LegsIK.ForEach(x =>
             {
                 this.m_FootRotation.Add(Quaternion.identity);
@@ -53,8 +55,9 @@ namespace XenoIK.Runtime.Ground
                 x.solver.OnPostUpdate += OnPostSolverUpdate;
             });
 
+            //初始化Ground Solver
             this.m_AnimaPelvisLocalPos = this.Pelvis.localPosition;
-            this.Solver.InitSolver(this.Root, this.m_Feet);
+            this.GroundSolver.InitSolver(this.Root, this.m_Feet);
             
             this.m_Inited = true;
         }
@@ -67,18 +70,18 @@ namespace XenoIK.Runtime.Ground
             if (this.Pelvis.localPosition != m_SolvedPelvisLocalPos) this.m_AnimaPelvisLocalPos = this.Pelvis.localPosition;
             else this.Pelvis.localPosition = this.m_AnimaPelvisLocalPos;
             
-            this.Solver.Update();
+            this.GroundSolver.Update();
 
             for (int i = 0; i < LegsIK.Count; i++)
             {
                 var leg = LegsIK[i];
                 m_FootRotation[i] = this.m_Feet[i].rotation;
 
-                leg.solver.IKPosition = Solver.Legs[i].IKPosition;
+                leg.solver.IKPosition = GroundSolver.Legs[i].IKPosition;
                 leg.solver.IKWeight = this.Weight;
             }
 
-            this.Pelvis.position += this.Solver.Pelvis.PelvisOffset * Weight;
+            this.Pelvis.position += this.GroundSolver.Pelvis.PelvisOffset * Weight;
             this.m_Solved = true;
             this.m_SolvedCounts = 0;
         }
@@ -93,10 +96,35 @@ namespace XenoIK.Runtime.Ground
             this.m_Solved = false;
             for (int i = 0; i < this.m_Feet.Count; i++)
             {
-                this.m_Feet[i].rotation = Quaternion.Slerp(Quaternion.identity, this.Solver.Legs[i].IKRotation, this.Weight) * m_FootRotation[i];
+                this.m_Feet[i].rotation = Quaternion.Slerp(Quaternion.identity, this.GroundSolver.Legs[i].IKRotation, this.Weight) * m_FootRotation[i];
             }
 
             this.m_SolvedPelvisLocalPos = this.Pelvis.localPosition;
         }
+
+#if UNITY_EDITOR
+        
+        private void GetIKSolver()
+        {
+            if (this.LegsIK != null && this.LegsIK.Count > 0) return;
+
+            var iks = this.transform.GetComponentsInChildren<TwoBoneIK>().ToList();
+            this.LegsIK = iks;
+        }
+
+        [Button("一键绑定骨骼")]
+        public void AutoBindRootAndPelvis()
+        {
+            this.GetIKSolver();
+            this.Pelvis = this.transform.parent.FindPelvis();
+            if (this.Root == null) this.Root = XenoTools.FindTargetBone(this.transform.parent, "root", true);
+            if (this.Root == null && this.Pelvis != null) this.Root = this.Pelvis.parent;
+            for (int i = 0; i < this.LegsIK.Count; i++)
+            {
+                this.LegsIK[i].BindBones();
+            }
+        }
+        
+#endif
     }
 }

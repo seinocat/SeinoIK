@@ -6,6 +6,14 @@ namespace XenoIK
 {
     public static class XenoTools 
     {
+        public static Color jointColor = Color.cyan;
+        public static Color boneColor = Color.cyan;
+        private static string m_Pelvis = "pelvis";
+        private static string m_Hips = "hips";
+        private static string m_L_Foot1 = "left_foot";
+        private static string m_L_Foot2 = "l foot";
+        private static string m_R_Foot1 = "right_foot";
+        private static string m_R_Foot2 = "r foot";
 
         #region Math
 
@@ -53,8 +61,7 @@ namespace XenoIK
 
         #region Editor
 
-        public static Color jointColor = Color.cyan;
-        public static Color boneColor = Color.cyan;
+
 
         public static Bone FindLastBone(this List<Bone> list)
         {
@@ -85,13 +92,28 @@ namespace XenoIK
             return chains;
         }
 
-        public static Transform FindTargetBone(Transform root, string bone)
+        /// <summary>
+        /// 查找指定名称的骨骼
+        /// </summary>
+        /// <param name="root"></param>
+        /// <param name="bone"></param>
+        /// <param name="equal"></param>
+        /// <returns></returns>
+        public static Transform FindTargetBone(Transform root, string bone, bool equal = false)
         {
             for (int i = 0; i < root.childCount; i++)
             {
                 var child = root.GetChild(i);
-                if (child.name.ToLower().Contains(bone))
-                    return child;
+                if (equal)
+                {
+                    if (child.name.ToLower().Equals(bone))
+                        return child;
+                }
+                else
+                {
+                    if (child.name.ToLower().Contains(bone))
+                        return child;
+                }
                 var target = FindTargetBone(child, bone);
                 if (target != null)
                     return target;
@@ -106,6 +128,48 @@ namespace XenoIK
             if (component == null) component = go.AddComponent<LookAtCtrlMgr>();
             component.OnInit();
             return component;
+        }
+
+        public static Transform FindPelvis(this Transform root)
+        {
+            var pelvis = FindTargetBone(root, m_Pelvis);
+            if (pelvis == null) pelvis = FindTargetBone(root, m_Hips);
+
+            return pelvis;
+        }
+
+        public static List<Transform> FindGoalBone(Transform root, AvatarIKGoal goal)
+        {
+            List<Transform> bones = new List<Transform>();
+            switch (goal)
+            {
+                case AvatarIKGoal.LeftFoot:
+                    FindFoot(root, true, ref bones);
+                    break;
+                case AvatarIKGoal.RightFoot:
+                    FindFoot(root, false, ref bones);
+                    break;
+                case AvatarIKGoal.LeftHand:
+                    break;
+                case AvatarIKGoal.RightHand:
+                    break;
+            }
+
+            return bones;
+        }
+
+        private static void FindFoot(Transform root, bool isLeft, ref List<Transform> bones)
+        {
+            var foot = FindTargetBone(root, isLeft ? m_L_Foot1 : m_R_Foot1);
+            if (foot == null) foot = FindTargetBone(root, isLeft ? m_L_Foot2 : m_R_Foot2);
+            if (foot != null)
+            {
+                var calf = foot.parent;
+                var thigh = calf.parent;
+                bones.Add(thigh);
+                bones.Add(calf);
+                bones.Add(foot);
+            }
         }
 
         #endregion

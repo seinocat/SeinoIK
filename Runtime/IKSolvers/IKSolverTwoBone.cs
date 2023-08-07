@@ -49,6 +49,7 @@ namespace XenoIK
     [Serializable]
     public class IKSolverTwoBone : IKSolver
     {
+        public AvatarIKGoal IKGoal = AvatarIKGoal.LeftFoot;
         public SolverType SolverType = SolverType.Animation;
         public Transform Bone1;
         public Transform Bone2;
