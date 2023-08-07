@@ -5,10 +5,11 @@ namespace XenoIK.Runtime.Ground
     public class GroundPelvis
     {
         public Vector3 PelvisOffset;
-        
+
         private GroundSolver m_GroundSover;
         private bool m_Inited;
         private float m_HighOffset;
+       
 
         public void InitPelvis(GroundSolver solver)
         {

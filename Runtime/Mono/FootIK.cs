@@ -22,12 +22,16 @@ namespace XenoIK.Runtime.Ground
         [LabelText("Ground解算器")]
         public GroundSolver GroundSolver;
 
+        public bool Debug;
+
         private List<Transform> m_Feet;
         private List<Quaternion> m_FootRotation;
         private Vector3 m_AnimaPelvisLocalPos, m_SolvedPelvisLocalPos;
+        private float m_LastRootY;
         private int m_IKSolvedCounts;
         private bool m_Solved;
         private bool m_Inited;
+        
 
         private void Awake()
         { 
@@ -57,8 +61,8 @@ namespace XenoIK.Runtime.Ground
 
             //初始化Ground Solver
             this.m_AnimaPelvisLocalPos = this.Pelvis.localPosition;
-            this.GroundSolver.InitSolver(this.Root, this.m_Feet);
-            
+            this.GroundSolver.InitSolver(this.Root, this.Pelvis, this.m_Feet);
+            this.m_LastRootY = this.Root.position.y;
             this.m_Inited = true;
         }
 
@@ -84,10 +88,20 @@ namespace XenoIK.Runtime.Ground
                 leg.solver.IKWeight = this.Weight;
             }
 
+            if (Debug)
+            {
+                UnityEngine.Debug.Log("");
+            }
+            
             //偏移骨盆
-            this.Pelvis.position += this.GroundSolver.Pelvis.PelvisOffset * Weight;
-            this.m_Solved = true;
+            this.Pelvis.position += this.GroundSolver.PelvisSolver.PelvisOffset * Weight;
+            
+            //设置权重
+            bool isUp = this.Root.position.y - this.m_LastRootY > 0;
+            this.GroundSolver.HighWeight = XenoTools.LerpValue(this.GroundSolver.HighWeight, this.GroundSolver.Velocity > this.GroundSolver.MinFootSpeed &&  isUp? 1 : 0, this.GroundSolver.FootSpeed, this.GroundSolver.FootSpeed);
+            
             this.m_IKSolvedCounts = 0;
+            this.m_Solved = true;
         }
 
         private void OnPostSolverUpdate()
@@ -104,6 +118,7 @@ namespace XenoIK.Runtime.Ground
                 this.m_Feet[i].rotation = Quaternion.Slerp(Quaternion.identity, this.GroundSolver.Legs[i].IKRotation, this.Weight) * m_FootRotation[i];
             }
 
+            this.m_LastRootY = this.Root.position.y;
             this.m_SolvedPelvisLocalPos = this.Pelvis.localPosition;
         }
 

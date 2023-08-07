@@ -27,13 +27,13 @@ namespace XenoIK.Runtime.Ground
         #endregion
         
         private GroundSolver m_GroundSolver;
-        private float m_LastTime, m_DeltaTime;
-        private Vector3 m_LastPosition;
         private Quaternion m_HitNormalR, m_FinalRotation;
+        private Vector3 m_LastPosition;
         private Vector3 Up;
         private Vector3 m_FootPosition; //脚部坐标
         private Vector3 m_HitPoint = Vector3.zero;
         private Vector3 m_HitNormal = Vector3.up;
+        private float m_LastTime, m_DeltaTime;
 
         public void InitLeg(GroundSolver solver, Transform foot)
         {
@@ -61,7 +61,7 @@ namespace XenoIK.Runtime.Ground
 
             this.Velocity = (this.m_FootPosition - this.m_LastPosition) / this.m_DeltaTime;
             this.m_LastPosition = this.m_FootPosition;
-
+            
             //根据速度预测下一帧的落脚点
             Vector3 prediction = Velocity * this.m_GroundSolver.Prediction;
 
@@ -84,18 +84,14 @@ namespace XenoIK.Runtime.Ground
             
             GetHeightRotation(m_HitNormal, m_HitPoint);
             
-            float offsetTarget =  Mathf.Clamp(this.HeightFromGround, -this.m_GroundSolver.MaxStep, this.m_GroundSolver.MaxStep);
+            float offsetTarget = this.HeightFromGround;
             
             if (!this.m_GroundSolver.RootGrounded) offsetTarget = 0f;
-            
+
+            //IK偏移插值
             this.FootOffset = XenoTools.LerpValue(this.FootOffset, offsetTarget, this.m_GroundSolver.FootSpeed, this.m_GroundSolver.FootSpeed);
             this.FootOffset = Mathf.Lerp(this.FootOffset, offsetTarget, this.m_DeltaTime * this.m_GroundSolver.FootSpeed);
 
-            float legHeight = this.m_GroundSolver.GetVerticalDist(this.m_FootPosition, m_GroundSolver.Root.position);
-            float maxOffset = Mathf.Clamp(this.m_GroundSolver.MaxStep - legHeight, 0f, this.m_GroundSolver.MaxStep);
-            
-            this.FootOffset = Mathf.Clamp(this.FootOffset, -maxOffset, FootOffset);
-            
             //获取脚部旋转
             Quaternion footDeltaR = Quaternion.RotateTowards(Quaternion.identity, this.m_HitNormalR, this.m_GroundSolver.MaxFootRotation);
             this.m_FinalRotation = Quaternion.Slerp(this.m_FinalRotation, footDeltaR, this.m_DeltaTime * this.m_GroundSolver.FootRotationSpeed);
