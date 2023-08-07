@@ -87,11 +87,16 @@ namespace XenoIK.Runtime.Ground
             float offsetTarget = this.HeightFromGround;
             
             if (!this.m_GroundSolver.RootGrounded) offsetTarget = 0f;
-
-            //IK偏移插值
+            
             this.FootOffset = XenoTools.LerpValue(this.FootOffset, offsetTarget, this.m_GroundSolver.FootSpeed, this.m_GroundSolver.FootSpeed);
             this.FootOffset = Mathf.Lerp(this.FootOffset, offsetTarget, this.m_DeltaTime * this.m_GroundSolver.FootSpeed);
 
+            //当前帧源动画的抬脚高度
+            float legHeight = this.m_GroundSolver.GetVerticalDist(this.m_FootPosition, m_GroundSolver.Root.position);
+            float maxOffset = Mathf.Clamp(this.m_GroundSolver.MaxStep - legHeight, 0f, this.m_GroundSolver.MaxStep);
+            
+            this.FootOffset = Mathf.Clamp(this.FootOffset, -maxOffset, FootOffset);
+            
             //获取脚部旋转
             Quaternion footDeltaR = Quaternion.RotateTowards(Quaternion.identity, this.m_HitNormalR, this.m_GroundSolver.MaxFootRotation);
             this.m_FinalRotation = Quaternion.Slerp(this.m_FinalRotation, footDeltaR, this.m_DeltaTime * this.m_GroundSolver.FootRotationSpeed);
