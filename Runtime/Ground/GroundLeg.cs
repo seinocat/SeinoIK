@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
+using XenoIK.Runtime.Enum;
 
 namespace XenoIK.Runtime.Ground
 {
@@ -16,11 +17,11 @@ namespace XenoIK.Runtime.Ground
         #region Hit
 
         //射线
-        private RaycastHit m_PreHeelHit;
+        private RaycastHit m_FootHit;
 
         //Navmesh
-        private float NavPosOffset = 0.001f;
-        private NavMeshHit m_PreHeelNavHit;
+        private float m_NavPosOffset = 0.001f;
+        private NavMeshHit m_FootNavHit;
         private NavMeshHit m_ForwardNavHit;
         private NavMeshHit m_RightNavHit;
 
@@ -88,13 +89,14 @@ namespace XenoIK.Runtime.Ground
             
             if (!this.m_GroundSolver.RootGrounded) offsetTarget = 0f;
             
+            //插值
             this.FootOffset = XenoTools.LerpValue(this.FootOffset, offsetTarget, this.m_GroundSolver.FootSpeed, this.m_GroundSolver.FootSpeed);
             this.FootOffset = Mathf.Lerp(this.FootOffset, offsetTarget, this.m_DeltaTime * this.m_GroundSolver.FootSpeed);
 
             //当前帧源动画的抬脚高度
             float legHeight = this.m_GroundSolver.GetVerticalDist(this.m_FootPosition, m_GroundSolver.Root.position);
             float maxOffset = Mathf.Clamp(this.m_GroundSolver.MaxStep - legHeight, 0f, this.m_GroundSolver.MaxStep);
-            
+            //IK不启用时抬脚高度在不能高于源动画的高度
             this.FootOffset = Mathf.Clamp(this.FootOffset, -maxOffset, FootOffset);
             
             //获取脚部旋转
@@ -109,10 +111,10 @@ namespace XenoIK.Runtime.Ground
             switch (this.m_GroundSolver.CastType)
             {
                 case RayCastType.Phyics:
-                    Debug.DrawLine(this.IKPosition, this.IKPosition + m_PreHeelHit.normal * 0.5f, Color.cyan);
+                    Debug.DrawLine(this.IKPosition, this.IKPosition + m_FootHit.normal * 0.5f, Color.cyan);
                     break;
                 case RayCastType.Navmesh:
-                    Debug.DrawLine(this.IKPosition, this.IKPosition + m_PreHeelHit.normal * 0.5f, Color.cyan);
+                    Debug.DrawLine(this.IKPosition, this.IKPosition + m_FootHit.normal * 0.5f, Color.cyan);
                     break;
                 case RayCastType.Mix:
                     break;
@@ -128,16 +130,16 @@ namespace XenoIK.Runtime.Ground
         /// <returns></returns>
         private bool GetPhycisCast(Vector3 prediction)
         {
-            this.m_PreHeelHit = this.GetRayHit(prediction);
+            this.m_FootHit = this.GetRayHit(prediction);
 
-            if (this.m_PreHeelHit.collider == null)
+            if (this.m_FootHit.collider == null)
             {
                 this.m_HitPoint = this.m_FootPosition;
                 this.m_HitNormal = this.Up;
                 return false;
             }
-            this.m_HitPoint = m_PreHeelHit.point;
-            this.m_HitNormal = m_PreHeelHit.normal;
+            this.m_HitPoint = m_FootHit.point;
+            this.m_HitNormal = m_FootHit.normal;
             
             return true;
         }
@@ -147,20 +149,18 @@ namespace XenoIK.Runtime.Ground
         /// </summary>
         /// <param name="prediction"></param>
         /// <returns></returns>
-        private bool GetNavmeshCast(Vector3 prediction)
+        private void GetNavmeshCast(Vector3 prediction)
         {
-            this.m_PreHeelNavHit = this.GetNavmeshHit(prediction, true);
+            this.m_FootNavHit = this.GetNavmeshHit(prediction, true);
 
-            if (!this.m_PreHeelNavHit.hit)
+            if (!this.m_FootNavHit.hit)
             {
                 this.m_HitPoint = this.m_FootPosition;
                 this.m_HitNormal = this.Up;
-                return false;
+                return;
             }
-            m_HitPoint = m_PreHeelNavHit.position;
-            m_HitNormal = m_PreHeelNavHit.normal;
-
-            return true;
+            m_HitPoint = m_FootNavHit.position;
+            m_HitNormal = m_FootNavHit.normal;
         }
         
         private NavMeshHit GetNavmeshHit(Vector3 predictionOffset, bool computeNormal = false)
@@ -175,9 +175,9 @@ namespace XenoIK.Runtime.Ground
             {
                 //因为NavHit不计算法线，所以需要手动计算法线
                 hit.normal = Vector3.up;
-                var fw = NavMesh.SamplePosition(samplePos + this.m_GroundSolver.Root.forward * this.NavPosOffset,
+                var fw = NavMesh.SamplePosition(samplePos + this.m_GroundSolver.Root.forward * this.m_NavPosOffset,
                     out this.m_ForwardNavHit, this.m_GroundSolver.MaxStep * 2f, NavMesh.AllAreas);
-                var rt = NavMesh.SamplePosition(samplePos + this.m_GroundSolver.Root.right * this.NavPosOffset,
+                var rt = NavMesh.SamplePosition(samplePos + this.m_GroundSolver.Root.right * this.m_NavPosOffset,
                     out this.m_RightNavHit, this.m_GroundSolver.MaxStep * 2f, NavMesh.AllAreas);
 
                 if (fw && rt)

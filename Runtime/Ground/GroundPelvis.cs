@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using XenoIK.Runtime.Enum;
 
 namespace XenoIK.Runtime.Ground
 {
@@ -9,6 +10,7 @@ namespace XenoIK.Runtime.Ground
         private GroundSolver m_GroundSover;
         private bool m_Inited;
         private float m_HighOffset;
+        private float m_Veloctiy;
        
 
         public void InitPelvis(GroundSolver solver)
@@ -24,7 +26,15 @@ namespace XenoIK.Runtime.Ground
             float offset = lowOffset + heightOffset;
             if (!m_GroundSover.RootGrounded) offset = 0f;
 
-            this.m_HighOffset = Mathf.Lerp(this.m_HighOffset, offset, Time.deltaTime * m_GroundSover.PelvisSpeed);
+            if (this.m_GroundSover.LerpType == LerpType.Linear)
+            {
+                this.m_HighOffset = Mathf.Lerp(this.m_HighOffset, offset, Time.deltaTime * m_GroundSover.PelvisSpeed);
+            }
+            else
+            {
+                this.m_HighOffset = XenoTools.LerpDamper(this.m_HighOffset, offset, ref m_Veloctiy, this.m_GroundSover.OffsetDamperTime, this.m_GroundSover.LerpType);
+            }
+            
             this.PelvisOffset = this.m_GroundSover.Up * this.m_HighOffset;
         }
         
