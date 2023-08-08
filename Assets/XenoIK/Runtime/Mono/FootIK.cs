@@ -2,6 +2,7 @@
 using System.Linq;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using XenoIK.Runtime.Enum;
 
 namespace XenoIK.Runtime.Ground
 {
@@ -11,16 +12,18 @@ namespace XenoIK.Runtime.Ground
     /// </summary>
     public class FootIK : MonoBehaviour
     {
+        [Title("设置")]
         [LabelText("权重"), Range(0, 1f)]
         public float Weight = 1f;
-        [LabelText("IK解算器")]
-        public List<TwoBoneIK> LegsIK; //目前只支持TwoBone Solver
-        [LabelText("骨盆")]
+
         public Transform Pelvis;
-        [LabelText("Root")]
         public Transform Root;
-        [LabelText("Ground解算器")]
+        
+        [HideLabel]
         public GroundSolver GroundSolver;
+        [Title("IK Solvers")]
+        public List<TwoBoneIK> IKSolvers; //目前只支持TwoBone Solver
+       
 
         public bool Debug;
 
@@ -31,6 +34,7 @@ namespace XenoIK.Runtime.Ground
         private int m_IKSolvedCounts;
         private bool m_Solved;
         private bool m_Inited;
+        private float m_WeightVelocity;
         
 
         private void Awake()
@@ -50,7 +54,7 @@ namespace XenoIK.Runtime.Ground
             this.m_FootRotation = new List<Quaternion>();
             
             //初始化IK Solver
-            this.LegsIK.ForEach(x =>
+            this.IKSolvers.ForEach(x =>
             {
                 this.m_FootRotation.Add(Quaternion.identity);
                 this.m_Feet.Add(x.solver.Bone3);
@@ -79,20 +83,21 @@ namespace XenoIK.Runtime.Ground
             this.GroundSolver.Update();
 
             //IK Solver获取Ground Solver的落脚点坐标再解算腿部姿态
-            for (int i = 0; i < LegsIK.Count; i++)
+            for (int i = 0; i < IKSolvers.Count; i++)
             {
-                var leg = LegsIK[i];
+                var leg = IKSolvers[i];
                 m_FootRotation[i] = this.m_Feet[i].rotation;
 
                 leg.solver.IKPosition = GroundSolver.Legs[i].IKPosition;
                 leg.solver.IKWeight = this.Weight;
             }
-
+            
+#if UNITY_EDITOR
             if (Debug)
             {
                 UnityEngine.Debug.Log("");
             }
-            
+#endif
             //偏移骨盆
             this.Pelvis.position += this.GroundSolver.PelvisSolver.PelvisOffset * Weight;
             
@@ -100,7 +105,16 @@ namespace XenoIK.Runtime.Ground
             if (this.GroundSolver.AutoHighWeight)
             {
                 bool isUp = this.Root.position.y - this.m_LastRootY > 0;
-                this.GroundSolver.HighWeight = XenoTools.LerpValue(this.GroundSolver.HighWeight, this.GroundSolver.Velocity > this.GroundSolver.MinFootSpeed &&  isUp? 1 : 0, this.GroundSolver.FootSpeed, this.GroundSolver.FootSpeed);
+                float target = this.GroundSolver.Velocity > this.GroundSolver.MinFootSpeed && isUp ? 1 : 0;
+                if (this.GroundSolver.LerpType == LerpType.Linear)
+                {
+                    this.GroundSolver.HighWeight = XenoTools.LerpValue(this.GroundSolver.HighWeight, target, this.GroundSolver.FootSpeed, this.GroundSolver.FootSpeed);
+                }
+                else
+                {
+                    this.GroundSolver.HighWeight = XenoTools.LerpDamper(this.GroundSolver.HighWeight, target, ref this.m_WeightVelocity, this.GroundSolver.WeightDamperTime, this.GroundSolver.LerpType);
+                }
+                
             }
             
             this.m_IKSolvedCounts = 0;
@@ -129,10 +143,10 @@ namespace XenoIK.Runtime.Ground
         
         private void GetIKSolver()
         {
-            if (this.LegsIK != null && this.LegsIK.Count > 0) return;
+            if (this.IKSolvers != null && this.IKSolvers.Count > 0) return;
 
             var iks = this.transform.GetComponentsInChildren<TwoBoneIK>().ToList();
-            this.LegsIK = iks;
+            this.IKSolvers = iks;
         }
 
         [Button("一键绑定骨骼")]
@@ -142,9 +156,9 @@ namespace XenoIK.Runtime.Ground
             this.Pelvis = this.transform.parent.FindPelvis();
             if (this.Root == null) this.Root = XenoTools.FindTargetBone(this.transform.parent, "root", true);
             if (this.Root == null && this.Pelvis != null) this.Root = this.Pelvis.parent;
-            for (int i = 0; i < this.LegsIK.Count; i++)
+            for (int i = 0; i < this.IKSolvers.Count; i++)
             {
-                this.LegsIK[i].BindBones();
+                this.IKSolvers[i].BindBones();
             }
         }
         

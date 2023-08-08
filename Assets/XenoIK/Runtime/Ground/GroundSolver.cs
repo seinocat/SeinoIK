@@ -3,24 +3,16 @@ using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.AI;
+using XenoIK.Runtime.Enum;
 
 namespace XenoIK.Runtime.Ground
 {
-    public enum RayCastType
-    {
-        [InspectorName("物理")]
-        Phyics,
-        [InspectorName("导航网格")]
-        Navmesh,
-        [InspectorName("混合")]
-        Mix
-    }
-    
     [Serializable]
     public class GroundSolver
     {
+        [Title("通用设置")]
         [LabelText("检测类型")] 
-        public RayCastType CastType = RayCastType.Navmesh;
+        public RayCastType CastType = RayCastType.Phyics;
 
         [LabelText("检测层级")]
         public LayerMask Layers;
@@ -28,19 +20,20 @@ namespace XenoIK.Runtime.Ground
         [LabelText("旋转解算器")] 
         public bool RotateSolver = true;
         
+        [Title("脚部参数")]
         [LabelText("预测速度")]
         public float Prediction = 0.05f;
-
-        [LabelText("最小脚部速度")]
-        public float MinFootSpeed = 0.01f;
         
-        [LabelText("骨盆移动速度")] 
+        [LabelText("Root检测半径"), Range(0f, 1f)]
+        public float RootSphereCastRadius = 0.1f;
+
+        [LabelText("骨盆移动速度"), Range(0f, 15f)] 
         public float PelvisSpeed = 3f;
         
-        [LabelText("脚部移动速度")]
+        [LabelText("脚部移动速度"), Range(0f, 10f)]
         public float FootSpeed = 3f;
 
-        [LabelText("脚部旋转速度")]
+        [LabelText("脚部旋转速度"), Range(0f, 20f)]
         public float FootRotationSpeed = 7f;
 
         [LabelText("脚部最大偏移高度")] 
@@ -52,25 +45,35 @@ namespace XenoIK.Runtime.Ground
         [LabelText("脚部最大旋转角度"), Range(0, 90f)]
         public float MaxFootRotation = 50f;
         
-        [LabelText("脚部高度偏移"), Range(-1f, 1f)]
+        [LabelText("脚部高度偏移")]
         public float HeelOffset;
+        
+        [Title("插值")]
+        [LabelText("使用临界阻尼插值")]
+        public LerpType LerpType = LerpType.Damper;
 
+        [LabelText("偏移插值时间"), HideIf("LerpType", LerpType.Linear), Range(0f, 5f)]
+        public float OffsetDamperTime = 0.2f;
+         
+        [LabelText("权重插值时间"), HideIf("LerpType", LerpType.Linear), Range(0f, 5f)]
+        public float WeightDamperTime = 0.1f;
+
+        [Title("权重")]
         [LabelText("自动调节高度权重")]
         public bool AutoHighWeight = true;
+        
+        [LabelText("最小脚部速度"), Range(0, 1f), ShowIf("AutoHighWeight")]
+        public float MinFootSpeed = 0.01f;
 
         [LabelText("低偏移权重"), Range(0f, 1f)]
         public float LowWeight = 1f;
         
         [LabelText("高偏移权重"), Range(0f, 1f)]
         public float HighWeight;
-
-        [LabelText("Root检测半径"), Range(0f, 1f)]
-        public float RootSphereCastRadius = 0.1f;
         
         public Transform Root { get; private set; }
         public Transform Pelvis { get; private set; }
         public float Velocity { get; private set; }
-        
         public List<GroundLeg> Legs;
         public GroundPelvis PelvisSolver;
         
@@ -152,8 +155,7 @@ namespace XenoIK.Runtime.Ground
             
             float lowOffset = float.MinValue;
             float highOffset = float.MaxValue;
-
-
+            
             this.Velocity = 0;
             foreach (var leg in this.Legs)
             {
