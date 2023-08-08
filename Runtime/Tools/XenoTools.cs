@@ -32,6 +32,15 @@ namespace XenoIK
             return Mathf.Clamp(value - Time.deltaTime * decreaseSpeed, target, Mathf.Infinity);
         }
 
+        /// <summary>
+        /// 非线性插值
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="target"></param>
+        /// <param name="velocity"></param>
+        /// <param name="time"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
         public static float LerpDamper(float value, float target, ref float velocity, float time, LerpType type)
         {
             switch (type)
@@ -46,7 +55,7 @@ namespace XenoIK
         }
         
         /// <summary>
-        /// 简化临界阻尼插值(非线性)
+        /// 简化临界阻尼插值
         /// </summary>
         /// <param name="value"></param>
         /// <param name="target"></param>
@@ -102,9 +111,13 @@ namespace XenoIK
 
         #region Editor
 
-
-
-        public static Bone FindLastBone(this List<Bone> list)
+#if UNITY_EDITOR
+        public static float GetHandleSize(Vector3 position) {
+            float s = UnityEditor.HandleUtility.GetHandleSize(position) * 0.1f;
+            return Mathf.Lerp(s, 0.025f, 0.5f);
+        }
+        
+         public static Bone FindLastBone(this List<Bone> list)
         {
             return list.Count == 0 ? null : list[list.Count - 1];
         }
@@ -212,6 +225,10 @@ namespace XenoIK
                 bones.Add(foot);
             }
         }
+#endif
+       
+
+       
 
         #endregion
         
