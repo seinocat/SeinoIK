@@ -88,7 +88,8 @@ namespace XenoIK.Runtime.Ground
             float offsetTarget = this.HeightFromGround;
             
             if (!this.m_GroundSolver.RootGrounded) offsetTarget = 0f;
-            
+            if (float.IsNaN(offsetTarget)) offsetTarget = 0f;
+        
             //插值
             this.FootOffset = XenoTools.LerpValue(this.FootOffset, offsetTarget, this.m_GroundSolver.FootSpeed, this.m_GroundSolver.FootSpeed);
             this.FootOffset = Mathf.Lerp(this.FootOffset, offsetTarget, this.m_DeltaTime * this.m_GroundSolver.FootSpeed);
@@ -104,21 +105,17 @@ namespace XenoIK.Runtime.Ground
             this.m_FinalRotation = Quaternion.Slerp(this.m_FinalRotation, footDeltaR, this.m_DeltaTime * this.m_GroundSolver.FootRotationSpeed);
 
             //返回IK Position和Rotation
-            this.IKPosition = this.m_FootPosition- this.Up * FootOffset;
+            this.IKPosition = this.m_FootPosition - this.Up * FootOffset;
             this.IKRotation = this.m_FinalRotation;
             
 #if UNITY_EDITOR
-            switch (this.m_GroundSolver.CastType)
-            {
-                case RayCastType.Phyics:
-                    Debug.DrawLine(this.IKPosition, this.IKPosition + m_FootHit.normal * 0.5f, Color.cyan);
-                    break;
-                case RayCastType.Navmesh:
-                    Debug.DrawLine(this.IKPosition, this.IKPosition + m_FootHit.normal * 0.5f, Color.cyan);
-                    break;
-                case RayCastType.Mix:
-                    break;
-            }
+            float length = 0.05f;
+            Debug.DrawLine(this.IKPosition - this.m_GroundSolver.Root.transform.right * length, 
+                this.IKPosition + this.m_GroundSolver.Root.transform.right * length, Color.cyan);
+            Debug.DrawLine(this.IKPosition - this.m_GroundSolver.Root.transform.up * length, 
+                this.IKPosition + this.m_GroundSolver.Root.transform.up * length, Color.cyan);
+            Debug.DrawLine(this.IKPosition - this.m_GroundSolver.Root.transform.forward * length, 
+                this.IKPosition + this.m_GroundSolver.Root.transform.forward * length, Color.cyan);
 #endif
             
         }
@@ -188,6 +185,10 @@ namespace XenoIK.Runtime.Ground
                     hit.normal = normal;
                 }
             }
+            
+#if UNITY_EDITOR
+            Debug.DrawLine(hit.position, hit.position + hit.normal * this.m_GroundSolver.MaxStep, Color.red);
+#endif
 
             return hit;
         }
@@ -211,7 +212,7 @@ namespace XenoIK.Runtime.Ground
             }
             
 #if UNITY_EDITOR
-            Debug.DrawLine(capsuleStart, hit.point, Color.red);
+            Debug.DrawLine(hit.point, hit.point + hit.normal * this.m_GroundSolver.MaxStep, Color.red);
 #endif
 
             return hit;
