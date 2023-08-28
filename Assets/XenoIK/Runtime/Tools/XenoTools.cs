@@ -109,6 +109,16 @@ namespace XenoIK
 
         #endregion
 
+        #region runtime
+
+        public static LookAtBone FindLastBone(this List<LookAtBone> list)
+        {
+            return list.Count == 0 ? null : list[list.Count - 1];
+        }
+
+
+        #endregion
+        
         #region Editor
 
 #if UNITY_EDITOR
@@ -122,10 +132,7 @@ namespace XenoIK
             return list.Count == 0 ? null : list[list.Count - 1];
         }
         
-        public static LookAtBone FindLastBone(this List<LookAtBone> list)
-        {
-            return list.Count == 0 ? null : list[list.Count - 1];
-        }
+
 
         public static List<Transform> CreateBoneChains(Transform rootBone, int boneNum = 4)
         {
