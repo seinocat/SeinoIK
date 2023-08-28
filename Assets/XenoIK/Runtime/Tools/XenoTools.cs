@@ -115,6 +115,14 @@ namespace XenoIK
         {
             return list.Count == 0 ? null : list[list.Count - 1];
         }
+        
+        public static LookAtCtrlMgr RequireLookAtMgr(this GameObject go)
+        {
+            var component = go.GetComponent<LookAtCtrlMgr>();
+            if (component == null) component = go.AddComponent<LookAtCtrlMgr>();
+            component.OnInit();
+            return component;
+        }
 
 
         #endregion
@@ -127,13 +135,6 @@ namespace XenoIK
             return Mathf.Lerp(s, 0.025f, 0.5f);
         }
         
-         public static Bone FindLastBone(this List<Bone> list)
-        {
-            return list.Count == 0 ? null : list[list.Count - 1];
-        }
-        
-
-
         public static List<Transform> CreateBoneChains(Transform rootBone, int boneNum = 4)
         {
             int totalNums = boneNum;
@@ -183,14 +184,6 @@ namespace XenoIK
             return null;
         }
         
-        public static LookAtCtrlMgr RequireLookAtMgr(this GameObject go)
-        {
-            var component = go.GetComponent<LookAtCtrlMgr>();
-            if (component == null) component = go.AddComponent<LookAtCtrlMgr>();
-            component.OnInit();
-            return component;
-        }
-
         public static Transform FindPelvis(this Transform root)
         {
             var pelvis = FindTargetBone(root, m_Pelvis);
