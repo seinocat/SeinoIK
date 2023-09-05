@@ -16,12 +16,12 @@ namespace XenoIK
 
         private void Awake()
         {
-            if (!this.Enable) this.OnInit();
+            if (!this.Enable) OnInit();
         }
 
         private void LateUpdate()
         {
-            if (this.target != this.lastTarget) this.SetTarget(this.target);
+            if (this.target != this.lastTarget) SetTarget(this.target);
         }
 
         public void OnInit()
