@@ -9,7 +9,7 @@ namespace XenoIK
         protected override void OnInitialize()
         {
             this.IKPosition = this.bones[this.bones.Count - 1].Position;
-            this.InitBones();
+            InitBones();
         }
         
         protected override void OnUpdate(float deltaTime)
@@ -19,7 +19,7 @@ namespace XenoIK
             
             for (int i = 0; i < this.maxIterations; i++)
             {
-                this.Solve();
+                Solve();
             }
         }
         

@@ -17,7 +17,7 @@ namespace XenoIK
         private void OnEnable()
         {
             this.solver = this.serializedObject.FindProperty("solver");
-            this.OnInspectorEnable();
+            OnInspectorEnable();
         }
 
         public override void OnInspectorGUI()

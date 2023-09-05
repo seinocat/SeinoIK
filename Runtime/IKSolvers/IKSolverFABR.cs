@@ -66,7 +66,7 @@ namespace XenoIK
             {
                 var bone = this.bones[i];
                 var nextBone = this.bones[i + 1];
-                bone.solverPosition = this.SolveJoint(bone.solverPosition, nextBone.solverPosition, bone.length);
+                bone.solverPosition = SolveJoint(bone.solverPosition, nextBone.solverPosition, bone.length);
             }
         }
 
@@ -78,7 +78,7 @@ namespace XenoIK
             {
                 var bone = this.bones[i];
                 var lastBone = this.bones[i - 1];
-                this.bones[i].solverPosition = this.SolveJoint(bone.solverPosition, lastBone.solverPosition, lastBone.length);
+                this.bones[i].solverPosition = SolveJoint(bone.solverPosition, lastBone.solverPosition, lastBone.length);
             }
         }
         

@@ -27,10 +27,10 @@ namespace XenoIK
         public void Init(Transform root)
         {
             if (this.root == null) this.root = root;
-            this.OnInitialize();
+            OnInitialize();
             this.initiated = true;
             this.firstInitiated = false;
-            this.StoreDefaultLocalState();
+            StoreDefaultLocalState();
         }
         
         protected abstract void OnInitialize();

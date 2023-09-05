@@ -39,7 +39,7 @@ namespace XenoIK.Runtime.Ground
 
         private void Awake()
         { 
-            this.Init();
+            Init();
         }
 
         public void Update()
@@ -152,7 +152,7 @@ namespace XenoIK.Runtime.Ground
         [Button("一键绑定骨骼")]
         public void AutoBindRootAndPelvis()
         {
-            this.GetIKSolver();
+            GetIKSolver();
             this.Pelvis = this.transform.parent.FindPelvis();
             if (this.Root == null) this.Root = XenoTools.FindTargetBone(this.transform.parent, "root", true);
             if (this.Root == null && this.Pelvis != null) this.Root = this.Pelvis.parent;

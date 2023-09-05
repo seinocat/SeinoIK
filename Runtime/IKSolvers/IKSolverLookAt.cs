@@ -41,9 +41,9 @@ namespace XenoIK
             if (this.IKWeight <= 0) return;
             if (this.target != null) this.IKPosition = this.target.position;
 
-            this.SolveHead();
-            this.SolveEyes();
-            this.SolveSpines();
+            SolveHead();
+            SolveEyes();
+            SolveSpines();
         }
 
         public override void StoreDefaultLocalState()
