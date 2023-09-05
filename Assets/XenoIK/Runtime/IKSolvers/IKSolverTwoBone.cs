@@ -74,10 +74,10 @@ namespace XenoIK
             switch (this.SolverType)
             {
                 case SolverType.Animation:
-                    this.SolveWithAnimation();
+                    SolveWithAnimation();
                     break;
                 case SolverType.Goal:
-                    this.SolveGoal();
+                    SolveGoal();
                     break;
             }
         }
@@ -159,7 +159,7 @@ namespace XenoIK
         private void SolveWithAnimation()
         {
             if (this.IKWeight == 0) return;
-            this.OnPreSolve();
+            OnPreSolve();
             m_Bone1.sqrMag = (m_Bone2.Position - m_Bone1.Position).sqrMagnitude;
             m_Bone2.sqrMag = (m_Bone3.Position - m_Bone2.Position).sqrMagnitude;
         
@@ -173,7 +173,7 @@ namespace XenoIK
         
             m_Bone1.Rotation = m_Bone1.GetRotation(bendDir, curBendNormal);
             m_Bone2.Rotation = m_Bone2.GetRotation(m_WeightIKPosition - m_Bone2.Position, m_Bone2.GetBendNormal());
-            this.OnPostSolve();
+            OnPostSolve();
         }
         
         private Vector3 GetBendDir(Vector3 pos, Vector3 normal)
