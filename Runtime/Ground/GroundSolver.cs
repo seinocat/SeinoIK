@@ -10,7 +10,7 @@ namespace XenoIK.Runtime.Ground
     [Serializable]
     public class GroundSolver
     {
-        [Title("通用设置")]
+        [Title("检测设置")]
         [LabelText("检测类型")] 
         public RayCastType CastType = RayCastType.Mesh;
 
