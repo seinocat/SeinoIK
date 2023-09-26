@@ -10,21 +10,22 @@ namespace XenoIK.Runtime.Ground
     /// Gournd Solver负责解算骨盆偏移值和落脚点坐标旋转
     /// IK Solver部分由Twobone解算
     /// </summary>
+    [HideMonoScript]
     public class FootIK : MonoBehaviour
     {
-        [Title("设置")]
+        [Title("全局设置")]
         [LabelText("权重"), Range(0, 1f)]
         public float Weight = 1f;
-
         public Transform Pelvis;
         public Transform Root;
         
+        [Title("IK解算器")]
+        public List<TwoBoneIK> IKSolvers; //目前只支持TwoBone Solver
+        
         [HideLabel]
         public GroundSolver GroundSolver;
-        [Title("IK Solvers")]
-        public List<TwoBoneIK> IKSolvers; //目前只支持TwoBone Solver
-       
-
+        
+        [Title("Debug")]
         public bool Debug;
 
         private List<Transform> m_Feet;
@@ -149,6 +150,7 @@ namespace XenoIK.Runtime.Ground
             this.IKSolvers = iks;
         }
 
+        [Title("Editor")]
         [Button("一键绑定骨骼")]
         public void AutoBindRootAndPelvis()
         {
