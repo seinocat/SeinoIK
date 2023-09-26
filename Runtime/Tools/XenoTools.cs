@@ -113,7 +113,7 @@ namespace XenoIK
 
         public static LookAtBone FindLastBone(this List<LookAtBone> list)
         {
-            return list.Count == 0 ? null : list[list.Count - 1];
+            return list.Count == 0 ? null : list[^1];
         }
         
         public static LookAtCtrlMgr RequireLookAtMgr(this GameObject go)
@@ -130,6 +130,7 @@ namespace XenoIK
         #region Editor
 
 #if UNITY_EDITOR
+        
         public static float GetHandleSize(Vector3 position) {
             float s = UnityEditor.HandleUtility.GetHandleSize(position) * 0.1f;
             return Mathf.Lerp(s, 0.025f, 0.5f);
@@ -226,10 +227,6 @@ namespace XenoIK
             }
         }
 #endif
-       
-
-       
-
         #endregion
         
         
