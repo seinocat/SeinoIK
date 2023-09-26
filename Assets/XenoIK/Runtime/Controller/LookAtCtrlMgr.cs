@@ -1,10 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 namespace XenoIK
 {
+    /// <summary>
+    /// LookAt管理器，管理该物体上所有的LookAtCtrl
+    /// 兼容多头单位
+    /// </summary>
     public class LookAtCtrlMgr : MonoBehaviour
     {
         public Transform target;
@@ -12,7 +15,7 @@ namespace XenoIK
 
         private Transform lastTarget;
 
-        public bool Enable => this.ctrls != null && this.ctrls.Count > 0;
+        public bool Enable => this.ctrls is { Count: > 0 };
 
         private void Awake()
         {

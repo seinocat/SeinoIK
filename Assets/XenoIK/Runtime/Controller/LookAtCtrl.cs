@@ -73,46 +73,7 @@ namespace XenoIK
             this.Solver.spinesAxis = this.config.spinesAxis;
             this.Solver.UpdateAxis();
         }
-
-
-        /// <summary>
-        /// no implement
-        /// Check the target whether in range
-        /// </summary>
-        /// <returns></returns>
-        private bool CheckRange()
-        {
-            return true;
-            // if (this.target == null) return false;
-            //
-            // // Vector2 angleLimit = (this.watching ? this.config.followAngleXZ : this.config.detectAngleXZ)/2;
-            // // Vector3 targetDir = this.target.position - this.Solver.head.Position;
-            // //
-            // // float distance = targetDir.magnitude;
-            // // if (distance > this.config.maxDistance || distance < this.config.minDistance) return false;
-            // //
-            // // Vector3 baseForward = this.head.position + this.Solver.RootForward;
-            // // Debug.DrawLine(this.head.position, baseForward * 2 , Color.black);
-            // // Vector3 dirYZ = new Vector3(0, this.target.position.y, this.target.position.z);
-            // // Vector3 dirXZ = new Vector3(this.target.position.x, 0, this.target.position.z);
-            // // if (Vector3.Angle(baseForward, dirXZ) > angleLimit.x || Vector3.Angle(baseForward, dirYZ) > angleLimit.y)
-            // //     return false;
-            // //
-            // // return true;
-            //
-            // float angleLimit = (this.watching ? this.config.followAngleXZ.x : this.config.detectAngleXZ.x);
-            // Vector2 aimTargetHorVec = new Vector2(this.target.position.x, this.target.position.z);
-            // Vector2 forwardVec = new Vector2(this.Solver.head.Forward.x, this.Solver.head.Forward.z);
-            // Vector2 TargetHorVector = aimTargetHorVec - new Vector2(this.head.position.x, this.head.position.z);
-            //
-            // var distance = TargetHorVector.magnitude;
-            // if (distance > this.config.maxDistance || distance < this.config.minDistance)
-            //     return false;
-            //
-            // var targetAngle = Vector2.Angle(forwardVec, TargetHorVector);
-            // return !(targetAngle > (angleLimit / 2));
-        }
-
+        
         private void Awake()
         {
             if (this.lookAtIK == null) this.lookAtIK = this.GetComponent<LookAtIK>();
@@ -160,7 +121,7 @@ namespace XenoIK
                 this.lastTarget = this.target;
             }
             
-            if (!this.enableIk || !this.CheckRange())
+            if (!this.enableIk)
                 this.runtimeWeight = 0;
             else
                 this.runtimeWeight = this.config.defaultWeight;
@@ -172,13 +133,11 @@ namespace XenoIK
             if (this.config.useCustomCurve)
             {
                 AnimationCurve curve = this.watching ? this.config.lookAtCurve : this.config.lookAwayCurve;
-                
             }
             else
             {
                 this.Solver.IKWeight = Mathf.SmoothDamp(this.Solver.IKWeight, ikWeight, ref this.config.smoothWeightSpeed, this.config.smoothWeightTime);
             }
-            
             
             if (this.Solver.IKWeight <= 0) return;
             if (this.Solver.IKWeight >= 0.999f && ikWeight > this.Solver.IKWeight) this.Solver.IKWeight = 1f;
