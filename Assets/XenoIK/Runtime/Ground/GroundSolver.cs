@@ -12,7 +12,7 @@ namespace XenoIK.Runtime.Ground
     {
         [Title("通用设置")]
         [LabelText("检测类型")] 
-        public RayCastType CastType = RayCastType.Phyics;
+        public RayCastType CastType = RayCastType.Mesh;
 
         [LabelText("检测层级")]
         public LayerMask Layers;
@@ -49,7 +49,7 @@ namespace XenoIK.Runtime.Ground
         public float HeelOffset;
         
         [Title("插值")]
-        [LabelText("使用临界阻尼插值")]
+        [LabelText("插值类型")]
         public LerpType LerpType = LerpType.Damper;
 
         [LabelText("偏移插值时间"), HideIf("LerpType", LerpType.Linear), Range(0f, 5f)]
@@ -87,7 +87,7 @@ namespace XenoIK.Runtime.Ground
             {
                 switch (this.CastType)
                 {
-                    case RayCastType.Phyics:
+                    case RayCastType.Mesh:
                         return m_RootRayHit.distance < this.MaxStep * 2f;
                     case RayCastType.Navmesh:
                         return m_RootNavHit.distance < this.MaxStep * 2f;
@@ -141,7 +141,7 @@ namespace XenoIK.Runtime.Ground
 
             switch (this.CastType)
             {
-                case RayCastType.Phyics:
+                case RayCastType.Mesh:
                     this.m_RootNavHit = GetRootNavHit();
                     break;
                 case RayCastType.Navmesh:

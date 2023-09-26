@@ -69,7 +69,7 @@ namespace XenoIK.Runtime.Ground
             //根据检测类型
             switch (this.m_GroundSolver.CastType)
             {
-                case RayCastType.Phyics:
+                case RayCastType.Mesh:
                     GetPhycisCast(prediction);
                     break;
                 case RayCastType.Navmesh:

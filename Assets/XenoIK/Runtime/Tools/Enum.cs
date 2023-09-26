@@ -7,8 +7,8 @@ namespace XenoIK.Runtime.Enum
     /// </summary>
     public enum RayCastType
     {
-        [LabelText("物理")]
-        Phyics,
+        [LabelText("Mesh网格")]
+        Mesh,
         [LabelText("导航网格")]
         Navmesh,
         [LabelText("混合")]
