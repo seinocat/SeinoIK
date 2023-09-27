@@ -32,14 +32,14 @@ namespace XenoIK
             this.ctrls = this.transform.GetComponentsInChildren<LookAtCtrl>().ToList();
         }
         
-        public void OpenIK()
+        public void EnableIK()
         {
-            this.ctrls?.ForEach(ctrl=>ctrl.OpenIK());
+            this.ctrls?.ForEach(ctrl=>ctrl.EnableIK());
         }
         
-        public void CloseIK()
+        public void DisableIK()
         {
-            this.ctrls?.ForEach(ctrl=>ctrl.CloseIK());
+            this.ctrls?.ForEach(ctrl=>ctrl.DisableIK());
         }
 
         public void SetTarget(Transform target)

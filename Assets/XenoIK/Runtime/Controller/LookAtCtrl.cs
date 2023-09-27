@@ -31,7 +31,7 @@ namespace XenoIK
         /// <summary>
         /// Hold target and revert runtimeWeight value
         /// </summary>
-        public void OpenIK()
+        public void EnableIK()
         {
             this.enableIk = true;
         }
@@ -39,7 +39,7 @@ namespace XenoIK
         /// <summary>
         /// Set runtimeWeight to 0
         /// </summary>
-        public void CloseIK()
+        public void DisableIK()
         {
             this.enableIk = false;
         }
