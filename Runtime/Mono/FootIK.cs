@@ -16,6 +16,7 @@ namespace XenoIK.Runtime.Ground
         [Title("全局设置")]
         [LabelText("权重"), Range(0, 1f)]
         public float Weight = 1f;
+        
         public Transform Pelvis;
         public Transform Root;
         
@@ -36,9 +37,9 @@ namespace XenoIK.Runtime.Ground
         private int m_IKSolvedCounts;
         private bool m_Solved;
         private bool m_Inited;
+        private bool m_IsValid = true;
         private float m_WeightVelocity;
         
-
         private void Awake()
         { 
             Init();
@@ -75,9 +76,22 @@ namespace XenoIK.Runtime.Ground
         private void OnSolverUpdate()
         {
             if (!this.m_Inited) return;
-            if (this.Weight <= 0) return;
             if (this.m_Solved) return;
+            if (this.Weight <= 0)
+            {
+                if (this.m_IsValid)
+                {
+                    this.m_IsValid = false;
+                    for (int i = 0; i < IKSolvers.Count; i++)
+                    {
+                        var leg = IKSolvers[i];
+                        leg.solver.IKWeight = 0;
+                    }
+                }
+                return;
+            }
 
+            this.m_IsValid = true;
             if (this.Pelvis.localPosition != m_SolvedPelvisLocalPos) this.m_AnimaPelvisLocalPos = this.Pelvis.localPosition;
             else this.Pelvis.localPosition = this.m_AnimaPelvisLocalPos;
             
