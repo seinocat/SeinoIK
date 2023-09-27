@@ -69,6 +69,7 @@ namespace XenoIK
         
         protected override void OnUpdate(float deltaTime)
         {
+            if (this.IKWeight == 0) return;
             if (this.target != null) this.IKPosition = this.target.position;
             
             switch (this.SolverType)
@@ -158,7 +159,6 @@ namespace XenoIK
         /// </summary>
         private void SolveWithAnimation()
         {
-            if (this.IKWeight == 0) return;
             OnPreSolve();
             m_Bone1.sqrMag = (m_Bone2.Position - m_Bone1.Position).sqrMagnitude;
             m_Bone2.sqrMag = (m_Bone3.Position - m_Bone2.Position).sqrMagnitude;
