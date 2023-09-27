@@ -20,6 +20,7 @@ namespace XenoIK.Runtime.Ground
         public Transform Root;
         
         [Title("IK解算器")]
+        [Tooltip("目前只支持TwoBone Solver")]
         public List<TwoBoneIK> IKSolvers; //目前只支持TwoBone Solver
         
         [HideLabel]
@@ -144,7 +145,7 @@ namespace XenoIK.Runtime.Ground
         
         private void GetIKSolver()
         {
-            if (this.IKSolvers != null && this.IKSolvers.Count > 0) return;
+            if (this.IKSolvers is { Count: > 0 }) return;
 
             var iks = this.transform.GetComponentsInChildren<TwoBoneIK>().ToList();
             this.IKSolvers = iks;
