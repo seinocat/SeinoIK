@@ -8,28 +8,28 @@ namespace XenoIK
     public class LookAtCtrl : MonoBehaviour
     {
         [LabelText("启用")]
-        public bool enableIk = true;
-        [LabelText("IK解算器")]
+        public bool EnableIK = true;
+        [LabelText("IK解算器"), Required]
         public LookAtIK lookAtIK;
         [LabelText("目标")]
-        public Transform target;
-        [LabelText("配置包")]
-        public LookAtConfig config;
+        public Transform Target;
+        [LabelText("配置包"), Required]
+        public LookAtConfig IKConfig;
         
         #region Private paramters
+        
+        private Transform m_Head;
+        private Transform m_LastTarget;
+        private Vector3 m_IkPosition;
+        private Vector3 m_LastPosition;
+        private Vector3 m_Direction;
+        private float m_RuntimeWeight = 1f;
+        private float m_SwitchWeight;
+        private float m_SmoothSpeed;
+        private float m_SwitchSpeed;
+        private bool m_Watching;
 
-        private Transform head;
-        private Transform lastTarget;
-        private Transform tempTarget;
-        private Vector3 lastPosition;
-        private Vector3 direction;
-        private float runtimeWeight = 1f;
-        private float switchWeight;
-        private float smoothWeightSpeed;
-        private float switchWeightSpeed;
-        private bool watching;
-
-        private Vector3 Pivot => this.config != null ? lookAtIK.transform.position + lookAtIK.transform.rotation * this.config.pivotOffset : Vector3.up;
+        private Vector3 Pivot => this.IKConfig != null ? lookAtIK.transform.position + lookAtIK.transform.rotation * this.IKConfig.pivotOffset : Vector3.up;
 
         private IKSolverLookAt Solver => this.lookAtIK?.solver;
 
@@ -38,29 +38,28 @@ namespace XenoIK
         /// <summary>
         /// Hold target and revert runtimeWeight value
         /// </summary>
-        public void EnableIK()
+        public void Enable()
         {
-            this.enableIk = true;
+            this.EnableIK = true;
         }
 
         /// <summary>
         /// Set runtimeWeight to 0
         /// </summary>
-        public void DisableIK()
+        public void Disable()
         {
-            this.enableIk = false;
+            this.EnableIK = false;
         }
 
         public void ResetTarget()
         {
-            this.target = null;
+            this.Target = null;
             this.lookAtIK.solver.IKPosition = Vector3.zero;
         }
 
         public void SetTarget(Transform target)
         {
-            if (this.tempTarget != null) Destroy(this.tempTarget);
-            this.target = target;
+            this.Target = target;
         }
 
         /// <summary>
@@ -69,16 +68,16 @@ namespace XenoIK
         /// <param name="point"></param>
         public void SetLookAtPoint(Vector3 point)
         {
-            if(this.tempTarget == null) this.tempTarget = new GameObject("temp_target").transform;
-            this.tempTarget.position = point;
-            this.target = this.tempTarget;
+            m_IkPosition = point;
         }
 
         public void UpdateAxis()
         {
-            this.Solver.headAxis = this.config.headAxis;
-            this.Solver.eyesAxis = this.config.eyesAxis;
-            this.Solver.spinesAxis = this.config.spinesAxis;
+            if (IKConfig == null) return;
+
+            this.Solver.headAxis = this.IKConfig.headAxis;
+            this.Solver.eyesAxis = this.IKConfig.eyesAxis;
+            this.Solver.spinesAxis = this.IKConfig.spinesAxis;
             this.Solver.UpdateAxis();
         }
         
@@ -91,17 +90,17 @@ namespace XenoIK
 
         private void Start()
         {
-            if (this.config == null)
+            if (this.IKConfig == null)
             {
                 Debug.LogError("The IK Config is null, this Ik component will not work!");
                 this.Solver.IKWeight = 0;
                 return;
             }
             
-            this.lastPosition = this.Solver.IKPosition;
-            this.direction = this.Solver.IKPosition - this.Pivot;
-            this.config.defaultWeight = this.runtimeWeight;
-            this.head = this.Solver.head.transform;
+            this.m_LastPosition = this.Solver.IKPosition;
+            this.m_Direction = this.Solver.IKPosition - this.Pivot;
+            this.IKConfig.defaultWeight = this.m_RuntimeWeight;
+            this.m_Head = this.Solver.head.transform;
         }
         
         /// <summary>
@@ -110,13 +109,13 @@ namespace XenoIK
         /// <returns></returns>
         private bool CheckRange()
         {
-            float angleLimit = (this.watching ? this.config.followAngleXZ.x : this.config.detectAngleXZ.x);
-            Vector2 aimTargetHorVec = new Vector2(this.target.position.x, this.target.position.z);
+            float angleLimit = (this.m_Watching ? this.IKConfig.followAngleXZ.x : this.IKConfig.detectAngleXZ.x);
+            Vector2 aimTargetHorVec = new Vector2(m_IkPosition.x, m_IkPosition.z);
             Vector2 forwardVec = new Vector2(this.Solver.head.Forward.x, this.Solver.head.Forward.z);
-            Vector2 TargetHorVector = aimTargetHorVec - new Vector2(this.head.position.x, this.head.position.z);
+            Vector2 TargetHorVector = aimTargetHorVec - new Vector2(this.m_Head.position.x, this.m_Head.position.z);
             
             var distance = TargetHorVector.magnitude;
-            if (distance > this.config.maxDistance || distance < this.config.minDistance)
+            if (distance > this.IKConfig.maxDistance || distance < this.IKConfig.minDistance)
                 return false;
             
             var targetAngle = Vector2.Angle(forwardVec, TargetHorVector);
@@ -125,66 +124,62 @@ namespace XenoIK
         
         private void LateUpdate()
         {
-            if (this.config == null || this.head == null) return;
-            
-            if (this.target != this.lastTarget)
+            if (this.IKConfig == null || this.m_Head == null) return;
+
+            if (this.Target != null) m_IkPosition = this.Target.position;
+
+            if (this.Target != this.m_LastTarget)
             {
-                if (this.target != null && this.lastTarget == null && this.Solver.IKWeight <= 0f)
+                if (this.Target != null && this.m_LastTarget == null && this.Solver.IKWeight <= 0f)
                 {
-                    this.lastPosition = this.target.position;
-                    this.direction = this.target.position - this.Pivot;
-                    this.Solver.IKPosition = this.target.position + this.config.offset;
+                    this.m_LastPosition = m_IkPosition;
+                    this.m_Direction = m_IkPosition - this.Pivot;
+                    this.Solver.IKPosition = m_IkPosition + this.IKConfig.offset;
                 }
                 else
                 {
-                    this.lastPosition = this.Solver.IKPosition;
-                    this.direction = this.Solver.IKPosition - this.Pivot;
+                    this.m_LastPosition = this.Solver.IKPosition;
+                    this.m_Direction = this.Solver.IKPosition - this.Pivot;
                 }
 
-                this.switchWeight = 0f;
-                this.lastTarget = this.target;
+                this.m_SwitchWeight = 0f;
+                this.m_LastTarget = this.Target;
             }
 
-            if (!this.enableIk || !CheckRange())
+            if (!this.EnableIK || !CheckRange())
             {
-                this.lastPosition = this.Solver.head.Position + this.Solver.root.forward * 0.5f;
-                this.runtimeWeight = 0;
+                this.m_LastPosition = this.Solver.head.Position + this.Solver.root.forward * 0.5f;
+                this.m_RuntimeWeight = 0;
             }
             else
-                this.runtimeWeight = this.config.defaultWeight;
+                this.m_RuntimeWeight = this.IKConfig.defaultWeight;
             
-            float ikWeight = this.target == null ? 0f : this.runtimeWeight;
-            this.watching = ikWeight > 0 && this.target != null;
+            float ikWeight = this.Target == null ? 0f : this.m_RuntimeWeight;
+            this.m_Watching = ikWeight > 0 && this.Target != null;
 
             if (ikWeight == 0)
             {
-                this.Solver.IKWeight = Mathf.SmoothDamp(this.Solver.IKWeight, 0, ref this.smoothWeightSpeed, this.config.smoothWeightTime);
+                this.Solver.IKWeight = Mathf.SmoothDamp(this.Solver.IKWeight, 0, ref this.m_SmoothSpeed, this.IKConfig.smoothWeightTime);
                 return;
             }
             
-            this.Solver.IKWeight = Mathf.SmoothDamp(this.Solver.IKWeight, ikWeight, ref this.smoothWeightSpeed, this.config.smoothWeightTime);
+            this.Solver.IKWeight = Mathf.SmoothDamp(this.Solver.IKWeight, ikWeight, ref this.m_SmoothSpeed, this.IKConfig.smoothWeightTime);
             if (this.Solver.IKWeight <= 0) return;
             if (this.Solver.IKWeight >= 0.999f && ikWeight > this.Solver.IKWeight) this.Solver.IKWeight = 1f;
             if (this.Solver.IKWeight <= 0.001f && ikWeight < this.Solver.IKWeight) this.Solver.IKWeight = 0f;
 
-            this.switchWeight = Mathf.SmoothDamp(switchWeight, ikWeight, ref this.switchWeightSpeed, this.config.switchWeightTime);
+            this.m_SwitchWeight = Mathf.SmoothDamp(m_SwitchWeight, ikWeight, ref this.m_SwitchSpeed, this.IKConfig.switchWeightTime);
             
-            if (this.switchWeight >= 0.999f) this.switchWeight = 1f;
-            if (this.switchWeight <= 0.001f) this.switchWeight = 0f;
+            if (this.m_SwitchWeight >= 0.999f) this.m_SwitchWeight = 1f;
+            if (this.m_SwitchWeight <= 0.001f) this.m_SwitchWeight = 0f;
             
-            if (this.target != null)
-                this.Solver.IKPosition = Vector3.Lerp(this.lastPosition, this.target.position + this.config.offset, this.switchWeight);
+            if (this.Target != null)
+                this.Solver.IKPosition = Vector3.Lerp(this.m_LastPosition, m_IkPosition + this.IKConfig.offset, this.m_SwitchWeight);
 
             Vector3 targetDir = this.Solver.IKPosition - this.Pivot;
-            this.direction = Vector3.Slerp(this.direction, targetDir, Time.deltaTime * this.config.lookAtSpeed);
-            this.direction = Vector3.RotateTowards(this.direction, targetDir, Time.deltaTime * this.config.maxRadiansDelta, this.config.maxMagnitudeDelta);
-            this.Solver.IKPosition = this.direction + this.Pivot;
-        }
-
-
-        private void OnDestroy()
-        {
-            if (this.tempTarget != null) Destroy(this.tempTarget);
+            this.m_Direction = Vector3.Slerp(this.m_Direction, targetDir, Time.deltaTime * this.IKConfig.lookAtSpeed);
+            this.m_Direction = Vector3.RotateTowards(this.m_Direction, targetDir, Time.deltaTime * this.IKConfig.maxRadiansDelta, this.IKConfig.maxMagnitudeDelta);
+            this.Solver.IKPosition = this.m_Direction + this.Pivot;
         }
     }
 }

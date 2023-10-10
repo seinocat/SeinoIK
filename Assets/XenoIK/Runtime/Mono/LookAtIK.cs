@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-namespace XenoIK
+﻿namespace XenoIK
 {
     public class LookAtIK : XenoIK
     {

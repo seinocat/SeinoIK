@@ -27,7 +27,7 @@ namespace XenoIK
         {
             Quaternion rotate = Quaternion.FromToRotation(this.Forward, target);
             Quaternion curRotate = this.transform.rotation;
-            this.transform.rotation = Quaternion.Lerp(curRotate, rotate * curRotate, targetWeight * this.weight);
+            this.transform.rotation = Quaternion.Slerp(curRotate, rotate * curRotate, targetWeight * this.weight);
         }
         
         public Vector3 Forward => this.transform.rotation * this.axis;

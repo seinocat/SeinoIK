@@ -6,20 +6,19 @@ namespace XenoIK
 {
     /// <summary>
     /// LookAt管理器，管理该物体上所有的LookAtCtrl
-    /// 兼容多头单位
+    /// 主要用于管理多个头的怪物注视
     /// </summary>
     public class LookAtCtrlMgr : MonoBehaviour
     {
         public Transform target;
         public List<LookAtCtrl> ctrls;
-
         private Transform lastTarget;
 
-        public bool Enable => this.ctrls is { Count: > 0 };
+        public bool IsEnable => this.ctrls is { Count: > 0 };
 
         private void Awake()
         {
-            if (!this.Enable) OnInit();
+            if (!this.IsEnable) OnInit();
         }
 
         private void LateUpdate()
@@ -32,14 +31,14 @@ namespace XenoIK
             this.ctrls = this.transform.GetComponentsInChildren<LookAtCtrl>().ToList();
         }
         
-        public void EnableIK()
+        public void Enable()
         {
-            this.ctrls?.ForEach(ctrl=>ctrl.EnableIK());
+            this.ctrls?.ForEach(ctrl=>ctrl.Enable());
         }
         
-        public void DisableIK()
+        public void Disable()
         {
-            this.ctrls?.ForEach(ctrl=>ctrl.DisableIK());
+            this.ctrls?.ForEach(ctrl=>ctrl.Disable());
         }
 
         public void SetTarget(Transform target)
