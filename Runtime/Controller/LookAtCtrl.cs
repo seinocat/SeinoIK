@@ -104,6 +104,10 @@ namespace XenoIK
             this.head = this.Solver.head.transform;
         }
         
+        /// <summary>
+        /// 范围检测
+        /// </summary>
+        /// <returns></returns>
         private bool CheckRange()
         {
             float angleLimit = (this.watching ? this.config.followAngleXZ.x : this.config.detectAngleXZ.x);
@@ -152,7 +156,7 @@ namespace XenoIK
             float ikWeight = this.target == null ? 0f : this.runtimeWeight;
             this.watching = ikWeight > 0 && this.target != null;
 
-            if (runtimeWeight == 0)
+            if (ikWeight == 0)
             {
                 this.Solver.IKWeight = Mathf.SmoothDamp(this.Solver.IKWeight, 0, ref this.smoothWeightSpeed, this.config.smoothWeightTime);
                 return;

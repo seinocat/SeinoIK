@@ -7,8 +7,6 @@ namespace XenoIK
     public abstract class IKSolver
     {
         public bool initiated { get; private set; }
-        [HideInInspector]
-        public bool firstInitiated = true;
         public Vector3 IKPosition;
         [HideInInspector]
         public Transform root;
@@ -29,7 +27,6 @@ namespace XenoIK
             if (this.root == null) this.root = root;
             OnInitialize();
             this.initiated = true;
-            this.firstInitiated = false;
             StoreDefaultLocalState();
         }
         
