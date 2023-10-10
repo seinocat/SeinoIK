@@ -137,7 +137,10 @@ namespace XenoIK.Editor
                 Handles.DrawLine(solver.head.Position, solver.IKPosition, 1);
                 //Draw axis line
                 Handles.color = Color.red;
-                Handles.DrawLine(solver.head.Position, solver.head.Position + solver.head.Forward * 100f);
+                Handles.DrawLine(solver.head.Position, solver.head.Position + solver.head.Forward * 5f);
+                
+                Handles.color = Color.green;
+                Handles.DrawLine(solver.head.Position, solver.head.Position + solver.root.transform.forward * 5f);
             }
             
             //Draw Spines

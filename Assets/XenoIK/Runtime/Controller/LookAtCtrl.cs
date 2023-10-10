@@ -156,14 +156,12 @@ namespace XenoIK
             
             float ikWeight = this.Target == null ? 0f : this.m_RuntimeWeight;
             this.m_Watching = ikWeight > 0 && this.Target != null;
-
-            if (ikWeight == 0)
+            this.Solver.IKWeight = Mathf.SmoothDamp(this.Solver.IKWeight, ikWeight, ref this.m_SmoothSpeed, this.IKConfig.smoothWeightTime);
+            if (!this.m_Watching)
             {
-                this.Solver.IKWeight = Mathf.SmoothDamp(this.Solver.IKWeight, 0, ref this.m_SmoothSpeed, this.IKConfig.smoothWeightTime);
-                return;
+                this.Solver.IKPosition = this.Solver.head.Position + this.Solver.head.Forward * 0.5f;
             }
             
-            this.Solver.IKWeight = Mathf.SmoothDamp(this.Solver.IKWeight, ikWeight, ref this.m_SmoothSpeed, this.IKConfig.smoothWeightTime);
             if (this.Solver.IKWeight <= 0) return;
             if (this.Solver.IKWeight >= 0.999f && ikWeight > this.Solver.IKWeight) this.Solver.IKWeight = 1f;
             if (this.Solver.IKWeight <= 0.001f && ikWeight < this.Solver.IKWeight) this.Solver.IKWeight = 0f;
