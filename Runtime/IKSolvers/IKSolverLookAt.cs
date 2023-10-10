@@ -38,7 +38,11 @@ namespace XenoIK
         
         protected override void OnUpdate(float deltaTime)
         {
-            if (this.IKWeight <= 0) return;
+            if (this.IKWeight <= 0)
+            {
+                this.IKPosition = this.head.Position + root.forward * 0.5f;
+                return;
+            }
             if (this.target != null) this.IKPosition = this.target.position;
 
             SolveHead();

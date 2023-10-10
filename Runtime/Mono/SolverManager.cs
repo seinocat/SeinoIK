@@ -10,22 +10,22 @@ namespace XenoIK
 
         private void Start()
         {
-            this.Initialize();
+            Initialize();
         }
 
         private void Update()
         {
-            this.FixTransform();
+            FixTransform();
         }
 
         private void Initialize()
         {
-            this.InitialSolver();
+            InitialSolver();
         }
         
         private void LateUpdate()
         {
-            this.UpdateSolver(Time.deltaTime);
+            UpdateSolver(Time.deltaTime);
         }
     }
 }
