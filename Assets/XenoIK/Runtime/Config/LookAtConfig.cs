@@ -29,15 +29,15 @@ namespace XenoIK.Runtime.Config
         [LabelText("离开转速"),Range(0, 360)]
         public float lookAwaySpeed;
         [LabelText("发现角度")]
-        public Vector2 detectAngleXZ = new(150, 90);
+        public Vector2 detectAngleXZ = new(170, 90);
         [LabelText("跟随角度")]
-        public Vector2 followAngleXZ = new(170, 90);
+        public Vector2 followAngleXZ = new(180, 90);
         
         [Title("插值设置")]
         [LabelText("平滑时间")]
-        public float smoothWeightTime = 0.25f;
+        public float smoothWeightTime = 0.5f;
         [LabelText("切换时间")]
-        public float switchWeightTime = 0.25f;
+        public float switchWeightTime = 0.5f;
         [LabelText("最大旋转增量")]
         public float maxRadiansDelta = 3f;
         [LabelText("最大位移增量")]

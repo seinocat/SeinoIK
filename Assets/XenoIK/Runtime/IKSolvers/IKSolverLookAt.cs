@@ -24,12 +24,9 @@ namespace XenoIK
         
         protected override void OnInitialize()
         {
-            if (this.firstInitiated)
-            {
-                if (this.spines.Count > 0) this.IKPosition = this.spines.FindLastBone().Position + this.root.forward * 3f;
-                else if (this.head != null) this.IKPosition = this.head.Position + this.root.forward * 3f;
-                else if (this.eyes.Count > 0) this.IKPosition = this.eyes[0].Position + this.root.forward * 3f;
-            }
+            if (this.spines.Count > 0) this.IKPosition = this.spines.FindLastBone().Position + this.root.forward * 3f;
+            else if (this.head != null) this.IKPosition = this.head.Position + this.root.forward * 3f;
+            else if (this.eyes.Count > 0) this.IKPosition = this.eyes[0].Position + this.root.forward * 3f;
             
             this.head?.Init(this.root, this.headAxis);
             this.spines.ForEach(x=>x.Init(this.root, this.eyesAxis));
