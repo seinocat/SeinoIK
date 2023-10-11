@@ -26,7 +26,7 @@ namespace XenoIK.Runtime.Config
         public float minDistance = 0.1f;
         [LabelText("看向转速"), Range(0, 360)]
         public float lookAtSpeed = 3f;
-        [LabelText("离开转速"),Range(0, 360)]
+        [LabelText("离开转速"), Range(0, 360)]
         public float lookAwaySpeed;
         [LabelText("发现角度")]
         public Vector2 detectAngleXZ = new(170, 90);

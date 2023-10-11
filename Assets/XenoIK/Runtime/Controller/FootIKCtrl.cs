@@ -38,7 +38,7 @@ namespace XenoIK
         /// <summary>
         /// 启用IK
         /// </summary>
-        public void EnableIK()
+        public void Enable()
         {
             if (FootIK == null) return;
             SetWeight(1);
@@ -47,7 +47,7 @@ namespace XenoIK
         /// <summary>
         /// 禁用IK
         /// </summary>
-        public void DisableIK()
+        public void Disable()
         {
             if (FootIK == null) return;
             SetWeight(0);
