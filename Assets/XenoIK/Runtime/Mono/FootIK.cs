@@ -3,8 +3,9 @@ using System.Linq;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using XenoIK.Runtime.Enum;
+using XenoIK.Runtime.Ground;
 
-namespace XenoIK.Runtime.Ground
+namespace XenoIK
 {
     /// <summary>
     /// Gournd Solver负责解算骨盆偏移值和落脚点坐标旋转
