@@ -170,7 +170,8 @@ namespace XenoIK.Runtime.Ground
             Vector3 samplePos = origin + this.Up * this.m_GroundSolver.MaxStep;
             if (NavMesh.SamplePosition(samplePos, out hit, this.m_GroundSolver.MaxStep * 2f, NavMesh.AllAreas) && computeNormal)
             {
-                //因为NavHit不计算法线，所以需要手动计算法线
+                //https://docs.unity3d.com/2022.3/Documentation/ScriptReference/AI.NavMesh.SamplePosition.html
+                //NavHit不计算法线，需要手动计算法线
                 hit.normal = Vector3.up;
                 var fw = NavMesh.SamplePosition(samplePos + this.m_GroundSolver.Root.forward * this.m_NavPosOffset,
                     out this.m_ForwardNavHit, this.m_GroundSolver.MaxStep * 2f, NavMesh.AllAreas);
