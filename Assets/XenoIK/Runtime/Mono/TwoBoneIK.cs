@@ -2,6 +2,7 @@
 
 namespace XenoIK
 {
+    [HideMonoScript]
     public class TwoBoneIK : XenoIK
     {
         [HideLabel]
@@ -13,7 +14,7 @@ namespace XenoIK
         }
 
 #if UNITY_EDITOR
-        
+        [Title("Editor工具")]
         [Button("一键绑定骨骼")]
         public void BindBones()
         {

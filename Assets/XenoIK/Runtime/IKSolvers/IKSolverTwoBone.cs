@@ -49,8 +49,21 @@ namespace XenoIK
     [Serializable]
     public class IKSolverTwoBone : IKSolver
     {
+        [Title("全局设置")]
+        [LabelText("部位")]
         public AvatarIKGoal IKGoal = AvatarIKGoal.LeftFoot;
+        [LabelText("类型")]
         public SolverType SolverType = SolverType.Animation;
+        [ShowIf("SolverType", SolverType.Animation)]
+        public Vector3 BendNormal;
+        [ShowIf("SolverType", SolverType.Animation), Range(0f, 1f)]
+        public float BendModifierWieght = 1f;
+        [ShowIf("SolverType", SolverType.Goal)]
+        public Transform target;
+        [ShowIf("SolverType", SolverType.Goal)]
+        public Transform poleTarget;
+        
+        [Title("骨骼设置")]
         public Transform Bone1;
         public Transform Bone2;
         public Transform Bone3;
@@ -106,9 +119,7 @@ namespace XenoIK
 
         #region 解算器1
         
-        public Vector3 BendNormal;
-        [Range(0f, 1f)]
-        public float BendModifierWieght = 1f;
+
 
         private Vector3 m_WeightIKPosition;
         private bool m_HasMaintainBend;
@@ -210,11 +221,6 @@ namespace XenoIK
         #endregion
 
         #region 解算器2
-        [ShowIf("SolverType", SolverType.Goal)]
-        public Transform target;
-        [ShowIf("SolverType", SolverType.Goal)]
-        public Transform poleTarget;
-        
         /// <summary>
         /// 解算器2: 
         /// 直接解算目标，不处理动画
