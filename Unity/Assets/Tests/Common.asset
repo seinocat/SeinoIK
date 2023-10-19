@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02f1e9214d80477fa32ce0ad4ca77d04, type: 3}
+  m_Name: Common
+  m_EditorClassIdentifier: 
+  defaultWeight: 1
+  offset: {x: 0, y: 0, z: 0}
+  headAxis: {x: 0, y: 0, z: 1}
+  eyesAxis: {x: 0, y: 0, z: 1}
+  spinesAxis: {x: 0, y: 0, z: 1}
+  pivotOffset: {x: 0, y: 1, z: 0}
+  maxDistance: 10000
+  minDistance: 1
+  lookAtSpeed: 3
+  lookAwaySpeed: 0.1
+  detectAngleXZ: {x: 160, y: 60}
+  followAngleXZ: {x: 200, y: 60}
+  smoothWeightTime: 0.5
+  switchWeightTime: 0.5
+  maxRadiansDelta: 3
+  maxMagnitudeDelta: 3
