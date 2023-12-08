@@ -1,0 +1,18 @@
+{
+    "name": "SeinoIK.Editor",
+    "rootNamespace": "",
+    "references": [
+        "SeinoIK.Runtime"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

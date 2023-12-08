@@ -1,0 +1,16 @@
+{
+    "name": "SeinoIK.Runtime",
+    "rootNamespace": "",
+    "references": [
+        "GUID:c646e189ce3b2f9449cb0253fd27406a"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
