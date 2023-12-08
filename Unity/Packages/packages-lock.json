@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.seinocat.utils": {
+      "version": "https://github.com/seinocat/SeinoUtils.git#0.0.2",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "fdb8fbda5f49ca96b5e13d81e471a31175cd5faf"
+    },
     "com.unity.ai.navigation": {
       "version": "1.1.4",
       "depth": 0,

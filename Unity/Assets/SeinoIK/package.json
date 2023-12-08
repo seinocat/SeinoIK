@@ -1,0 +1,11 @@
+﻿{
+  "name": "com.gygame.ik",
+  "displayName": "GYGame.IK",
+  "description": "IK Solver",
+  "url" : "https://github.com/Svily/SeinoIK.git",
+  "version": "0.0.30",
+  "unity": "2020.3",
+  "dependencies": {
+    "com.seinocat.utils": "https://github.com/seinocat/SeinoUtils.git#0.0.2"
+  }
+}
