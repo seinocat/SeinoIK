@@ -1980,7 +1980,7 @@ MonoBehaviour:
     FootRadius: 0.1
     MaxFootRotation: 50
     HeelOffset: 0
-    LerpType: 2
+    LerpType: 1
     OffsetDamperTime: 0.2
     WeightDamperTime: 0.1
     AutoHighWeight: 1

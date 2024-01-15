@@ -154,7 +154,7 @@ namespace SeinoIK
 
             m_Bone1.Init(m_Bone2.Position, BendNormal);
             m_Bone2.Init(m_Bone3.Position, BendNormal);
-            SetBendPlaneToCurrent();
+            // SetBendPlaneToCurrent();
         }
         
         public void SetBendPlaneToCurrent()

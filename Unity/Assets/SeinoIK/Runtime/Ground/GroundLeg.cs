@@ -98,7 +98,7 @@ namespace SeinoIK.Runtime.Ground
             //当前帧源动画的抬脚高度
             float legHeight = this.m_GroundSolver.GetVerticalDist(this.m_FootPosition, m_GroundSolver.Root.position);
             float maxOffset = Mathf.Clamp(this.m_GroundSolver.MaxStep - legHeight, 0f, this.m_GroundSolver.MaxStep);
-            //IK不启用时抬脚高度在不能高于源动画的高度
+            //抬脚高度不能高于源动画的高度
             this.FootOffset = Mathf.Clamp(this.FootOffset, -maxOffset, FootOffset);
             
             //获取脚部旋转
