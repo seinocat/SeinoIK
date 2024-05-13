@@ -59,7 +59,7 @@ namespace SeinoIK
         
         private void ForwardSolve()
         {
-            var effectorBone =  this.bones[this.bones.Count - 1];
+            var effectorBone =  this.bones[^1];
             effectorBone.solverPosition = Vector3.Lerp(effectorBone.solverPosition, this.IKPosition, this.IKWeight);
             
             for (int i = this.bones.Count - 2; i >= 0; i--)

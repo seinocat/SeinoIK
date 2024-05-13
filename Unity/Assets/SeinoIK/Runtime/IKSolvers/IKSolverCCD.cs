@@ -8,7 +8,7 @@ namespace SeinoIK
     {
         protected override void OnInitialize()
         {
-            this.IKPosition = this.bones[this.bones.Count - 1].Position;
+            this.IKPosition = this.bones[^1].Position;
             InitBones();
         }
         
@@ -28,7 +28,7 @@ namespace SeinoIK
         /// </summary>
         private void Solve()
         {
-            var lastBone = this.bones[this.bones.Count - 1];
+            var lastBone = this.bones[^1];
             for (int i = this.bones.Count - 2; i >= 0; i--)
             {
                 var curBone = this.bones[i];
@@ -37,12 +37,6 @@ namespace SeinoIK
 
                 Vector3 toEffectorVec = lastBone.Position - curBone.Position;
                 Vector3 toTargetVec = this.IKPosition - curBone.Position;
-                
-                // 另一种写法，使用轴-角旋转
-                // Vector3 axis = Vector3.Cross(toEffectorVec, toTargetVec).normalized;
-                // float angle = Vector3.Angle(toEffectorVec, toTargetVec);
-                // Quaternion qua = Quaternion.AngleAxis(angle, axis) * curBone.transform.rotation;
-                // curBone.transform.rotation = qua;
                 
                 // 四元数直接算
                 Quaternion finalR = Quaternion.FromToRotation(toEffectorVec, toTargetVec) * curBone.Rotation;
